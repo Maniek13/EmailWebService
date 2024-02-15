@@ -1,21 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EmailWebService.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebService.Models
 {
-    public class EmailConfigurationDbModel
+    public class EmailConfigurationDbModel : IEmailConfigurationDbModel
     {
         [Key]
-        public int Id{ get; set; }
+        public long Id { get; set; }
         [Required]
         public string ProviderName { get; set; }
         [Required]
-        public string SMTP {  get; set; }
+        public string SMTP { get; set; }
         [Required]
         public string Port { get; set; }
         [Required]
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
-  
+
     }
 }

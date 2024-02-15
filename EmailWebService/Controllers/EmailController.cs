@@ -1,20 +1,40 @@
 ﻿using EmailWebService.Interfaces;
-using EmailWebService.Models;
-using Microsoft.Extensions.Hosting;
-using System.Xml.Linq;
 
 namespace EmailWebService.Controllers
 {
     public class EmailController : IEmailController
     {
-        public async Task<IEmailConfigurationModel> GetEmailConfigurationAsync(int ConfigurationId, string IdentityCode)
+        EmailDbControllerRO dbControllerRO;
+
+        public EmailController()
         {
-            throw new NotImplementedException();
+            dbControllerRO = new EmailDbControllerRO();
+        }
+
+
+        public IEmailConfigurationModel GetEmailConfiguration(long ConfigurationId, string IdentityCode)
+        {
+            try 
+            {
+                long identityId =  dbControllerRO.GetIdentityCodeId(IdentityCode);
+                return dbControllerRO.GetEmailConfiguration(identityId);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
         public async Task<bool> SetEmailConfigurationAsync(string IdentityCode, IEmailConfigurationModel Configuration)
         {
-            throw new NotImplementedException();
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
 
 
@@ -38,9 +58,17 @@ namespace EmailWebService.Controllers
         }
 
 
-        public async Task<IEmailModel> GetEmailBodyAsync(string IdentityCode, string SchemaName, List<(string Name, string Value)> VariablesList)
+        public string GetEmailBody(string IdentityCode, string SchemaName, List<(string Name, string Value)> VariablesList)
         {
-            throw new NotImplementedException();
+            try
+            {
+                long identityCodeId = dbControllerRO.GetIdentityCodeId(IdentityCode);
+                return dbControllerRO.GetEmailBody(identityCodeId, SchemaName, VariablesList);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
         }
     }
 }

@@ -2,8 +2,8 @@
 {
     public interface IAppPermisionModel
     {
-        public int Id { get; set; }
-        public string IdentityCodesId { get; set; }
-        public string ServiceName { get; set; }
+        long Id { get; set; }
+        string IdentityCodesId { get; set; }
+        string ServiceName { get; set; }
     }
 }

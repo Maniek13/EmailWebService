@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EmailWebService.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebService.Models
 {
-    public class AppPermisionDbModel
+    public class AppPermisionDbModel : IAppPermisionDbModel
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [Required]
-        public string IdentityCodesId { get; set; }
+        public string IdentityCodeId { get; set; }
         [Required]
         public string ServiceName { get; set; }
     }

@@ -1,17 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EmailWebService.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebService.Models
 {
-    public class EmailLUsersListsDbModel
+    public class EmailLUsersListsDbModel : IEmailLUsersListsDbModel
     {
         [Key]
-        public int Id { get; set; }
-        [Required] 
+        public long Id { get; set; }
+        [Required]
         public string Name { get; set; }
         [Required]
         public string Type { get; set; }
-        // like email, email, email
         [Required]
         public string UsserList { get; set; }
     }

@@ -26,7 +26,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 EmailController emailController = new();
-app.MapPost("/GetEmailConfiguration", emailController.GetEmailConfigurationAsync)
+app.MapPost("/GetEmailConfiguration", emailController.GetEmailConfiguration)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 
@@ -46,7 +46,7 @@ app.MapPost("/SetEmailBody", emailController.SetEmailBodyAsync)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 
-app.MapPost("/GetEmailBody", emailController.GetEmailBodyAsync)
+app.MapPost("/GetEmailBody", emailController.GetEmailBody)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 

@@ -1,8 +1,6 @@
 ﻿using EmailWebService.Data;
 using EmailWebService.Interfaces;
 using EmailWebService.Models;
-using Microsoft.Extensions.Hosting;
-using System.Xml.Linq;
 
 namespace EmailWebService.Controllers
 {
@@ -14,7 +12,7 @@ namespace EmailWebService.Controllers
             context = new(AppConfig.ConnectionStringRO);
         }
 
-        public int GetIdentityCode(string IdentityCode)
+        public long GetIdentityCodeId(string IdentityCode)
         {
             try
             {
@@ -25,11 +23,11 @@ namespace EmailWebService.Controllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public IAppPermisionModel GetAppPermision(string IdentityCodesId)
+        public IAppPermisionModel GetAppPermision(string IdentityCodeId)
         {
             try
             {
-                return ConvertToAppPermisoin(context.AppPermisions.Where(el => el.IdentityCodesId == IdentityCodesId).FirstOrDefault());
+                return ConvertToAppPermisoin(context.AppPermisions.Where(el => el.IdentityCodeId == IdentityCodeId).FirstOrDefault());
             }
             catch (Exception ex)
             {
@@ -37,13 +35,13 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public IEmailConfigurationModel GetEmailConfiguration(int IdentityCodesId)
+        public IEmailConfigurationModel GetEmailConfiguration(long IdentityCodeId)
         {
             try
             {
-                int EmailConfigurationId =  context.AppEmailServiceSettings.Where(el => el.Id == IdentityCodesId).FirstOrDefault().EmailConfigurationId;
+                long EmailConfigurationId = context.AppEmailServiceSettings.Where(el => el.Id == IdentityCodeId).FirstOrDefault().EmailConfigurationId;
                 return ConvertToEmailConfiguration(context.EmailConfigurationDb.Where(el => el.Id == EmailConfigurationId).FirstOrDefault());
-                
+
             }
             catch (Exception ex)
             {
@@ -51,7 +49,7 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public string GetEmailBody(int IdentityCodesId, string SchemaName, List<(string Name, string Value)> VariablesList)
+        public string GetEmailBody(long IdentityCodesId, string SchemaName, List<(string Name, string Value)> VariablesList)
         {
             try
             {
@@ -60,7 +58,7 @@ namespace EmailWebService.Controllers
                 {
                     string body = emailSchema.Body;
 
-                    for(int i = 0; i < VariablesList.Count; i++)
+                    for (int i = 0; i < VariablesList.Count; i++)
                     {
                         body.Replace($"#{VariablesList[i].Name}#", VariablesList[i].Value);
                     }
@@ -78,7 +76,7 @@ namespace EmailWebService.Controllers
 
 
         #region private function
-        private IEmailConfigurationModel ConvertToEmailConfiguration(EmailConfigurationDbModel email)
+        private IEmailConfigurationModel ConvertToEmailConfiguration(IEmailConfigurationDbModel email)
         {
             return new EmailConfigurationModel
             {
@@ -91,12 +89,12 @@ namespace EmailWebService.Controllers
             };
         }
 
-        private IAppPermisionModel ConvertToAppPermisoin(AppPermisionDbModel email)
+        private IAppPermisionModel ConvertToAppPermisoin(IAppPermisionDbModel email)
         {
             return new AppPermisionModel
             {
                 Id = email.Id,
-                IdentityCodesId = email.IdentityCodesId,
+                IdentityCodesId = email.IdentityCodeId,
                 ServiceName = email.ServiceName,
             };
         }

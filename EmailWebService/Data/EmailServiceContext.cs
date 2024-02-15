@@ -1,37 +1,15 @@
-﻿using EmailWebService.Models;
+﻿using EmailWebService.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmailWebService.Data
 {
-    public class EmailServiceContext : DbContext
+    public class EmailServiceContext : EmailServiceContextBase
     {
-        private string ConnectionString { get; init; }
 
-        public EmailServiceContext(string connectionString) : base()
+        public EmailServiceContext(string connectionString) : base(connectionString)
         {
             ConnectionString = connectionString;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            try
-            {
-                if (!optionsBuilder.IsConfigured)
-                {
-                    optionsBuilder.UseSqlServer(ConnectionString);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-        }
-
-        public virtual DbSet<IdentityCodesDbModel> IdentityCodes { get; set; }
-        public virtual DbSet<AppPermisionDbModel> AppPermisions { get; set; }
-        public virtual DbSet<AppEmailServiceSettingsDbModel> AppEmailServiceSettings { get; set; }
-        public virtual DbSet<EmailConfigurationDbModel> EmailConfigurationDb { get; set; }
-        public virtual DbSet<EmailSchemaDbModel> EmailSchemas { get; set; }
-        public virtual DbSet<EmailLUsersListsDbModel> ListUssers { get; set; }
     }
 }

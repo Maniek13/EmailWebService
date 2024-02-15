@@ -1,18 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EmailWebService.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebService.Models
 {
-    public class EmailSchemaDbModel
+    public class EmailSchemaDbModel : IEmailSchemaDbModel
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         [Required]
         public string Name { get; set; }
-        //like: tekst #ValueName# tekst
         [Required]
         public string Body { get; set; }
 
-        //variables like: Name : Value , Name Value ,
         [Required]
         public string Variables { get; set; }
     }
