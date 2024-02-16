@@ -44,7 +44,8 @@ namespace EmailWebService.Data
             modelBuilder.Entity<AppPermisionDbModel>()
                 .HasOne<IdentityCodeDbModel>(x => x.IdentityCode)
                 .WithMany(y => y.AppPermisions)
-                .HasForeignKey(x => x.Id);
+                .HasForeignKey(x => x.Id)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<AppEmailServiceSettingsDbModel>()
                 .HasOne<EmailConfigurationDbModel>(x => x.EmailConfiguration)
@@ -54,7 +55,8 @@ namespace EmailWebService.Data
             modelBuilder.Entity<IdentityCodeDbModel>()
                 .HasOne<AppEmailServiceSettingsDbModel>(x => x.AppEmailServiceSettings)
                 .WithOne(y => y.IdentityCode)
-                .HasForeignKey<AppEmailServiceSettingsDbModel>(x => x.IdentityCodeId);
+                .HasForeignKey<AppEmailServiceSettingsDbModel>(x => x.IdentityCodeId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         public virtual DbSet<IdentityCodeDbModel> IdentityCodes { get; set; }

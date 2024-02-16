@@ -39,6 +39,7 @@ namespace EmailWebService.Controllers
         {
             try
             {
+
                 long EmailConfigurationId = context.AppEmailServiceSettings.Where(el => el.Id == IdentityCodeId).FirstOrDefault().EmailConfigurationId;
                 return ConvertToEmailConfiguration(context.EmailConfigurationDb.Where(el => el.Id == EmailConfigurationId).FirstOrDefault());
 

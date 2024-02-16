@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmailWebService.Migrations
 {
     [DbContext(typeof(EmailServiceContextBase))]
-    [Migration("20240216023413_init")]
+    [Migration("20240216110730_init")]
     partial class init
     {
         /// <inheritdoc />
