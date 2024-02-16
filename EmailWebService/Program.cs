@@ -1,10 +1,13 @@
 using EmailWebService.Controllers;
 using EmailWebService.Models;
-using Microsoft.EntityFrameworkCore;
+using System.Net;
+
+ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 
 var configuration = new ConfigurationBuilder()
@@ -12,8 +15,9 @@ var configuration = new ConfigurationBuilder()
 var config = configuration.Build();
 
 
-AppConfig.ConnectionString = config.GetConnectionString("ConnectionString");
-AppConfig.ConnectionStringRO = config.GetConnectionString("ReadOnlyConnection");
+AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
+AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
+
 
 
 var app = builder.Build();

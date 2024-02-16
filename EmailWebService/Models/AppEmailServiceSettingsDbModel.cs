@@ -8,8 +8,10 @@ namespace EmailWebService.Models
         [Key]
         public long Id { get; set; }
         [Required]
-        public long IdentityCodesId { get; set; }
+        public long IdentityCodeId { get; set; }
         [Required]
         public long EmailConfigurationId { get; set; }
+        public IdentityCodeDbModel IdentityCode { get; set; }
+        public EmailConfigurationDbModel EmailConfiguration { get; set; }
     }
 }

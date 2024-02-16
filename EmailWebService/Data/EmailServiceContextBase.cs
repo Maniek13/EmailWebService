@@ -1,4 +1,5 @@
-﻿using EmailWebService.Models;
+﻿using EmailWebService.Interfaces;
+using EmailWebService.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace EmailWebService.Data
@@ -7,9 +8,18 @@ namespace EmailWebService.Data
     {
         internal string ConnectionString { get; init; }
 
-        public EmailServiceContextBase(string connectionString) : base()
+        public EmailServiceContextBase(string connectionString)
         {
             ConnectionString = connectionString;
+        }
+        public EmailServiceContextBase()
+        {
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile($"appsettings.json");
+            var config = configuration.Build();
+
+
+            ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -27,7 +37,27 @@ namespace EmailWebService.Data
             }
         }
 
-        public virtual DbSet<IdentityCodesDbModel> IdentityCodes { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<AppPermisionDbModel>()
+                .HasOne<IdentityCodeDbModel>(x => x.IdentityCode)
+                .WithMany(y => y.AppPermisions)
+                .HasForeignKey(x => x.Id);
+
+            modelBuilder.Entity<AppEmailServiceSettingsDbModel>()
+                .HasOne<EmailConfigurationDbModel>(x => x.EmailConfiguration)
+                .WithMany(y => y.AppEmailServiceSettings)
+                .HasForeignKey(x => x.EmailConfigurationId);
+
+            modelBuilder.Entity<IdentityCodeDbModel>()
+                .HasOne<AppEmailServiceSettingsDbModel>(x => x.AppEmailServiceSettings)
+                .WithOne(y => y.IdentityCode)
+                .HasForeignKey<AppEmailServiceSettingsDbModel>(x => x.IdentityCodeId);
+        }
+
+        public virtual DbSet<IdentityCodeDbModel> IdentityCodes { get; set; }
         public virtual DbSet<AppPermisionDbModel> AppPermisions { get; set; }
         public virtual DbSet<AppEmailServiceSettingsDbModel> AppEmailServiceSettings { get; set; }
         public virtual DbSet<EmailConfigurationDbModel> EmailConfigurationDb { get; set; }

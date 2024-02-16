@@ -11,5 +11,6 @@ namespace EmailWebService.Models
         public string IdentityCodeId { get; set; }
         [Required]
         public string ServiceName { get; set; }
+        public IdentityCodeDbModel IdentityCode { get; set; }
     }
 }

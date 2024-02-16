@@ -4,13 +4,13 @@ namespace EmailWebService.Controllers
 {
     public class EmailController : IEmailController
     {
-        IEmailDbControllerRO emailDbControllerRO;
-        IEmailDbController emailDbController;
+        IEmailDbControllerRO _emailDbControllerRO;
+        IEmailDbController _emailDbController;
 
         public EmailController(IEmailDbControllerRO emailDbControllerRO, IEmailDbController emailDbController)
         {
-            emailDbControllerRO = new EmailDbControllerRO();
-            emailDbController = new EmailDbController();
+            _emailDbControllerRO = emailDbControllerRO;
+            _emailDbController = emailDbController;
         }
 
 
@@ -18,9 +18,8 @@ namespace EmailWebService.Controllers
         {
             try
             {
-
-                long identityId = emailDbControllerRO.GetIdentityCodeId(IdentityCode);
-                return emailDbControllerRO.GetEmailConfiguration(identityId);
+                long identityId = _emailDbControllerRO.GetIdentityCodeId(IdentityCode);
+                return _emailDbControllerRO.GetEmailConfiguration(identityId);
             }
             catch (Exception ex)
             {
@@ -65,8 +64,8 @@ namespace EmailWebService.Controllers
         {
             try
             {
-                long identityCodeId = emailDbControllerRO.GetIdentityCodeId(IdentityCode);
-                return emailDbControllerRO.GetEmailBody(identityCodeId, SchemaName, VariablesList);
+                long identityCodeId = _emailDbControllerRO.GetIdentityCodeId(IdentityCode);
+                return _emailDbControllerRO.GetEmailBody(identityCodeId, SchemaName, VariablesList);
             }
             catch (Exception ex)
             {

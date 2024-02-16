@@ -18,6 +18,6 @@ namespace EmailWebService.Models
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
-
+        public ICollection<AppEmailServiceSettingsDbModel> AppEmailServiceSettings { get; set; }
     }
 }

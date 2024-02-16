@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EmailWebService.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebService.Interfaces
 {
@@ -17,5 +18,6 @@ namespace EmailWebService.Interfaces
         [Required]
         string Password { get; set; }
 
+        ICollection<AppEmailServiceSettingsDbModel> AppEmailServiceSettings {  get; set; }
     }
 }

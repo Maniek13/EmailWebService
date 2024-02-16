@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using EmailWebService.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebService.Interfaces
 {
@@ -7,8 +8,11 @@ namespace EmailWebService.Interfaces
         [Key]
         long Id { get; set; }
         [Required]
-        long IdentityCodesId { get; set; }
+        long IdentityCodeId { get; set; }
         [Required]
         long EmailConfigurationId { get; set; }
+
+        IdentityCodeDbModel IdentityCode { get; set; }
+        EmailConfigurationDbModel EmailConfiguration { get; set; }
     }
 }

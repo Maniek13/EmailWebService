@@ -5,5 +5,6 @@
         long Id { get; set; }
         string IdentityCodesId { get; set; }
         string ServiceName { get; set; }
+
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebService.Models
 {
-    public class IdentityCodesDbModel : IIdentityCodesDbModel
+    public class IdentityCodeDbModel : IIdentityCodeDbModel
     {
         [Key]
         public long Id { get; set; }
@@ -11,5 +11,8 @@ namespace EmailWebService.Models
         public string AppName { get; set; }
         [Required]
         public string IdentityCode { get; set; }
+
+        public ICollection<AppPermisionDbModel> AppPermisions { get; set; }
+        public AppEmailServiceSettingsDbModel AppEmailServiceSettings { get; set; }
     }
 }
