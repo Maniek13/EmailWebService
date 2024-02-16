@@ -13,7 +13,7 @@ var config = configuration.Build();
 
 
 AppConfig.ConnectionString = config.GetConnectionString("ConnectionString");
-AppConfig.ConnectionString = config.GetConnectionString("ReadOnlyConnection");
+AppConfig.ConnectionStringRO = config.GetConnectionString("ReadOnlyConnection");
 
 
 var app = builder.Build();
@@ -25,7 +25,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-EmailController emailController = new();
+EmailController emailController = new(new EmailDbControllerRO(), new EmailDbController());
+
 app.MapPost("/GetEmailConfiguration", emailController.GetEmailConfiguration)
     .WithDescription("Get email configurations")
     .WithOpenApi();

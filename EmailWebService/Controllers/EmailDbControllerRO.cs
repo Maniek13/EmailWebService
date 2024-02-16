@@ -4,7 +4,7 @@ using EmailWebService.Models;
 
 namespace EmailWebService.Controllers
 {
-    public class EmailDbControllerRO
+    public class EmailDbControllerRO : IEmailDbControllerRO
     {
         EmailServiceContext context;
         public EmailDbControllerRO()

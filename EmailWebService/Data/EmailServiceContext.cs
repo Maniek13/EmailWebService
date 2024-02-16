@@ -1,7 +1,4 @@
-﻿using EmailWebService.Interfaces;
-using Microsoft.EntityFrameworkCore;
-
-namespace EmailWebService.Data
+﻿namespace EmailWebService.Data
 {
     public class EmailServiceContext : EmailServiceContextBase
     {

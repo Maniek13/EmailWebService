@@ -5,6 +5,7 @@ namespace EmailWebService.Models
 {
     public class EmailConfigurationDbModel : IEmailConfigurationDbModel
     {
+        public int a = 0;
         [Key]
         public long Id { get; set; }
         [Required]
