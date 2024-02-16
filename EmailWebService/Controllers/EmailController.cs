@@ -47,7 +47,7 @@ namespace EmailWebService.Controllers
 
 
 
-        public async Task<bool> SendEmailAsync(string IdentityCode, string ProviderName, IEmailModel email)
+        public async Task<bool> SendEmailAsync(string IdentityCode, IEmailModel email)
         {
             throw new NotImplementedException();
         }
