@@ -8,7 +8,7 @@ namespace EmailWebService.Models
         [Key]
         public long Id { get; set; }
         [Required]
-        public string IdentityCodeId { get; set; }
+        public long  IdentityCodeId { get; set; }
         [Required]
         public string ServiceName { get; set; }
         public IdentityCodeDbModel IdentityCode { get; set; }

@@ -48,17 +48,21 @@ namespace EmailWebService.Migrations
             modelBuilder.Entity("EmailWebService.Models.AppPermisionDbModel", b =>
                 {
                     b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<string>("IdentityCodeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<long>("IdentityCodeId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("ServiceName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("IdentityCodeId");
 
                     b.ToTable("AppPermisions");
                 });
@@ -93,7 +97,7 @@ namespace EmailWebService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmailConfigurationDb");
+                    b.ToTable("EmailConfiguration");
                 });
 
             modelBuilder.Entity("EmailWebService.Models.EmailLUsersListsDbModel", b =>
@@ -190,7 +194,7 @@ namespace EmailWebService.Migrations
                 {
                     b.HasOne("EmailWebService.Models.IdentityCodeDbModel", "IdentityCode")
                         .WithMany("AppPermisions")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("IdentityCodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

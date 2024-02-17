@@ -8,7 +8,7 @@ namespace EmailWebService.Interfaces
         [Key]
         long Id { get; set; }
         [Required]
-        string IdentityCodeId { get; set; }
+        long IdentityCodeId { get; set; }
         [Required]
         string ServiceName { get; set; }
 

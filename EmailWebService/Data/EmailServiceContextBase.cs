@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EmailWebService.Data
 {
-    public class EmailServiceContextBase : DbContext
+    public class EmailServiceContextBase : DbContext, IEmailServiceContextBase
     {
         internal string ConnectionString { get; init; }
 
@@ -44,7 +44,7 @@ namespace EmailWebService.Data
             modelBuilder.Entity<AppPermisionDbModel>()
                 .HasOne<IdentityCodeDbModel>(x => x.IdentityCode)
                 .WithMany(y => y.AppPermisions)
-                .HasForeignKey(x => x.Id)
+                .HasForeignKey(x => x.IdentityCodeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<AppEmailServiceSettingsDbModel>()
@@ -62,7 +62,7 @@ namespace EmailWebService.Data
         public virtual DbSet<IdentityCodeDbModel> IdentityCodes { get; set; }
         public virtual DbSet<AppPermisionDbModel> AppPermisions { get; set; }
         public virtual DbSet<AppEmailServiceSettingsDbModel> AppEmailServiceSettings { get; set; }
-        public virtual DbSet<EmailConfigurationDbModel> EmailConfigurationDb { get; set; }
+        public virtual DbSet<EmailConfigurationDbModel> EmailConfiguration { get; set; }
         public virtual DbSet<EmailSchemaDbModel> EmailSchemas { get; set; }
         public virtual DbSet<EmailLUsersListsDbModel> ListUssers { get; set; }
     }

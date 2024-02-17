@@ -4,14 +4,13 @@ using EmailWebService.Models;
 
 namespace EmailWebService.Controllers
 {
-    public class EmailDbControllerRO : IEmailDbControllerRO
+    public class EmailDbROController : IEmailDbROController
     {
-        EmailServiceContext context;
-        public EmailDbControllerRO()
+        IEmailServiceContextBase context;
+        public EmailDbROController(IEmailServiceContextBase dbContext)
         {
-            context = new(AppConfig.ConnectionStringRO);
+            context = dbContext;
         }
-
         public long GetIdentityCodeId(string IdentityCode)
         {
             try
@@ -23,11 +22,11 @@ namespace EmailWebService.Controllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public IAppPermisionModel GetAppPermision(string IdentityCodeId)
+        public IAppPermisionModel GetAppPermision(long IdentityCodeId, string ServiceName)
         {
             try
             {
-                return ConvertToAppPermisoin(context.AppPermisions.Where(el => el.IdentityCodeId == IdentityCodeId).FirstOrDefault());
+                 return ConvertToAppPermisoin(context.AppPermisions.Where(el => el.IdentityCodeId == IdentityCodeId && el.ServiceName == ServiceName).FirstOrDefault());
             }
             catch (Exception ex)
             {
@@ -39,9 +38,8 @@ namespace EmailWebService.Controllers
         {
             try
             {
-
                 long EmailConfigurationId = context.AppEmailServiceSettings.Where(el => el.Id == IdentityCodeId).FirstOrDefault().EmailConfigurationId;
-                return ConvertToEmailConfiguration(context.EmailConfigurationDb.Where(el => el.Id == EmailConfigurationId).FirstOrDefault());
+                return ConvertToEmailConfiguration(context.EmailConfiguration.Where(el => el.Id == EmailConfigurationId).FirstOrDefault());
 
             }
             catch (Exception ex)
@@ -95,7 +93,7 @@ namespace EmailWebService.Controllers
             return new AppPermisionModel
             {
                 Id = email.Id,
-                IdentityCodesId = email.IdentityCodeId,
+                IdentityCodeId = email.IdentityCodeId,
                 ServiceName = email.ServiceName,
             };
         }

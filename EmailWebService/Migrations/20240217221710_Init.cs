@@ -5,13 +5,13 @@
 namespace EmailWebService.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "EmailConfigurationDb",
+                name: "EmailConfiguration",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
@@ -24,7 +24,7 @@ namespace EmailWebService.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmailConfigurationDb", x => x.Id);
+                    table.PrimaryKey("PK_EmailConfiguration", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,9 +84,9 @@ namespace EmailWebService.Migrations
                 {
                     table.PrimaryKey("PK_AppEmailServiceSettings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppEmailServiceSettings_EmailConfigurationDb_EmailConfigurationId",
+                        name: "FK_AppEmailServiceSettings_EmailConfiguration_EmailConfigurationId",
                         column: x => x.EmailConfigurationId,
-                        principalTable: "EmailConfigurationDb",
+                        principalTable: "EmailConfiguration",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -101,16 +101,17 @@ namespace EmailWebService.Migrations
                 name: "AppPermisions",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    IdentityCodeId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IdentityCodeId = table.Column<long>(type: "bigint", nullable: false),
                     ServiceName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AppPermisions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppPermisions_IdentityCodes_Id",
-                        column: x => x.Id,
+                        name: "FK_AppPermisions_IdentityCodes_IdentityCodeId",
+                        column: x => x.IdentityCodeId,
                         principalTable: "IdentityCodes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -126,6 +127,11 @@ namespace EmailWebService.Migrations
                 table: "AppEmailServiceSettings",
                 column: "IdentityCodeId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppPermisions_IdentityCodeId",
+                table: "AppPermisions",
+                column: "IdentityCodeId");
         }
 
         /// <inheritdoc />
@@ -144,7 +150,7 @@ namespace EmailWebService.Migrations
                 name: "ListUssers");
 
             migrationBuilder.DropTable(
-                name: "EmailConfigurationDb");
+                name: "EmailConfiguration");
 
             migrationBuilder.DropTable(
                 name: "IdentityCodes");

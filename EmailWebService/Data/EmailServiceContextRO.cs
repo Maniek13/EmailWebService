@@ -1,4 +1,6 @@
-﻿namespace EmailWebService.Data
+﻿using EmailWebService.Interfaces;
+
+namespace EmailWebService.Data
 {
     public class EmailServiceContextRO : EmailServiceContextBase
     {

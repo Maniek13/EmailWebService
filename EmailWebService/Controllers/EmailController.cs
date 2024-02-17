@@ -1,13 +1,14 @@
 ﻿using EmailWebService.Interfaces;
+using EmailWebService.Models;
 
 namespace EmailWebService.Controllers
 {
     public class EmailController : IEmailController
     {
-        IEmailDbControllerRO _emailDbControllerRO;
+        IEmailDbROController _emailDbControllerRO;
         IEmailDbController _emailDbController;
 
-        public EmailController(IEmailDbControllerRO emailDbControllerRO, IEmailDbController emailDbController)
+        public EmailController(IEmailDbROController emailDbControllerRO, IEmailDbController emailDbController)
         {
             _emailDbControllerRO = emailDbControllerRO;
             _emailDbController = emailDbController;
@@ -18,8 +19,8 @@ namespace EmailWebService.Controllers
         {
             try
             {
-                long identityId = _emailDbControllerRO.GetIdentityCodeId(IdentityCode);
-                return _emailDbControllerRO.GetEmailConfiguration(identityId);
+                    long identityId = getIdentityCodeId(IdentityCode);
+                    return _emailDbControllerRO.GetEmailConfiguration(identityId);
             }
             catch (Exception ex)
             {
@@ -64,13 +65,43 @@ namespace EmailWebService.Controllers
         {
             try
             {
-                long identityCodeId = _emailDbControllerRO.GetIdentityCodeId(IdentityCode);
-                return _emailDbControllerRO.GetEmailBody(identityCodeId, SchemaName, VariablesList);
+                return _emailDbControllerRO.GetEmailBody(getIdentityCodeId(IdentityCode), SchemaName, VariablesList);  
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
         }
+
+        #region private functions
+        private long getIdentityCodeId(string IdentityCode)
+        {
+            try
+            {
+                long identityCodeId = _emailDbControllerRO.GetIdentityCodeId(IdentityCode);
+
+                var permision = getAppPermision(identityCodeId);
+                if (permision != null)
+                    return permision.IdentityCodeId;
+  
+                throw new Exception("App don't have permision to use email service\"");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        private IAppPermisionModel getAppPermision(long IdentityCodeId)
+        {
+            try
+            {
+                return _emailDbControllerRO.GetAppPermision(IdentityCodeId, AppConfig.ServiceName);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        #endregion
     }
 }

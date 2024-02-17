@@ -1,4 +1,5 @@
 using EmailWebService.Controllers;
+using EmailWebService.Data;
 using EmailWebService.Models;
 using System.Net;
 
@@ -8,16 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
 var configuration = new ConfigurationBuilder()
      .AddJsonFile($"appsettings.json");
 var config = configuration.Build();
 
-
 AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
 AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
-
+AppConfig.ServiceName = "EmailService";
 
 
 var app = builder.Build();
@@ -29,7 +27,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-EmailController emailController = new(new EmailDbControllerRO(), new EmailDbController());
+EmailController emailController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 
 app.MapPost("/GetEmailConfiguration", emailController.GetEmailConfiguration)
     .WithDescription("Get email configurations")

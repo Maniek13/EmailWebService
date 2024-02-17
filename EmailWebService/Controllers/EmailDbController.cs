@@ -1,15 +1,13 @@
-﻿using EmailWebService.Data;
-using EmailWebService.Interfaces;
-using EmailWebService.Models;
+﻿using EmailWebService.Interfaces;
 
 namespace EmailWebService.Controllers
 {
     public class EmailDbController : IEmailDbController
     {
-        EmailServiceContext context;
-        public EmailDbController()
+        IEmailServiceContextBase context;
+        public EmailDbController(IEmailServiceContextBase dbContext)
         {
-            context = new(AppConfig.ConnectionString);
+            context = dbContext;
         }
     }
 }
