@@ -6,7 +6,7 @@ namespace EmailWebService.Interfaces
     public interface IEmailConfigurationDbModel
     {
         [Key]
-        long Id { get; set; }
+        int Id { get; set; }
         [Required]
         string ProviderName { get; set; }
         [Required]

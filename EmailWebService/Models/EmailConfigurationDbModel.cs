@@ -5,9 +5,8 @@ namespace EmailWebService.Models
 {
     public class EmailConfigurationDbModel : IEmailConfigurationDbModel
     {
-        public int a = 0;
         [Key]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string ProviderName { get; set; }
         [Required]

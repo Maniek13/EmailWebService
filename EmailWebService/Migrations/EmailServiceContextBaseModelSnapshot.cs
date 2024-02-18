@@ -23,17 +23,17 @@ namespace EmailWebService.Migrations
 
             modelBuilder.Entity("EmailWebService.Models.AppEmailServiceSettingsDbModel", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<long>("EmailConfigurationId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("EmailConfigurationId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("IdentityCodeId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("IdentityCodeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -47,14 +47,14 @@ namespace EmailWebService.Migrations
 
             modelBuilder.Entity("EmailWebService.Models.AppPermisionDbModel", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<long>("IdentityCodeId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("IdentityCodeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ServiceName")
                         .IsRequired()
@@ -69,11 +69,11 @@ namespace EmailWebService.Migrations
 
             modelBuilder.Entity("EmailWebService.Models.EmailConfigurationDbModel", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Login")
                         .IsRequired()
@@ -102,11 +102,11 @@ namespace EmailWebService.Migrations
 
             modelBuilder.Entity("EmailWebService.Models.EmailLUsersListsDbModel", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -127,11 +127,11 @@ namespace EmailWebService.Migrations
 
             modelBuilder.Entity("EmailWebService.Models.EmailSchemaDbModel", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Body")
                         .IsRequired()
@@ -152,11 +152,11 @@ namespace EmailWebService.Migrations
 
             modelBuilder.Entity("EmailWebService.Models.IdentityCodeDbModel", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AppName")
                         .IsRequired()

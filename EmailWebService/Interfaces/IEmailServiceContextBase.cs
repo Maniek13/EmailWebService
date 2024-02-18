@@ -5,11 +5,11 @@ namespace EmailWebService.Interfaces
 {
     public interface IEmailServiceContextBase
     {
-        virtual public DbSet<IdentityCodeDbModel> IdentityCodes => throw new NotImplementedException();
-        virtual public DbSet<AppPermisionDbModel> AppPermisions => throw new NotImplementedException();
-        virtual public DbSet<AppEmailServiceSettingsDbModel> AppEmailServiceSettings => throw new NotImplementedException();
-        virtual public DbSet<EmailConfigurationDbModel> EmailConfiguration => throw new NotImplementedException();
-        virtual public DbSet<EmailSchemaDbModel> EmailSchemas => throw new NotImplementedException();
-        virtual public DbSet<EmailLUsersListsDbModel> ListUssers => throw new NotImplementedException();
+        virtual DbSet<IdentityCodeDbModel> IdentityCodes => throw new NotImplementedException();
+        virtual DbSet<AppPermisionDbModel> AppPermisions => throw new NotImplementedException();
+        virtual DbSet<AppEmailServiceSettingsDbModel> AppEmailServiceSettings => throw new NotImplementedException();
+        virtual DbSet<EmailConfigurationDbModel> EmailConfiguration => throw new NotImplementedException();
+        virtual DbSet<EmailSchemaDbModel> EmailSchemas => throw new NotImplementedException();
+        virtual DbSet<EmailLUsersListsDbModel> ListUssers => throw new NotImplementedException();
     }
 }

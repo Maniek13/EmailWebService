@@ -27,29 +27,33 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-EmailController emailController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+EmailConfigurationController emailConfigurationionController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 
-app.MapPost("/GetEmailConfiguration", emailController.GetEmailConfiguration)
+
+app.MapPost("/GetEmailConfiguration", emailConfigurationionController.GetEmailConfiguration)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 
-app.MapPost("/SetEmailConfiguration", emailController.SetEmailConfigurationAsync)
+app.MapPost("/SetEmailConfiguration", emailConfigurationionController.SetEmailConfigurationAsync)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 
-app.MapPost("/UpdateEmailConfiguration", emailController.UpdateEmailConfigurationAsync)
+app.MapPost("/UpdateEmailConfiguration", emailConfigurationionController.UpdateEmailConfigurationAsync)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 
-app.MapPost("/SendEmail", emailController.SendEmailAsync)
+EmailServiceController emailServiceController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+
+
+app.MapPost("/SendEmail", emailServiceController.SendEmailAsync)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 
-app.MapPost("/SetEmailBody", emailController.SetEmailBodyAsync)
+app.MapPost("/SetEmailBody", emailServiceController.SetEmailBodyAsync)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 
-app.MapPost("/GetEmailBody", emailController.GetEmailBody)
+app.MapPost("/GetEmailBody", emailServiceController.GetEmailBody)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 

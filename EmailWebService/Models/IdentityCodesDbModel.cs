@@ -6,7 +6,7 @@ namespace EmailWebService.Models
     public class IdentityCodeDbModel : IIdentityCodeDbModel
     {
         [Key]
-        public long Id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string AppName { get; set; }
         [Required]

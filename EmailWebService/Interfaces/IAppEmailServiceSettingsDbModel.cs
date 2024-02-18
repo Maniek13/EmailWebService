@@ -7,11 +7,11 @@ namespace EmailWebService.Interfaces
     public interface IAppEmailServiceSettingsDbModel
     {
         [Key]
-        long Id { get; set; }
+        int Id { get; set; }
         [Required]
-        long IdentityCodeId { get; set; }
+        int IdentityCodeId { get; set; }
         [Required]
-        long EmailConfigurationId { get; set; }
+        int EmailConfigurationId { get; set; }
 
         IdentityCodeDbModel IdentityCode { get; set; }
         EmailConfigurationDbModel EmailConfiguration { get; set; }

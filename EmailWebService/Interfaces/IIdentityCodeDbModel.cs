@@ -6,7 +6,7 @@ namespace EmailWebService.Interfaces
     public interface IIdentityCodeDbModel
     {
         [Key]
-        long Id { get; set; }
+        int Id { get; set; }
         [Required]
         string AppName { get; set; }
         [Required]

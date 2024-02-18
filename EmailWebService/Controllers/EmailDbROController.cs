@@ -11,7 +11,7 @@ namespace EmailWebService.Controllers
         {
             context = dbContext;
         }
-        public long GetIdentityCodeId(string IdentityCode)
+        public int GetIdentityCodeId(string IdentityCode)
         {
             try
             {
@@ -22,7 +22,7 @@ namespace EmailWebService.Controllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public IAppPermisionModel GetAppPermision(long IdentityCodeId, string ServiceName)
+        public IAppPermisionModel GetAppPermision(int IdentityCodeId, string ServiceName)
         {
             try
             {
@@ -34,13 +34,12 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public IEmailConfigurationModel GetEmailConfiguration(long IdentityCodeId)
+        public IEmailConfigurationModel GetEmailConfiguration(int IdentityCodeId)
         {
             try
             {
-                long EmailConfigurationId = context.AppEmailServiceSettings.Where(el => el.Id == IdentityCodeId).FirstOrDefault().EmailConfigurationId;
+                int EmailConfigurationId = context.AppEmailServiceSettings.Where(el => el.Id == IdentityCodeId).FirstOrDefault().EmailConfigurationId;
                 return ConvertToEmailConfiguration(context.EmailConfiguration.Where(el => el.Id == EmailConfigurationId).FirstOrDefault());
-
             }
             catch (Exception ex)
             {
@@ -48,7 +47,7 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public string GetEmailBody(long IdentityCodesId, string SchemaName, List<(string Name, string Value)> VariablesList)
+        public string GetEmailBody(int IdentityCodesId, string SchemaName, List<(string Name, string Value)> VariablesList)
         {
             try
             {
@@ -65,7 +64,6 @@ namespace EmailWebService.Controllers
                     return body;
                 }
                 throw new Exception($"Brak templejtki o nazwie {SchemaName}");
-
             }
             catch (Exception ex)
             {

@@ -6,9 +6,9 @@ namespace EmailWebService.Interfaces
     public interface IAppPermisionDbModel
     {
         [Key]
-        long Id { get; set; }
+        int Id { get; set; }
         [Required]
-        long IdentityCodeId { get; set; }
+        int IdentityCodeId { get; set; }
         [Required]
         string ServiceName { get; set; }
 

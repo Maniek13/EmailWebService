@@ -2,7 +2,7 @@
 {
     public interface IEmailConfigurationModel
     {
-        long Id { get; set; }
+        int Id { get; set; }
         string ProviderName { get; set; }
         string SMTP { get; set; }
         string Port { get; set; }
