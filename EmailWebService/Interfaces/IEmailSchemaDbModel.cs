@@ -13,7 +13,7 @@ namespace EmailWebService.Interfaces
         [Required]
         string Body { get; set; }
 
-        //variables like: Name : Value , Name Value ,
+        //variables like: Name : Value , Name : Value ,
         [Required]
         string Variables { get; set; }
     }

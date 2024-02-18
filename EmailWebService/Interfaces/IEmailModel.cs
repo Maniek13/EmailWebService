@@ -13,6 +13,6 @@
         string? ReplyToName { get; set; }
         string Subject { get; set; }
         string Body { get; set; }
-        List<IFormFile> Attachments { get; set; }
+        List<(byte[] File, string Name)> Atachments { get; set; }
     }
 }

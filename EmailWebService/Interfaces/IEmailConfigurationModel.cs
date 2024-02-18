@@ -5,7 +5,7 @@
         int Id { get; set; }
         string ProviderName { get; set; }
         string SMTP { get; set; }
-        string Port { get; set; }
+        int Port { get; set; }
         string Login { get; set; }
         string Password { get; set; }
     }

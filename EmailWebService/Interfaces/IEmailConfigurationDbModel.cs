@@ -12,12 +12,12 @@ namespace EmailWebService.Interfaces
         [Required]
         string SMTP { get; set; }
         [Required]
-        string Port { get; set; }
+        int Port { get; set; }
         [Required]
         string Login { get; set; }
         [Required]
         string Password { get; set; }
 
-        ICollection<AppEmailServiceSettingsDbModel> AppEmailServiceSettings {  get; set; }
+        ICollection<AppEmailServiceSettingsDbModel> AppEmailServiceSettings { get; set; }
     }
 }

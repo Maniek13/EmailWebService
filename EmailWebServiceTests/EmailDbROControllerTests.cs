@@ -1,6 +1,3 @@
-using EmailWebService.Controllers;
-using EmailWebService.Interfaces;
-
 namespace EmailWebServiceTests
 {
     public class EmailDbROControllerTests
@@ -24,7 +21,7 @@ namespace EmailWebServiceTests
 
 
         public void GetEmailBodyTests()
-        { 
+        {
             Assert.Fail("Not implement");
         }
     }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmailWebService.Migrations
 {
     [DbContext(typeof(EmailServiceContextBase))]
-    [Migration("20240218030350_Init")]
+    [Migration("20240218152113_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -86,9 +86,8 @@ namespace EmailWebService.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Port")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Port")
+                        .HasColumnType("int");
 
                     b.Property<string>("ProviderName")
                         .IsRequired()

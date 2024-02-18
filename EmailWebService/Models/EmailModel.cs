@@ -15,6 +15,6 @@ namespace EmailWebService.Models
         public string? ReplyToName { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
-        public List<IFormFile> Attachments { get; set; }
+        public List<(byte[] File, string Name)> Atachments { get; set; }
     }
 }

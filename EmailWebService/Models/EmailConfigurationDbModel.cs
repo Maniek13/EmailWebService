@@ -12,7 +12,7 @@ namespace EmailWebService.Models
         [Required]
         public string SMTP { get; set; }
         [Required]
-        public string Port { get; set; }
+        public int Port { get; set; }
         [Required]
         public string Login { get; set; }
         [Required]

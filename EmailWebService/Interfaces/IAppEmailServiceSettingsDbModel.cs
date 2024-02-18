@@ -1,5 +1,4 @@
 ﻿using EmailWebService.Models;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebService.Interfaces

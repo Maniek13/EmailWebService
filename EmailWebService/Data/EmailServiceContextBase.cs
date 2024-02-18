@@ -41,6 +41,8 @@ namespace EmailWebService.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<EmailSchemaDbModel>().HasIndex(u => u.Name).IsUnique();
+
             modelBuilder.Entity<AppPermisionDbModel>()
                 .HasOne<IdentityCodeDbModel>(x => x.IdentityCode)
                 .WithMany(y => y.AppPermisions)

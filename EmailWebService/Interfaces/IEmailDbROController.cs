@@ -3,8 +3,8 @@
     public interface IEmailDbROController
     {
         int GetIdentityCodeId(string IdentityCode);
-        IAppPermisionModel GetAppPermision(int IdentityCodeId, string ServiceName);
-        IEmailConfigurationModel GetEmailConfiguration(int IdentityCodeId);
-        string GetEmailBody(int IdentityCodesId, string SchemaName, List<(string Name, string Value)> VariablesList);
+        IAppPermisionDbModel GetAppPermision(int IdentityCodeId, string ServiceName);
+        IEmailConfigurationDbModel GetEmailConfiguration(int IdentityCodeId);
+        string GetEmailBody(string SchemaName, List<(string Name, string Value)> VariablesList);
     }
 }

@@ -1,9 +1,11 @@
-﻿namespace EmailWebService.Models
+﻿using System.Net;
+
+namespace EmailWebService.Models
 {
     public interface IResponseModel<T>
     {
         T Data { get; set; }
-        int ResultCode { get; set; }
+        HttpStatusCode ResultCode { get; set; }
         string Message { get; set; }
     }
 }

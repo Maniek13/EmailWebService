@@ -1,17 +1,25 @@
 namespace EmailWebServiceTests
 {
-    public class EmailDbControllerTests
+    public class EmailConfigurationControllerTests
     {
         [Fact]
-        public async Task SetEmailBodyAsyncTests()
+        public void EmailControllerTests()
         {
             Assert.Fail("Not implement");
         }
+
+        [Fact]
+        public void GetEmailConfigurationTests()
+        {
+            Assert.Fail("Not implement");
+        }
+
         [Fact]
         public async Task SetEmailConfigurationAsyncTests()
         {
             Assert.Fail("Not implement");
         }
+
         [Fact]
         public async Task UpdateEmailConfigurationAsyncTests()
         {

@@ -5,9 +5,12 @@ using System.Net;
 
 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAntiforgery();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var configuration = new ConfigurationBuilder()
      .AddJsonFile($"appsettings.json");
@@ -27,6 +30,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
 EmailConfigurationController emailConfigurationionController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 
 
@@ -35,26 +39,32 @@ app.MapPost("/GetEmailConfiguration", emailConfigurationionController.GetEmailCo
     .WithOpenApi();
 
 app.MapPost("/SetEmailConfiguration", emailConfigurationionController.SetEmailConfigurationAsync)
-    .WithDescription("Get email configurations")
+    .WithDescription("Set email configurations")
     .WithOpenApi();
 
-app.MapPost("/UpdateEmailConfiguration", emailConfigurationionController.UpdateEmailConfigurationAsync)
-    .WithDescription("Get email configurations")
+app.MapPut("/UpdateEmailConfiguration", emailConfigurationionController.UpdateEmailConfigurationAsync)
+    .WithDescription("Update email configurations")
     .WithOpenApi();
 
 EmailServiceController emailServiceController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 
 
+
 app.MapPost("/SendEmail", emailServiceController.SendEmailAsync)
-    .WithDescription("Get email configurations")
-    .WithOpenApi();
+    .WithDescription("Send email")
+    .WithOpenApi()
+    .DisableAntiforgery();
 
 app.MapPost("/SetEmailBody", emailServiceController.SetEmailBodyAsync)
-    .WithDescription("Get email configurations")
+    .WithDescription("Set email body")
     .WithOpenApi();
 
 app.MapPost("/GetEmailBody", emailServiceController.GetEmailBody)
-    .WithDescription("Get email configurations")
+    .WithDescription("Get email body")
+    .WithOpenApi();
+
+app.MapPut("/UpdateEmailBody", emailServiceController.UpdateEmailBodyAsync)
+    .WithDescription("Update email body")
     .WithOpenApi();
 
 

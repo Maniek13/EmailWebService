@@ -1,5 +1,6 @@
 ﻿using EmailWebService.Interfaces;
 using EmailWebService.Models;
+using System.ComponentModel;
 
 namespace EmailWebService.Controllers
 {
@@ -14,7 +15,9 @@ namespace EmailWebService.Controllers
             _emailDbController = emailDbController;
         }
 
-        internal int GetIdentityCodeId(string IdentityCode)
+        #region helper functions
+        [Description("Return IdentityCodeId")]
+        internal int CheckHasPermision(string IdentityCode)
         {
             try
             {
@@ -23,7 +26,7 @@ namespace EmailWebService.Controllers
                 var permision = GetAppPermision(identityCodeId);
                 if (permision != null)
                     return permision.IdentityCodeId;
-  
+
                 throw new Exception("App don't have permision to use email service\"");
             }
             catch (Exception ex)
@@ -31,16 +34,40 @@ namespace EmailWebService.Controllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        internal IAppPermisionModel GetAppPermision(int IdentityCodeId)
+        private IAppPermisionModel GetAppPermision(int IdentityCodeId)
         {
             try
             {
-                return _emailDbControllerRO.GetAppPermision(IdentityCodeId, AppConfig.ServiceName);
+                return ConvertToAppPermisoin(_emailDbControllerRO.GetAppPermision(IdentityCodeId, AppConfig.ServiceName));
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
         }
+
+        internal IEmailConfigurationModel ConvertToEmailConfiguration(IEmailConfigurationDbModel email)
+        {
+            return new EmailConfigurationModel
+            {
+                Id = email.Id,
+                ProviderName = email.ProviderName,
+                SMTP = email.SMTP,
+                Port = email.Port,
+                Login = email.Login,
+                Password = email.Password,
+            };
+        }
+
+        internal IAppPermisionModel ConvertToAppPermisoin(IAppPermisionDbModel email)
+        {
+            return new AppPermisionModel
+            {
+                Id = email.Id,
+                IdentityCodeId = email.IdentityCodeId,
+                ServiceName = email.ServiceName,
+            };
+        }
+        #endregion
     }
 }
