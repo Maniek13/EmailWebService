@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using EmailWebService.Interfaces;
+using System.Net;
 
 namespace EmailWebService.Models
 {

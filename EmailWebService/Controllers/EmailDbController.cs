@@ -16,8 +16,8 @@ namespace EmailWebService.Controllers
             try
             {
                 StringBuilder variables = new StringBuilder();
-                
-                for(int i = 0; i<VariablesList.Count; ++i)
+
+                for (int i = 0; i < VariablesList.Count; ++i)
                 {
                     variables.Append($"{(i > 0 ? "," : "")}{VariablesList[i].Name} : {VariablesList[i].Value}");
                 }

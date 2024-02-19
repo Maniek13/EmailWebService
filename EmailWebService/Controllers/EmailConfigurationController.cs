@@ -15,15 +15,15 @@ namespace EmailWebService.Controllers
             _emailDbController = emailDbController;
         }
 
-        public IResponseModel<IEmailConfigurationModel> GetEmailConfiguration(int ConfigurationId, string IdentityCode, HttpContext Context)
+        public IResponseModel<IEmailConfigurationModel> GetEmailConfiguration(Request<int> Request, HttpContext Context)
         {
             try
             {
-                int identityId = CheckHasPermision(IdentityCode);
+                int identityId = CheckHasPermision(Request.IdentityCode);
 
                 return new ResponseModel<IEmailConfigurationModel>()
                 {
-                    Data = ConvertToEmailConfiguration(_emailDbControllerRO.GetEmailConfiguration(identityId)),
+                    Data = ConvertToEmailConfiguration(_emailDbControllerRO.GetEmailConfiguration(Request.RequestBody)),
                     ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
@@ -40,7 +40,7 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public async Task<IResponseModel<bool>> SetEmailConfigurationAsync(string IdentityCode, IEmailConfigurationModel Configuration, HttpContext Context)
+        public async Task<IResponseModel<bool>> SetEmailConfigurationAsync(Request<EmailConfigurationModel> Request, HttpContext Context)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public async Task<IResponseModel<bool>> UpdateEmailConfigurationAsync(string IdentityCode, IEmailConfigurationModel Configuration, HttpContext Context)
+        public async Task<IResponseModel<bool>> UpdateEmailConfigurationAsync(Request<EmailConfigurationModel> Request, HttpContext Context)
         {
             try
             {

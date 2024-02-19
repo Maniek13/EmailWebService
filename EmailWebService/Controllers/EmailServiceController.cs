@@ -1,7 +1,6 @@
-﻿using Azure;
-using EmailWebService.Interfaces;
+﻿using EmailWebService.Interfaces;
 using EmailWebService.Models;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
@@ -19,15 +18,18 @@ namespace EmailWebService.Controllers
             _emailDbController = emailDbController;
         }
 
-        public async Task<IResponseModel<bool>> SendEmailAsync(string IdentityCode, EmailModel email, HttpContext Context)
+        public async Task<IResponseModel<bool>> SendEmailAsync(string IdentityCode, [FromForm] EmailModel email, HttpContext Context)
         {
             try
             {
+                //IdentityCode = Context.Request.Headers("Authorized");
+
+                email.Atachments = (FormFileCollection)Context.Request.Form.Files;
                 var message = createEmail(email);
 
                 var cfg = _emailDbControllerRO.GetEmailConfiguration(CheckHasPermision(IdentityCode));
 
-                using(var smtpClient = new SmtpClient(cfg.SMTP))
+                using (var smtpClient = new SmtpClient(cfg.SMTP))
                 {
                     smtpClient.Port = cfg.Port;
                     smtpClient.Credentials = new NetworkCredential()
@@ -57,22 +59,22 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public async Task<IResponseModel<bool>> SetEmailBodyAsync(string IdentityCode, string SchemaName, string Body, List<(string Name, string Value)> VariablesList, HttpContext Context)
+        public async Task<IResponseModel<bool>> SetEmailBodyAsync(Request<EmailBody> Request, HttpContext Context)
         {
             try
             {
-                _ = CheckHasPermision(IdentityCode);
+                _ = CheckHasPermision(Request.IdentityCode);
 
-                _ = await _emailDbController.SetEmailBodyAsync(SchemaName, SchemaName, VariablesList);
-               
-              
+                _ = await _emailDbController.SetEmailBodyAsync(Request.RequestBody.SchemaName, Request.RequestBody.Body, Request.RequestBody.VariablesList);
+
+
                 return new ResponseModel<bool>()
                 {
                     Data = true,
                     ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
-                
+
             }
             catch (Exception ex)
             {
@@ -85,7 +87,7 @@ namespace EmailWebService.Controllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> UpdateEmailBodyAsync(string IdentityCode, string SchemaName, string Body, List<(string Name, string Value)> VariablesList, HttpContext Context)
+        public async Task<IResponseModel<bool>> UpdateEmailBodyAsync(Request<EmailBody> Request, HttpContext Context)
         {
             try
             {
@@ -103,14 +105,14 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public IResponseModel<string> GetEmailBody(string IdentityCode, string SchemaName, List<(string Name, string Value)> VariablesList, HttpContext Context)
+        public IResponseModel<string> GetEmailBody(Request<EmailBody> Request, HttpContext Context)
         {
             try
             {
-                _ = CheckHasPermision(IdentityCode);
+                _ = CheckHasPermision(Request.IdentityCode);
                 return new ResponseModel<string>()
                 {
-                    Data = _emailDbControllerRO.GetEmailBody(SchemaName, VariablesList),
+                    Data = _emailDbControllerRO.GetEmailBody(Request.RequestBody.SchemaName, Request.RequestBody.VariablesList),
                     ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
@@ -131,6 +133,11 @@ namespace EmailWebService.Controllers
         {
             try
             {
+                if (String.IsNullOrWhiteSpace(email.From))
+                    throw new Exception("Please set a sender email");
+                if (email.To.Count == 0)
+                    throw new Exception("Please set a receiver email");
+
                 using (MailMessage message = new MailMessage())
                 {
                     message.Subject = email.Subject;
@@ -140,8 +147,12 @@ namespace EmailWebService.Controllers
                     using (AlternateView alternate = AlternateView.CreateAlternateViewFromString(email.Body, mimeType))
                         message.AlternateViews.Add(alternate);
 
+
                     message.From = new MailAddress(email.From, String.IsNullOrWhiteSpace(email.DisplayName) ? email.From : email.DisplayName);
-                    message.ReplyTo = new MailAddress(email.ReplyTo, String.IsNullOrWhiteSpace(email.ReplyToName) ? email.ReplyTo : email.ReplyToName);
+
+                    if (!String.IsNullOrWhiteSpace(email.ReplyTo))
+                        message.ReplyTo = new MailAddress(email.ReplyTo, String.IsNullOrWhiteSpace(email.ReplyToName) ? email.ReplyTo : email.ReplyToName);
+
 
                     for (int i = 0; i < email.To.Count; ++i)
                     {
@@ -161,12 +172,21 @@ namespace EmailWebService.Controllers
                     if (email.Atachments != null && email.Atachments.Count != 0)
                         for (int i = 0; i < email.Atachments.Count; ++i)
                         {
-                            if (email.Atachments[i].File.IsNullOrEmpty() || email.Atachments[i].Name.IsNullOrEmpty())
+                            if (email.Atachments[i] == null)
                                 continue;
 
                             using (var memStream = new MemoryStream())
                             {
-                                memStream.Write(email.Atachments[i].File, 0, email.Atachments[i].File.Length);
+                                var temp = email.Atachments[i].OpenReadStream();
+                                byte[] byteArray;
+
+                                using (MemoryStream ms = new MemoryStream())
+                                {
+                                    temp.CopyTo(ms);
+                                    byteArray = ms.ToArray();
+                                }
+
+                                memStream.Write(byteArray, 0, byteArray.Length);
                                 memStream.Seek(0, SeekOrigin.Begin);
                                 message.Attachments.Add(new Attachment(memStream, MediaTypeNames.Application.Octet));
                             }
@@ -174,8 +194,6 @@ namespace EmailWebService.Controllers
 
                     return message;
                 }
-
-                throw new NotImplementedException();
             }
             catch (Exception ex)
             {

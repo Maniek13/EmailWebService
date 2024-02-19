@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace EmailWebService.Models
+namespace EmailWebService.Interfaces
 {
     public interface IResponseModel<T>
     {

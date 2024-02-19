@@ -1,12 +1,13 @@
 ﻿using EmailWebService.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EmailWebService.Interfaces
 {
     interface IEmailServiceController
     {
-        Task<IResponseModel<bool>> SendEmailAsync(string IdentityCode, EmailModel email, HttpContext Context);
-        Task<IResponseModel<bool>> SetEmailBodyAsync(string IdentityCode, string SchemaName, string Body, List<(string Name, string Value)> VariablesList, HttpContext Context);
-        Task<IResponseModel<bool>> UpdateEmailBodyAsync(string IdentityCode, string SchemaName, string Body, List<(string Name, string Value)> VariablesList, HttpContext Context);
-        IResponseModel<string> GetEmailBody(string IdentityCode, string SchemaName, List<(string Name, string Value)> VariablesList, HttpContext Context);
+        Task<IResponseModel<bool>> SendEmailAsync(string IdentityCode, [FromForm] EmailModel email, HttpContext Context);
+        Task<IResponseModel<bool>> SetEmailBodyAsync(Request<EmailBody> Request, HttpContext Context);
+        Task<IResponseModel<bool>> UpdateEmailBodyAsync(Request<EmailBody> Request, HttpContext Context);
+        IResponseModel<string> GetEmailBody(Request<EmailBody> Request, HttpContext Context);
     }
 }

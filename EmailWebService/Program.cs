@@ -5,12 +5,9 @@ using System.Net;
 
 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddAntiforgery();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 var configuration = new ConfigurationBuilder()
      .AddJsonFile($"appsettings.json");
@@ -22,17 +19,16 @@ AppConfig.ServiceName = "EmailService";
 
 
 var app = builder.Build();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
 
 
 EmailConfigurationController emailConfigurationionController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
-
 
 app.MapPost("/GetEmailConfiguration", emailConfigurationionController.GetEmailConfiguration)
     .WithDescription("Get email configurations")
@@ -47,8 +43,6 @@ app.MapPut("/UpdateEmailConfiguration", emailConfigurationionController.UpdateEm
     .WithOpenApi();
 
 EmailServiceController emailServiceController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
-
-
 
 app.MapPost("/SendEmail", emailServiceController.SendEmailAsync)
     .WithDescription("Send email")
@@ -68,6 +62,4 @@ app.MapPut("/UpdateEmailBody", emailServiceController.UpdateEmailBodyAsync)
     .WithOpenApi();
 
 
-
 app.Run();
-
