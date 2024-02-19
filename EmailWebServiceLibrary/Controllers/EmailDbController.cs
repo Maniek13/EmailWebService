@@ -82,7 +82,6 @@ namespace EmailWebServiceLibrarys.Controllers
             }
         }
         #endregion
-
         #region user list
         public Task<bool> SetUserListAsync(EmailUsersDbModel EmailUsersListsDbModel, EmailUsersListDbModel EmailUsersDbModel)
         {

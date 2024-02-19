@@ -17,7 +17,6 @@ namespace Configuration.Interfaces
         Task<IResponseModel<bool>> UpdateEmailBodySchemaAsync(EmailSchemaModel EmailSchema, HttpContext Context);
         Task<IResponseModel<bool>> DeleteEmailBodySchemaAsync(int Id, HttpContext Context);
         #endregion
-
         #region user list
         Task<IResponseModel<bool>> SetUserListAsync(EmailUsersListModel EmailUsersListModel, HttpContext Context);
         Task<IResponseModel<bool>> UpdateUserListAsync(EmailUsersListModel EmailUsersListModel, HttpContext Context);

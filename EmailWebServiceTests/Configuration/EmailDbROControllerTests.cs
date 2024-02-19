@@ -2,27 +2,6 @@ namespace EmailWebServiceTests.Configuration
 {
     public class EmailDbROControllerTests
     {
-        [Fact]
-        public void GetIdentityCodeIdTests()
-        {
-            Assert.Fail("Not implement");
-        }
-
-        [Fact]
-        public void GetAppPermisionTests()
-        {
-            Assert.Fail("Not implement");
-        }
-
-        public void GetEmailConfigurationTests()
-        {
-            Assert.Fail("Not implement");
-        }
-
-
-        public void GetEmailBodyTests()
-        {
-            Assert.Fail("Not implement");
-        }
+      
     }
 }
