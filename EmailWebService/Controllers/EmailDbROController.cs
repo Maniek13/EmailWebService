@@ -4,16 +4,16 @@ namespace EmailWebService.Controllers
 {
     public class EmailDbROController : IEmailDbROController
     {
-        IEmailServiceContextBase context;
+        IEmailServiceContextBase _context;
         public EmailDbROController(IEmailServiceContextBase dbContext)
         {
-            context = dbContext;
+            _context = dbContext;
         }
         public int GetIdentityCodeId(string IdentityCode)
         {
             try
             {
-                return context.IdentityCodes.Where(el => el.IdentityCode == IdentityCode).FirstOrDefault().Id;
+                return _context.IdentityCodes.Where(el => el.IdentityCode == IdentityCode).FirstOrDefault().Id;
             }
             catch (Exception ex)
             {
@@ -24,7 +24,7 @@ namespace EmailWebService.Controllers
         {
             try
             {
-                return context.AppPermisions.Where(el => el.IdentityCodeId == IdentityCodeId && el.ServiceName == ServiceName).FirstOrDefault();
+                return _context.AppPermisions.Where(el => el.IdentityCodeId == IdentityCodeId && el.ServiceName == ServiceName).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -36,8 +36,8 @@ namespace EmailWebService.Controllers
         {
             try
             {
-                int EmailConfigurationId = context.AppEmailServiceSettings.Where(el => el.Id == IdentityCodeId).FirstOrDefault().EmailConfigurationId;
-                return context.EmailConfiguration.Where(el => el.Id == EmailConfigurationId).FirstOrDefault();
+                int EmailConfigurationId = _context.AppEmailServiceSettings.Where(el => el.Id == IdentityCodeId).FirstOrDefault().EmailConfigurationId;
+                return _context.EmailConfiguration.Where(el => el.Id == EmailConfigurationId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace EmailWebService.Controllers
         {
             try
             {
-                var emailSchema = context.EmailSchemas.Where(el => el.Name == SchemaName).FirstOrDefault();
+                var emailSchema = _context.EmailSchemas.Where(el => el.Name == SchemaName).FirstOrDefault();
                 if (emailSchema != null)
                 {
                     string body = emailSchema.Body;

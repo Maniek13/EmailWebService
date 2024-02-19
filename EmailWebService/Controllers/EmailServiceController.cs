@@ -59,13 +59,13 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public async Task<IResponseModel<bool>> SetEmailBodyAsync(Request<EmailBody> Request, HttpContext Context)
+        public async Task<IResponseModel<bool>> SetEmailBodySchemaAsync(Request<EmailBody> Request, HttpContext Context)
         {
             try
             {
                 _ = CheckHasPermision(Request.IdentityCode);
 
-                _ = await _emailDbController.SetEmailBodyAsync(Request.RequestBody.SchemaName, Request.RequestBody.Body, Request.RequestBody.VariablesList);
+                _ = await _emailDbController.SetEmailBodySchemaAsync(ConvertToEmailSchemaDbmodel(Request.RequestBody));
 
 
                 return new ResponseModel<bool>()
@@ -74,7 +74,6 @@ namespace EmailWebService.Controllers
                     ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
-
             }
             catch (Exception ex)
             {
@@ -87,11 +86,21 @@ namespace EmailWebService.Controllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> UpdateEmailBodyAsync(Request<EmailBody> Request, HttpContext Context)
+        public async Task<IResponseModel<bool>> UpdateEmailBodySchemaAsync(Request<EmailBody> Request, HttpContext Context)
         {
             try
             {
-                throw new NotImplementedException();
+                _ = CheckHasPermision(Request.IdentityCode);
+
+                _ = await _emailDbController.UpdateEmailBodySchemaAsync(ConvertToEmailSchemaDbmodel(Request.RequestBody));
+
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {

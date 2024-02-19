@@ -1,6 +1,8 @@
 ﻿using EmailWebService.Interfaces;
 using EmailWebService.Models;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using System.Text;
 
 namespace EmailWebService.Controllers
 {
@@ -59,6 +61,19 @@ namespace EmailWebService.Controllers
             };
         }
 
+        internal EmailConfigurationDbModel ConvertToEmailDbConfiguration(IEmailConfigurationModel email)
+        {
+            return new EmailConfigurationDbModel
+            {
+                Id = email.Id,
+                ProviderName = email.ProviderName,
+                SMTP = email.SMTP,
+                Port = email.Port,
+                Login = email.Login,
+                Password = email.Password,
+            };
+        }
+
         internal IAppPermisionModel ConvertToAppPermisoin(IAppPermisionDbModel email)
         {
             return new AppPermisionModel
@@ -66,6 +81,24 @@ namespace EmailWebService.Controllers
                 Id = email.Id,
                 IdentityCodeId = email.IdentityCodeId,
                 ServiceName = email.ServiceName,
+            };
+        }
+
+        internal EmailSchemaDbModel ConvertToEmailSchemaDbmodel(IEmailBodySchema emailBodySchema)
+        {
+            StringBuilder variables = new StringBuilder();
+
+
+            for (int i = 0; i < emailBodySchema.VariablesList.Count; ++i)
+            {
+                variables.Append($"{(i > 0 ? "," : "")}{emailBodySchema.VariablesList[i].Name} : {emailBodySchema.VariablesList[i].Value}");
+            }
+
+            return new EmailSchemaDbModel()
+            {
+                Name = emailBodySchema.SchemaName,
+                Body = emailBodySchema.Body,
+                Variables = variables.ToString(),
             };
         }
         #endregion

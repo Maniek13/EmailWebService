@@ -3,7 +3,12 @@ namespace EmailWebServiceTests
     public class EmailDbControllerTests
     {
         [Fact]
-        public async Task SetEmailBodyAsyncTests()
+        public async Task SetEmailBodySchemaAsyncTests()
+        {
+            Assert.Fail("Not implement");
+        }
+        [Fact]
+        public async Task UpdateEmailBodySchemaAsyncTests()
         {
             Assert.Fail("Not implement");
         }

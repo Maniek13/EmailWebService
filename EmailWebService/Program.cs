@@ -42,6 +42,7 @@ app.MapPut("/UpdateEmailConfiguration", emailConfigurationionController.UpdateEm
     .WithDescription("Update email configurations")
     .WithOpenApi();
 
+
 EmailServiceController emailServiceController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 
 app.MapPost("/SendEmail", emailServiceController.SendEmailAsync)
@@ -49,17 +50,16 @@ app.MapPost("/SendEmail", emailServiceController.SendEmailAsync)
     .WithOpenApi()
     .DisableAntiforgery();
 
-app.MapPost("/SetEmailBody", emailServiceController.SetEmailBodyAsync)
-    .WithDescription("Set email body")
+app.MapPost("/SetEmailBodySchema", emailServiceController.SetEmailBodySchemaAsync)
+    .WithDescription("Set email body schema")
+    .WithOpenApi();
+
+app.MapPut("/UpdateEmailBodySchema", emailServiceController.UpdateEmailBodySchemaAsync)
+    .WithDescription("Update email body schema")
     .WithOpenApi();
 
 app.MapPost("/GetEmailBody", emailServiceController.GetEmailBody)
     .WithDescription("Get email body")
     .WithOpenApi();
-
-app.MapPut("/UpdateEmailBody", emailServiceController.UpdateEmailBodyAsync)
-    .WithDescription("Update email body")
-    .WithOpenApi();
-
 
 app.Run();

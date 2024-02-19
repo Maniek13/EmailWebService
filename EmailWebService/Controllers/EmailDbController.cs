@@ -6,30 +6,18 @@ namespace EmailWebService.Controllers
 {
     public class EmailDbController : IEmailDbController
     {
-        IEmailServiceContextBase context;
+        IEmailServiceContextBase _context;
         public EmailDbController(IEmailServiceContextBase dbContext)
         {
-            context = dbContext;
+            _context = dbContext;
         }
-        public async Task<bool> SetEmailBodyAsync(string SchemaName, string Body, List<(string Name, string Value)> VariablesList)
+        public async Task<bool> SetEmailBodySchemaAsync(EmailSchemaDbModel EmailSchema)
         {
             try
             {
-                StringBuilder variables = new StringBuilder();
+                await _context.EmailSchemas.AddAsync(EmailSchema);
 
-                for (int i = 0; i < VariablesList.Count; ++i)
-                {
-                    variables.Append($"{(i > 0 ? "," : "")}{VariablesList[i].Name} : {VariablesList[i].Value}");
-                }
-
-                await context.EmailSchemas.AddAsync(new EmailSchemaDbModel()
-                {
-                    Name = SchemaName,
-                    Body = Body,
-                    Variables = variables.ToString(),
-                });
-
-                var nrOf = await context.SaveChangesAsync();
+                var nrOf = await _context.SaveChangesAsync();
 
                 if (nrOf == 1)
                     return true;
@@ -42,11 +30,23 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public async Task<bool> SetEmailConfigurationAsync(IEmailConfigurationModel Configuration)
+        public async Task<bool> UpdateEmailBodySchemaAsync(EmailSchemaDbModel EmailSchema)
         {
             try
             {
-                throw new NotImplementedException();
+                var cfg = _context.EmailSchemas.Where(el => el.Id == EmailSchema.Id).FirstOrDefault();
+
+                if (cfg == null)
+                    throw new Exception("EmailSchemas do not exist");
+
+                cfg = EmailSchema;
+
+                var nrOf = await _context.SaveChangesAsync();
+
+                if (nrOf == 1)
+                    return true;
+                else
+                    throw new Exception("Internal error, data don't be added");
             }
             catch (Exception ex)
             {
@@ -54,11 +54,42 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public async Task<bool> UpdateEmailConfigurationAsync(IEmailConfigurationModel Configuration)
+        public async Task<bool> SetEmailConfigurationAsync(EmailConfigurationDbModel Configuration)
         {
             try
             {
-                throw new NotImplementedException();
+                await _context.EmailConfiguration.AddAsync(Configuration);
+
+                var nrOf = await _context.SaveChangesAsync();
+
+                if (nrOf == 1)
+                    return true;
+                else
+                    throw new Exception("Internal error, data don't be added");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task<bool> UpdateEmailConfigurationAsync(EmailConfigurationDbModel Configuration)
+        {
+            try
+            {
+                var cfg = _context.EmailConfiguration.Where(el => el.Id == Configuration.Id).FirstOrDefault();
+
+                if (cfg == null)
+                    throw new Exception("Configuration do not exist");
+
+                cfg = Configuration;
+
+                var nrOf = await _context.SaveChangesAsync();
+
+                if (nrOf == 1)
+                    return true;
+                else
+                    throw new Exception("Internal error, data don't be added");
             }
             catch (Exception ex)
             {

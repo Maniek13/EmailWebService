@@ -44,7 +44,16 @@ namespace EmailWebService.Controllers
         {
             try
             {
-                throw new NotImplementedException();
+                _ = CheckHasPermision(Request.IdentityCode);
+
+                _ = await _emailDbController.SetEmailConfigurationAsync(ConvertToEmailDbConfiguration(Request.RequestBody));
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {
@@ -62,7 +71,16 @@ namespace EmailWebService.Controllers
         {
             try
             {
-                throw new NotImplementedException();
+                _ = CheckHasPermision(Request.IdentityCode);
+
+                _ = await _emailDbController.UpdateEmailConfigurationAsync(ConvertToEmailDbConfiguration(Request.RequestBody));
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {
