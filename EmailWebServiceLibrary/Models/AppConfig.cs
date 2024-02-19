@@ -1,4 +1,4 @@
-﻿using EmailWebServiceLibrarys.Interfaces;
+﻿using EmailWebServiceLibrary.Interfaces.Configuration;
 
 namespace EmailWebServiceLibrarys.Models
 {

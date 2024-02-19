@@ -1,12 +1,12 @@
-﻿using EmailWebServiceLibrarys.Interfaces;
+﻿using EmailWebServiceLibrary.Interfaces.Models;
 using System.Net;
 
 namespace EmailWebServiceLibrarys.Models
 {
-    public class ResponseModel<T> : IResponseModel<T>
+    public readonly struct ResponseModel<T> : IResponseModel<T>
     {
-        public T Data { get; set; }
-        public HttpStatusCode ResultCode { get; set; }
-        public string Message { get; set; }
+        public T Data { get; init; }
+        public HttpStatusCode ResultCode { get; init; }
+        public string Message { get; init; }
     }
 }

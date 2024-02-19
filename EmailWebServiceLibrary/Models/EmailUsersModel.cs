@@ -1,8 +1,8 @@
-﻿using EmailWebServiceLibrarys.Interfaces;
+﻿using EmailWebServiceLibrary.Interfaces.Models;
 
 namespace EmailWebServiceLibrarys.Models
 {
-    public class EmailUsersModel : IEmailUsersModel
+    public record EmailUsersModel : IEmailUsersModel
     {
         public int Id { get; set; }
         public string UserListId { get; set; }

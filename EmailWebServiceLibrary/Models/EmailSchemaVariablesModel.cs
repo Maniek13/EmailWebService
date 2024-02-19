@@ -1,8 +1,8 @@
-﻿using EmailWebServiceLibrarys.Interfaces;
+﻿using EmailWebServiceLibrary.Interfaces.Models;
 
 namespace EmailWebServiceLibrarys.Models
 {
-    public class EmailSchemaVariablesModel : IEmailSchemaVariablesModel
+    public record EmailSchemaVariablesModel : IEmailSchemaVariablesModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

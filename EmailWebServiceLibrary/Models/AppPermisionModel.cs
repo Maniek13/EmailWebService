@@ -1,8 +1,8 @@
-﻿using EmailWebServiceLibrarys.Interfaces;
+﻿using EmailWebServiceLibrary.Interfaces.Models;
 
 namespace EmailWebServiceLibrarys.Models
 {
-    public class AppPermisionModel : IAppPermisionModel
+    public record AppPermisionModel : IAppPermisionModel
     {
         public int Id { get; set; }
         public string ServiceName { get; set; }

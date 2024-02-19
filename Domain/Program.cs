@@ -1,6 +1,6 @@
 using Configuration.Data;
-using Domain.Controllers;
-using EmailWebServiceLibrarys.Controllers;
+using Domain.Controllers.WebControllers;
+using EmailWebServiceLibrary.Controllers.DbControllers;
 using EmailWebServiceLibrarys.Models;
 using System.Net;
 
@@ -29,7 +29,7 @@ app.UseHttpsRedirection();
 
 
 
-DomainController emailServiceController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)));
+DomainWebController emailServiceController = new(new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)));
 
 app.MapPost("/SendEmails", emailServiceController.SendEmailsAsync)
     .WithDescription("Send emails")

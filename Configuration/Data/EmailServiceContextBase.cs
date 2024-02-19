@@ -1,5 +1,5 @@
-﻿using EmailWebServiceLibrarys.Interfaces;
-using EmailWebServiceLibrarys.Models;
+﻿using EmailWebServiceLibrary.Interfaces.Data;
+using EmailWebServiceLibrary.Models.DbModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Configuration.Data

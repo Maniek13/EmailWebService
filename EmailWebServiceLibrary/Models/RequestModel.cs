@@ -1,8 +1,8 @@
-﻿using EmailWebServiceLibrarys.Interfaces;
+﻿using EmailWebServiceLibrary.Interfaces.Models;
 
 namespace EmailWebServiceLibrarys.Models
 {
-    public class RequestModel<T> : IRequestModel<T>
+    public readonly struct RequestModel<T> : IRequestModel<T>
     {
         public string IdentityCode { get; init; }
 
