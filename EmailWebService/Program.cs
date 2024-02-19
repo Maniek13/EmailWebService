@@ -62,4 +62,12 @@ app.MapPost("/GetEmailBody", emailServiceController.GetEmailBody)
     .WithDescription("Get email body")
     .WithOpenApi();
 
+app.MapPost("/GetUsersLists", emailServiceController.GetUsersLists)
+    .WithDescription("Get users lists")
+    .WithOpenApi();
+
+app.MapPost("/GetEmailBodySchamas", emailServiceController.GetEmailBodySchamas)
+    .WithDescription("Get email body schemas")
+    .WithOpenApi();
+
 app.Run();

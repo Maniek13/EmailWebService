@@ -1,4 +1,5 @@
 ﻿using EmailWebService.Interfaces;
+using EmailWebService.Models;
 
 namespace EmailWebService.Controllers
 {
@@ -62,6 +63,31 @@ namespace EmailWebService.Controllers
                     return body;
                 }
                 throw new Exception($"Brak templejtki o nazwie {SchemaName}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public List<EmailUsersListsDbModel> GetUsersList(string Type) 
+        {
+            try
+            {
+                return _context.ListUssers.Where(el => el.Type == Type).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public List<EmailSchemaDbModel>  GetEmailBodySchamas()
+        {
+            try
+            {
+                return _context.EmailSchemas.ToList();
+
             }
             catch (Exception ex)
             {

@@ -15,7 +15,7 @@ namespace EmailWebService.Controllers
             _emailDbController = emailDbController;
         }
 
-        public IResponseModel<IEmailConfigurationModel> GetEmailConfiguration(Request<int> Request, HttpContext Context)
+        public IResponseModel<IEmailConfigurationModel> GetEmailConfiguration(RequestModel<int> Request, HttpContext Context)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public async Task<IResponseModel<bool>> SetEmailConfigurationAsync(Request<EmailConfigurationModel> Request, HttpContext Context)
+        public async Task<IResponseModel<bool>> SetEmailConfigurationAsync(RequestModel<EmailConfigurationModel> Request, HttpContext Context)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public async Task<IResponseModel<bool>> UpdateEmailConfigurationAsync(Request<EmailConfigurationModel> Request, HttpContext Context)
+        public async Task<IResponseModel<bool>> UpdateEmailConfigurationAsync(RequestModel<EmailConfigurationModel> Request, HttpContext Context)
         {
             try
             {

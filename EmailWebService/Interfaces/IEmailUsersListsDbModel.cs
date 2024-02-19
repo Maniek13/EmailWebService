@@ -2,7 +2,7 @@
 
 namespace EmailWebService.Interfaces
 {
-    public interface IEmailLUsersListsDbModel
+    public interface IEmailUsersListsDbModel
     {
         [Key]
         int Id { get; set; }

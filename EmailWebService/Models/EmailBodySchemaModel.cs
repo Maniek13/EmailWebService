@@ -2,10 +2,10 @@
 
 namespace EmailWebService.Models
 {
-    public struct EmailBody : IEmailBodySchema
+    public struct EmailBodySchemaModel : IEmailBodySchemaModel
     {
-        public int Id { get; set; }
-        public string SchemaName { get; init; }
+        public int Id { get; init; }
+        public string TemplateName { get; init; }
         public string Body { get; init; }
         public List<(string Name, string Value)> VariablesList { get; init; }
     }

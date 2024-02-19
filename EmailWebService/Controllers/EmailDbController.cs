@@ -96,5 +96,48 @@ namespace EmailWebService.Controllers
                 throw new Exception(ex.Message, ex);
             }
         }
+
+        public async Task<bool> SetUserListAsync(EmailUsersListsDbModel EmailLUsersListsDbModel)
+        {
+            try
+            {
+                await _context.ListUssers.AddAsync(EmailLUsersListsDbModel);
+
+                var nrOf = await _context.SaveChangesAsync();
+
+                if (nrOf == 1)
+                    return true;
+                else
+                    throw new Exception("Internal error, data don't be added");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task<bool> UpdateUserListAsync(EmailUsersListsDbModel EmailLUsersListsDbModel)
+        {
+            try
+            {
+                var cfg = _context.ListUssers.Where(el => el.Id == EmailLUsersListsDbModel.Id).FirstOrDefault();
+
+                if (cfg == null)
+                    throw new Exception("User list do not exist");
+
+                cfg = EmailLUsersListsDbModel;
+
+                var nrOf = await _context.SaveChangesAsync();
+
+                if (nrOf == 1)
+                    return true;
+                else
+                    throw new Exception("Internal error, data don't be added");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }

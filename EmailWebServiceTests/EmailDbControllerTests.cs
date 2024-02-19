@@ -22,5 +22,15 @@ namespace EmailWebServiceTests
         {
             Assert.Fail("Not implement");
         }
+        [Fact]
+        public async Task SetUserListAsyncTests()
+        {
+            Assert.Fail("Not implement");
+        }
+        [Fact]
+        public async Task UpdateUserListAsyncTests()
+        {
+            Assert.Fail("Not implement");
+        }
     }
 }

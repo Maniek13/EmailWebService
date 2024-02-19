@@ -27,5 +27,15 @@ namespace EmailWebServiceTests
         {
             Assert.Fail("Not implement");
         }
+        [Fact]
+        public void GetUsersListsTests()
+        {
+            Assert.Fail("Not implement");
+        }
+        [Fact]
+        public void GetEmailBodySchamasTests()
+        {
+            Assert.Fail("Not implement");
+        }
     }
 }

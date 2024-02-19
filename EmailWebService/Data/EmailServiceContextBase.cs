@@ -66,6 +66,6 @@ namespace EmailWebService.Data
         public virtual DbSet<AppEmailServiceSettingsDbModel> AppEmailServiceSettings { get; set; }
         public virtual DbSet<EmailConfigurationDbModel> EmailConfiguration { get; set; }
         public virtual DbSet<EmailSchemaDbModel> EmailSchemas { get; set; }
-        public virtual DbSet<EmailLUsersListsDbModel> ListUssers { get; set; }
+        public virtual DbSet<EmailUsersListsDbModel> ListUssers { get; set; }
     }
 }

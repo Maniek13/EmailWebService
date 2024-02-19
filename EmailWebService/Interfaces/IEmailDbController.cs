@@ -9,5 +9,7 @@ namespace EmailWebService.Interfaces
         Task<bool> SetEmailConfigurationAsync(EmailConfigurationDbModel Configuration);
 
         Task<bool> UpdateEmailConfigurationAsync(EmailConfigurationDbModel Configuration);
+        Task<bool> SetUserListAsync(EmailUsersListsDbModel EmailLUsersListsDbModel);
+        Task<bool> UpdateUserListAsync(EmailUsersListsDbModel EmailLUsersListsDbModel);
     }
 }

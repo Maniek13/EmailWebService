@@ -1,6 +1,7 @@
 ﻿using EmailWebService.Interfaces;
 using EmailWebService.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
@@ -59,7 +60,7 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public async Task<IResponseModel<bool>> SetEmailBodySchemaAsync(Request<EmailBody> Request, HttpContext Context)
+        public async Task<IResponseModel<bool>> SetEmailBodySchemaAsync(RequestModel<EmailBodySchemaModel> Request, HttpContext Context)
         {
             try
             {
@@ -86,7 +87,7 @@ namespace EmailWebService.Controllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> UpdateEmailBodySchemaAsync(Request<EmailBody> Request, HttpContext Context)
+        public async Task<IResponseModel<bool>> UpdateEmailBodySchemaAsync(RequestModel<EmailBodySchemaModel> Request, HttpContext Context)
         {
             try
             {
@@ -114,14 +115,14 @@ namespace EmailWebService.Controllers
             }
         }
 
-        public IResponseModel<string> GetEmailBody(Request<EmailBody> Request, HttpContext Context)
+        public IResponseModel<string> GetEmailBody(RequestModel<EmailBodySchemaModel> Request, HttpContext Context)
         {
             try
             {
                 _ = CheckHasPermision(Request.IdentityCode);
                 return new ResponseModel<string>()
                 {
-                    Data = _emailDbControllerRO.GetEmailBody(Request.RequestBody.SchemaName, Request.RequestBody.VariablesList),
+                    Data = _emailDbControllerRO.GetEmailBody(Request.RequestBody.TemplateName, Request.RequestBody.VariablesList),
                     ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
@@ -132,12 +133,131 @@ namespace EmailWebService.Controllers
                 return new ResponseModel<string>()
                 {
                     Data = null,
-                    ResultCode = (HttpStatusCode)200,
+                    ResultCode = (HttpStatusCode)400,
                     Message = ex.Message
                 };
             }
         }
 
+        public async Task<IResponseModel<bool>> SeUsersListSchemaAsync(RequestModel<UsersListModel> Request, HttpContext Context)
+        {
+            try
+            {
+                _ = CheckHasPermision(Request.IdentityCode);
+
+                _ = await _emailDbController.SetUserListAsync(ConvertToUsersListDbmodel(Request.RequestBody));
+
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                Context.Response.StatusCode = 400;
+                return new ResponseModel<bool>()
+                {
+                    Data = false,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = ex.Message
+                };
+            }
+        }
+        public async Task<IResponseModel<bool>> UpdateUsersListAsync(RequestModel<UsersListModel> Request, HttpContext Context)
+        {
+            try
+            {
+                _ = CheckHasPermision(Request.IdentityCode);
+
+                _ = await _emailDbController.UpdateUserListAsync(ConvertToUsersListDbmodel(Request.RequestBody));
+
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                Context.Response.StatusCode = 400;
+                return new ResponseModel<bool>()
+                {
+                    Data = false,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = ex.Message
+                };
+            }
+        }
+
+        public IResponseModel<List<UsersListModel>> GetUsersLists(RequestModel<string> Request, HttpContext Context)
+        {
+            try
+            {
+                _ = CheckHasPermision(Request.IdentityCode);
+
+                var list = _emailDbControllerRO.GetUsersList(Request.RequestBody);
+                List<UsersListModel> returnedList = new List<UsersListModel>();
+
+                for(int i = 0; i < list.Count; ++i)
+                {
+                    returnedList.Add(ConvertToUsersListModel(list[i]));
+                }
+
+                return new ResponseModel<List<UsersListModel>>()
+                {
+                    Data = returnedList,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                Context.Response.StatusCode = 400;
+                return new ResponseModel<List<UsersListModel>>()
+                {
+                    Data = null,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = ex.Message
+                };
+            }
+        }
+        public IResponseModel<List<EmailBodySchemaModel>> GetEmailBodySchamas(RequestModel<int> Request, HttpContext Context)
+        {
+            try
+            {
+                _ = CheckHasPermision(Request.IdentityCode);
+
+                var list = _emailDbControllerRO.GetEmailBodySchamas();
+                List<EmailBodySchemaModel> returnedList = new List<EmailBodySchemaModel>();
+
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    returnedList.Add(ConvertToEmailBodySchemaModel(list[i]));
+                }
+
+                return new ResponseModel<List<EmailBodySchemaModel>>()
+                {
+                    Data = returnedList,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                Context.Response.StatusCode = 400;
+                return new ResponseModel<List<EmailBodySchemaModel>>()
+                {
+                    Data = null,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = ex.Message
+                };
+            }
+        }
         private MailMessage createEmail(IEmailModel email)
         {
             try

@@ -4,8 +4,8 @@ namespace EmailWebService.Interfaces
 {
     interface IEmailConfigurationController
     {
-        IResponseModel<IEmailConfigurationModel> GetEmailConfiguration(Request<int> Request, HttpContext Context);
-        Task<IResponseModel<bool>> SetEmailConfigurationAsync(Request<EmailConfigurationModel> Request, HttpContext Context);
-        Task<IResponseModel<bool>> UpdateEmailConfigurationAsync(Request<EmailConfigurationModel> Request, HttpContext Context);
+        IResponseModel<IEmailConfigurationModel> GetEmailConfiguration(RequestModel<int> Request, HttpContext Context);
+        Task<IResponseModel<bool>> SetEmailConfigurationAsync(RequestModel<EmailConfigurationModel> Request, HttpContext Context);
+        Task<IResponseModel<bool>> UpdateEmailConfigurationAsync(RequestModel<EmailConfigurationModel> Request, HttpContext Context);
     }
 }

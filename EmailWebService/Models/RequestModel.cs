@@ -2,7 +2,7 @@
 
 namespace EmailWebService.Models
 {
-    public class Request<T> : IRequest<T>
+    public class RequestModel<T> : IRequestModel<T>
     {
         public string IdentityCode { get; init; }
 

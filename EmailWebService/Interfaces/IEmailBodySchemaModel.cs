@@ -1,9 +1,9 @@
 ﻿namespace EmailWebService.Interfaces
 {
-    public interface IEmailBodySchema
+    public interface IEmailBodySchemaModel
     {
-        int Id { get; set; }
-        string SchemaName { get; init; }
+        int Id { get; init; }
+        string TemplateName { get; init; }
         string Body { get; init; }
         List<(string Name, string Value)> VariablesList { get; init; }
     }
