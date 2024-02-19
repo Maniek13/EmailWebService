@@ -31,8 +31,8 @@ app.UseHttpsRedirection();
 
 DomainController emailServiceController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)));
 
-app.MapPost("/SendEmail", emailServiceController.SendEmailAsync)
-    .WithDescription("Send email")
+app.MapPost("/SendEmails", emailServiceController.SendEmailsAsync)
+    .WithDescription("Send emails")
     .WithOpenApi()
     .DisableAntiforgery();
 

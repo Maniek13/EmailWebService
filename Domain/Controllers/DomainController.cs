@@ -19,7 +19,7 @@ namespace Domain.Controllers
             _emailDbControllerRO = emailDbControllerRO;
         }
 
-        public async Task<IResponseModel<bool>> SendEmailAsync(string ServiceName, [FromForm] FormFileCollection Atachments, HttpContext Context)
+        public async Task<IResponseModel<bool>> SendEmailsAsync(string ServiceName, [FromForm] IFormCollection Atachments, HttpContext Context)
         {
             try
             {
@@ -35,10 +35,8 @@ namespace Domain.Controllers
 
                 EmailModel email = new()
                 {
-                    Atachments = (FormFileCollection)Context.Request.Form.Files
+                    Atachments = (FormFileCollection)Atachments
                 };
-
-
 
                 var message = createEmail(email, userList, createBody(bodyschama), cfg);
 

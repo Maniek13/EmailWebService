@@ -5,6 +5,6 @@ namespace Domain.Interfaces
 {
     interface IDomainController
     {
-        Task<IResponseModel<bool>> SendEmailAsync(string ServiceName, [FromForm] FormFileCollection Atachments, HttpContext Context);
+        Task<IResponseModel<bool>> SendEmailsAsync(string ServiceName, [FromForm] IFormCollection Atachments, HttpContext Context);
     }
 }

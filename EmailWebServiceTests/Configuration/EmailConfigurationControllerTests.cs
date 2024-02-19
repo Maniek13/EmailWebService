@@ -1,7 +1,3 @@
-using EmailWebServiceLibrarys.Interfaces;
-using EmailWebServiceLibrarys.Models;
-using Microsoft.AspNetCore.Http;
-
 namespace EmailWebServiceTests.Configuration
 {
     public class EmailConfigurationControllerTests
