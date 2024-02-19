@@ -5,10 +5,6 @@ using System.Net;
 
 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 var configuration = new ConfigurationBuilder()
      .AddJsonFile($"appsettings.json");
 var config = configuration.Build();
@@ -18,6 +14,10 @@ AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOn
 AppConfig.ServiceName = "EmailService";
 
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -26,6 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
+
 
 
 EmailConfigurationController emailConfigurationionController = new(new EmailDbROController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
