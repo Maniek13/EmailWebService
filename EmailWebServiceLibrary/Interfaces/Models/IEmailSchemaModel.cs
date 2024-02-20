@@ -8,12 +8,13 @@ namespace EmailWebServiceLibrary.Interfaces.Models
         int Id { get; init; }
         int ServiceId { get; init; }
         string From { get; init; }
-        public string DisplayName { get; init; }
-        string ReplyToDisplayName { get; set; }
-        string ReplyTo { get; set; }
+        string DisplayName { get; init; }
+        string ReplyToDisplayName { get; init; }
+        string ReplyTo { get; init; }
         string Name { get; init; }
         string Body { get; init; }
-        public string Subject { get; init; }
+        string Subject { get; init; }
+        EmailFooterModel EmailFooter { get; init; }
         List<EmailSchemaVariablesModel> EmailSchemaVariablesModel { get; init; }
     }
 }

@@ -63,6 +63,18 @@ namespace Configuration.Data
               .HasForeignKey<EmailUsersListDbModel>(x => x.ServiceId)
               .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<EmailSchemaDbModel>()
+              .HasOne<EmailFooterDbModel>(x => x.EmailFooter)
+              .WithOne(y => y.EmailSchema)
+              .HasForeignKey<EmailFooterDbModel>(x => x.EmailSchemaId)
+              .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<EmailFooterDbModel>()
+              .HasOne<LogoDbModel>(x => x.Logo)
+              .WithOne(y => y.EmailFooter)
+              .HasForeignKey<LogoDbModel>(x => x.EmailFooterId)
+              .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<EmailSchemaVariablesDbModel>()
              .HasOne<EmailSchemaDbModel>(x => x.EmailSchema)
              .WithMany(y => y.EmailSchemaVariables)
@@ -82,5 +94,7 @@ namespace Configuration.Data
         public virtual DbSet<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
         public virtual DbSet<EmailUsersDbModel> ListUssers { get; set; }
         public virtual DbSet<EmailUsersListDbModel> Ussers { get; set; }
+        public virtual DbSet<EmailFooterDbModel> EmailFooters { get; set; }
+        public virtual DbSet<LogoDbModel> Logos { get; set; }
     }
 }

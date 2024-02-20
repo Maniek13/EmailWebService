@@ -1,4 +1,5 @@
 ﻿using EmailWebServiceLibrary.Models.DbModels;
+using EmailWebServiceLibrarys.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebServiceLibrary.Interfaces.DbModels
@@ -11,6 +12,6 @@ namespace EmailWebServiceLibrary.Interfaces.DbModels
         int Port { get; init; }
         string Login { get; init; }
         string Password { get; init; }
-        ServicesPermisionsDbModel AppPermision { get; init; }
+        ServicesPermisionsModel ServicePermision { get; init; }
     }
 }

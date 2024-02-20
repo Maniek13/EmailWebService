@@ -24,6 +24,7 @@ namespace EmailWebServiceLibrary.Models.DbModels
         [Required]
         public string Body { get; set; }
         public ServicesPermisionsDbModel AppPermision { get; set; }
+        public EmailFooterDbModel EmailFooter { get; set; }
         public ICollection<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
     }
 }
