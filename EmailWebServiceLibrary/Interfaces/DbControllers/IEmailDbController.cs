@@ -1,4 +1,5 @@
-﻿using EmailWebServiceLibrary.Models.DbModels;
+﻿using EmailWebServiceLibrary.Interfaces.DbModels;
+using EmailWebServiceLibrary.Models.DbModels;
 
 namespace EmailWebServiceLibrary.Interfaces.DbControllers
 {
@@ -6,9 +7,9 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
     {
         #region email config
 
-        Task<bool> SetEmailConfigurationAsync(EmailConfigurationDbModel configuration);
-        Task<bool> UpdateEmailConfigurationAsync(EmailConfigurationDbModel configuration);
-        Task<bool> DeleteEmailConfigurationAsync(EmailConfigurationDbModel configuration);
+        Task<bool> SetEmailConfigurationAsync(EmailAccountConfigurationDbModel emailAccountConfiguration);
+        Task<bool> UpdateEmailConfigurationAsync(EmailAccountConfigurationDbModel emailAccountConfiguration);
+        Task<bool> DeleteEmailConfigurationAsync(EmailAccountConfigurationDbModel emailAccountConfiguration);
 
         #endregion
 

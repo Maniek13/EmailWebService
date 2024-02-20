@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebServiceLibrary.Interfaces.DbModels
 {
-    public interface IAppPermisionDbModel
+    public interface IServicesPermisionsDbModel
     {
         [Key]
         int Id { get; set; }
         [Required]
         string ServiceName { get; set; }
-        EmailConfigurationDbModel EmailConfiguration { get; set; }
+        EmailAccountConfigurationDbModel EmailAccountConfiguration { get; set; }
         EmailSchemaDbModel EmailSchema { get; set; }
         EmailUsersListDbModel EmailUsersLists { get; set; }
     }

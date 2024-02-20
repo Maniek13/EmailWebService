@@ -15,8 +15,19 @@ namespace EmailWebServiceLibrary.Interfaces.DbModels
 
         [Required]
         string Body { get; set; }
+        [Required]
+        string From { get; set; }
+        [Required]
+        string DisplayName { get; set; }
+        [Required]
+        string ReplyToDisplayName { get; set; }
+        [Required]
+        string ReplyTo { get; set; }
 
-        AppPermisionDbModel AppPermision { get; set; }
+        [Required]
+        public string Subject { get; set; }
+
+        ServicesPermisionsDbModel AppPermision { get; set; }
         ICollection<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
     }
 }

@@ -2,9 +2,9 @@
 {
     public interface IEmailUsersModel
     {
-        int Id { get; set; }
-        string UserListId { get; set; }
-        string Name { get; set; }
-        string EmailAdress { get; set; }
+        int Id { get; init; }
+        string UserListId { get; init; }
+        string Name { get; init; }
+        string EmailAdress { get; init; }
     }
 }

@@ -9,7 +9,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
     {
         private readonly IEmailServiceContextBase _context = dbContext;
 
-        public IAppPermisionDbModel GetAppPermision(string serviceName)
+        public IServicesPermisionsDbModel GetAppPermision(string serviceName)
         {
             try
             {
@@ -20,7 +20,18 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public IEmailConfigurationDbModel GetEmailConfiguration(string serviceName)
+        public IEmailAccountConfigurationDbModel GetEmailAccountConfiguration(string serviceName)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public IEmailSchemaDbModel GetEmailSchemaDbModel(string ServiceName)
         {
             try
             {

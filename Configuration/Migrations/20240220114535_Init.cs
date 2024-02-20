@@ -11,7 +11,7 @@ namespace Configuration.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AppPermisions",
+                name: "ServicesPermisions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -20,20 +20,15 @@ namespace Configuration.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppPermisions", x => x.Id);
+                    table.PrimaryKey("PK_ServicesPermisions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmailConfiguration",
+                name: "EmailAccountConfiguration",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    From = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReplyTo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ReplyToDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
                     SMTP = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Port = table.Column<int>(type: "int", nullable: false),
@@ -42,11 +37,11 @@ namespace Configuration.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmailConfiguration", x => x.Id);
+                    table.PrimaryKey("PK_EmailAccountConfiguration", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmailConfiguration_AppPermisions_ServiceId",
+                        name: "FK_EmailAccountConfiguration_ServicesPermisions_ServiceId",
                         column: x => x.ServiceId,
-                        principalTable: "AppPermisions",
+                        principalTable: "ServicesPermisions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -59,15 +54,20 @@ namespace Configuration.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ServiceId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    From = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReplyTo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ReplyToDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EmailSchemas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmailSchemas_AppPermisions_ServiceId",
+                        name: "FK_EmailSchemas_ServicesPermisions_ServiceId",
                         column: x => x.ServiceId,
-                        principalTable: "AppPermisions",
+                        principalTable: "ServicesPermisions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -85,9 +85,9 @@ namespace Configuration.Migrations
                 {
                     table.PrimaryKey("PK_Ussers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Ussers_AppPermisions_ServiceId",
+                        name: "FK_Ussers_ServicesPermisions_ServiceId",
                         column: x => x.ServiceId,
-                        principalTable: "AppPermisions",
+                        principalTable: "ServicesPermisions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -132,14 +132,8 @@ namespace Configuration.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppPermisions_ServiceName",
-                table: "AppPermisions",
-                column: "ServiceName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmailConfiguration_ServiceId",
-                table: "EmailConfiguration",
+                name: "IX_EmailAccountConfiguration_ServiceId",
+                table: "EmailAccountConfiguration",
                 column: "ServiceId",
                 unique: true);
 
@@ -147,6 +141,12 @@ namespace Configuration.Migrations
                 name: "IX_EmailSchemas_ServiceId",
                 table: "EmailSchemas",
                 column: "ServiceId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServicesPermisions_ServiceName",
+                table: "ServicesPermisions",
+                column: "ServiceName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -160,7 +160,7 @@ namespace Configuration.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmailConfiguration");
+                name: "EmailAccountConfiguration");
 
             migrationBuilder.DropTable(
                 name: "EmailSchemaVariables");
@@ -175,7 +175,7 @@ namespace Configuration.Migrations
                 name: "Ussers");
 
             migrationBuilder.DropTable(
-                name: "AppPermisions");
+                name: "ServicesPermisions");
         }
     }
 }

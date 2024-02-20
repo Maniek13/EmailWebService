@@ -4,8 +4,8 @@ namespace EmailWebServiceLibrarys.Models
 {
     public record struct EmailSchemaVariablesModel : IEmailSchemaVariablesModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Value { get; set; }
+        public int Id { get; init; }
+        public string Name { get; init; }
+        public string Value { get; init; }
     }
 }

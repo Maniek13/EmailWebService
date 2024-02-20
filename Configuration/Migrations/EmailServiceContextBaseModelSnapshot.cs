@@ -21,41 +21,13 @@ namespace Configuration.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.AppPermisionDbModel", b =>
+            modelBuilder.Entity("EmailWebServiceLibrary.Interfaces.DbModels.EmailAccountConfigurationDbModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ServiceName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ServiceName")
-                        .IsUnique();
-
-                    b.ToTable("AppPermisions");
-                });
-
-            modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailConfigurationDbModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("From")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Login")
                         .IsRequired()
@@ -68,14 +40,6 @@ namespace Configuration.Migrations
                     b.Property<int>("Port")
                         .HasColumnType("int");
 
-                    b.Property<string>("ReplyTo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReplyToDisplayName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SMTP")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -83,16 +47,12 @@ namespace Configuration.Migrations
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ServiceId")
                         .IsUnique();
 
-                    b.ToTable("EmailConfiguration");
+                    b.ToTable("EmailAccountConfiguration");
                 });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailSchemaDbModel", b =>
@@ -107,12 +67,32 @@ namespace Configuration.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("From")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReplyTo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReplyToDisplayName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -185,11 +165,31 @@ namespace Configuration.Migrations
                     b.ToTable("Ussers");
                 });
 
-            modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailConfigurationDbModel", b =>
+            modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.ServicesPermisionsDbModel", b =>
                 {
-                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.AppPermisionDbModel", "AppPermision")
-                        .WithOne("EmailConfiguration")
-                        .HasForeignKey("EmailWebServiceLibrary.Models.DbModels.EmailConfigurationDbModel", "ServiceId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ServiceName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceName")
+                        .IsUnique();
+
+                    b.ToTable("ServicesPermisions");
+                });
+
+            modelBuilder.Entity("EmailWebServiceLibrary.Interfaces.DbModels.EmailAccountConfigurationDbModel", b =>
+                {
+                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.ServicesPermisionsDbModel", "AppPermision")
+                        .WithOne("EmailAccountConfiguration")
+                        .HasForeignKey("EmailWebServiceLibrary.Interfaces.DbModels.EmailAccountConfigurationDbModel", "ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -198,7 +198,7 @@ namespace Configuration.Migrations
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailSchemaDbModel", b =>
                 {
-                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.AppPermisionDbModel", "AppPermision")
+                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.ServicesPermisionsDbModel", "AppPermision")
                         .WithOne("EmailSchema")
                         .HasForeignKey("EmailWebServiceLibrary.Models.DbModels.EmailSchemaDbModel", "ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -231,25 +231,13 @@ namespace Configuration.Migrations
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailUsersListDbModel", b =>
                 {
-                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.AppPermisionDbModel", "AppPermision")
+                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.ServicesPermisionsDbModel", "AppPermision")
                         .WithOne("EmailUsersLists")
                         .HasForeignKey("EmailWebServiceLibrary.Models.DbModels.EmailUsersListDbModel", "ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AppPermision");
-                });
-
-            modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.AppPermisionDbModel", b =>
-                {
-                    b.Navigation("EmailConfiguration")
-                        .IsRequired();
-
-                    b.Navigation("EmailSchema")
-                        .IsRequired();
-
-                    b.Navigation("EmailUsersLists")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailSchemaDbModel", b =>
@@ -260,6 +248,18 @@ namespace Configuration.Migrations
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailUsersListDbModel", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.ServicesPermisionsDbModel", b =>
+                {
+                    b.Navigation("EmailAccountConfiguration")
+                        .IsRequired();
+
+                    b.Navigation("EmailSchema")
+                        .IsRequired();
+
+                    b.Navigation("EmailUsersLists")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

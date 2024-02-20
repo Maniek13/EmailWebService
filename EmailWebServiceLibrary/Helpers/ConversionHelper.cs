@@ -6,27 +6,22 @@ namespace EmailWebServiceLibrary.Helpers
 {
     internal static class ConversionHelper
     {
-        public static IAppPermisionDbModel ConvertToAppPermisionDbModel(IAppPermisionDbModel appPermisionDb)
+        public static IServicesPermisionsDbModel ConvertToAppPermisionDbModel(IServicesPermisionsDbModel appPermisionDb)
         {
-            return new AppPermisionDbModel()
+            return new ServicesPermisionsDbModel()
             {
                 Id = appPermisionDb.Id,
                 ServiceName = appPermisionDb.ServiceName,
-                EmailConfiguration = appPermisionDb.EmailConfiguration,
+                EmailAccountConfiguration = appPermisionDb.EmailAccountConfiguration,
                 EmailSchema = appPermisionDb.EmailSchema,
                 EmailUsersLists = appPermisionDb.EmailUsersLists,
             };
         }
-        public static IEmailConfigurationDbModel ConvertToEmailConfigurationDbModel(IEmailConfigurationModel emailConfigurationModel)
+        public static IEmailAccountConfigurationDbModel ConvertToEmailAccountConfigurationDbModel (IEmailAccountConfigurationModel emailConfigurationModel)
         {
-            return new EmailConfigurationDbModel()
+            return new EmailAccountConfigurationDbModel()
             {
                 Id = emailConfigurationModel.Id,
-                Subject = emailConfigurationModel.Subject,
-                From = emailConfigurationModel.From,
-                ReplyTo = emailConfigurationModel.ReplyTo,
-                ReplyToDisplayName = emailConfigurationModel.ReplyToDisplayName,
-                DisplayName = emailConfigurationModel.DisplayName,
                 ServiceId = emailConfigurationModel.ServiceId,
                 SMTP = emailConfigurationModel.SMTP,
                 Port = emailConfigurationModel.Port,

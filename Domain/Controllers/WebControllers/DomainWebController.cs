@@ -23,7 +23,8 @@ namespace Domain.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
-                var cfg = _emailDbControllerRO.GetEmailConfiguration(permisions.ServiceName);
+                var cfg = _emailDbControllerRO.GetEmailAccountConfiguration(permisions.ServiceName);
+                var emailSchema = _emailDbControllerRO.GetEmailSchemaDbModel(serviceName);
                 var bodyschama = _emailDbControllerRO.GetEmailBodySchama(permisions.Id);
 
                 var userList = _emailDbControllerRO.GetUsersList(permisions.Id);
@@ -33,7 +34,7 @@ namespace Domain.Controllers.WebControllers
                     Atachments = (FormFileCollection)atachments
                 };
 
-                var message = CreateEmail(email, userList, CreateBody(bodyschama), cfg);
+                var message = CreateEmail(email, userList, CreateBody(bodyschama), emailSchema);
 
 
                 using var smtpClient = new SmtpClient(cfg.SMTP);
@@ -97,17 +98,17 @@ namespace Domain.Controllers.WebControllers
             }
         }
 
-        private static MailMessage CreateEmail(IEmailModel email, List<EmailUsersDbModel> users, string body, IEmailConfigurationDbModel cfg)
+        private static MailMessage CreateEmail(IEmailModel email, List<EmailUsersDbModel> users, string body, IEmailSchemaDbModel emailSchema)
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(cfg.From))
+                if (string.IsNullOrWhiteSpace(emailSchema.From))
                     throw new Exception("Please set a sender email");
                 if (email.To.Count == 0)
                     throw new Exception("Please set a receiver email");
 
                 using MailMessage message = new();
-                message.Subject = cfg.Subject;
+                message.Subject = emailSchema.Subject;
                 message.Body = body;
 
                 ContentType mimeType = new("text/html");
@@ -115,10 +116,10 @@ namespace Domain.Controllers.WebControllers
                     message.AlternateViews.Add(alternate);
 
 
-                message.From = new MailAddress(cfg.From, string.IsNullOrWhiteSpace(cfg.DisplayName) ? cfg.From : cfg.DisplayName);
+                message.From = new MailAddress(emailSchema.From, string.IsNullOrWhiteSpace(emailSchema.DisplayName) ? emailSchema.From : emailSchema.DisplayName);
 
-                if (!string.IsNullOrWhiteSpace(cfg.ReplyTo))
-                    message.ReplyTo = new MailAddress(cfg.ReplyTo, string.IsNullOrWhiteSpace(cfg.ReplyToDisplayName) ? cfg.ReplyTo : cfg.ReplyToDisplayName);
+                if (!string.IsNullOrWhiteSpace(emailSchema.ReplyTo))
+                    message.ReplyTo = new MailAddress(emailSchema.ReplyTo, string.IsNullOrWhiteSpace(emailSchema.ReplyToDisplayName) ? emailSchema.ReplyTo : emailSchema.ReplyToDisplayName);
 
 
                 for (int i = 0; i < users.Count; ++i)

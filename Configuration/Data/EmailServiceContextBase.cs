@@ -1,4 +1,5 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Data;
+using EmailWebServiceLibrary.Interfaces.DbModels;
 using EmailWebServiceLibrary.Models.DbModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,21 +43,21 @@ namespace Configuration.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<AppPermisionDbModel>().HasIndex(u => u.ServiceName).IsUnique();
+            modelBuilder.Entity<ServicesPermisionsDbModel>().HasIndex(u => u.ServiceName).IsUnique();
 
-            modelBuilder.Entity<AppPermisionDbModel>()
-               .HasOne<EmailConfigurationDbModel>(x => x.EmailConfiguration)
+            modelBuilder.Entity<ServicesPermisionsDbModel>()
+               .HasOne<EmailAccountConfigurationDbModel>(x => x.EmailAccountConfiguration)
                .WithOne(y => y.AppPermision)
-               .HasForeignKey<EmailConfigurationDbModel>(x => x.ServiceId)
+               .HasForeignKey<EmailAccountConfigurationDbModel>(x => x.ServiceId)
                .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<AppPermisionDbModel>()
+            modelBuilder.Entity<ServicesPermisionsDbModel>()
               .HasOne<EmailSchemaDbModel>(x => x.EmailSchema)
               .WithOne(y => y.AppPermision)
               .HasForeignKey<EmailSchemaDbModel>(x => x.ServiceId)
               .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<AppPermisionDbModel>()
+            modelBuilder.Entity<ServicesPermisionsDbModel>()
               .HasOne<EmailUsersListDbModel>(x => x.EmailUsersLists)
               .WithOne(y => y.AppPermision)
               .HasForeignKey<EmailUsersListDbModel>(x => x.ServiceId)
@@ -75,8 +76,8 @@ namespace Configuration.Data
              .OnDelete(DeleteBehavior.Cascade);
         }
 
-        public virtual DbSet<AppPermisionDbModel> AppPermisions { get; set; }
-        public virtual DbSet<EmailConfigurationDbModel> EmailConfiguration { get; set; }
+        public virtual DbSet<ServicesPermisionsDbModel> ServicesPermisions { get; set; }
+        public virtual DbSet<EmailAccountConfigurationDbModel> EmailAccountConfiguration { get; set; }
         public virtual DbSet<EmailSchemaDbModel> EmailSchemas { get; set; }
         public virtual DbSet<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
         public virtual DbSet<EmailUsersDbModel> ListUssers { get; set; }

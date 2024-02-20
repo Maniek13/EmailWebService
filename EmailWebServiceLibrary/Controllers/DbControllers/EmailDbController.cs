@@ -1,5 +1,6 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Data;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
+using EmailWebServiceLibrary.Interfaces.DbModels;
 using EmailWebServiceLibrary.Models.DbModels;
 
 namespace EmailWebServiceLibrary.Controllers.DbControllers
@@ -8,7 +9,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
     {
         readonly IEmailServiceContextBase _context = dbContext;
         #region email config
-        public Task<bool> SetEmailConfigurationAsync(EmailConfigurationDbModel configuration)
+        public Task<bool> SetEmailConfigurationAsync(EmailAccountConfigurationDbModel emailAccountConfiguration)
         {
             try
             {
@@ -20,7 +21,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
             }
         }
 
-        public Task<bool> UpdateEmailConfigurationAsync(EmailConfigurationDbModel configuration)
+        public Task<bool> UpdateEmailConfigurationAsync(EmailAccountConfigurationDbModel emailAccountConfiguration)
         {
             try
             {
@@ -31,7 +32,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> DeleteEmailConfigurationAsync(EmailConfigurationDbModel configuration)
+        public Task<bool> DeleteEmailConfigurationAsync(EmailAccountConfigurationDbModel emailAccountConfiguration)
         {
             try
             {

@@ -3,10 +3,11 @@ using Configuration.Data;
 using EmailWebServiceLibrary.Controllers.DbControllers;
 using EmailWebServiceLibrarys.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+
 
 var configuration = new ConfigurationBuilder()
      .AddJsonFile($"appsettings.json");
@@ -39,15 +40,15 @@ using (var scope = app.Services.CreateScope())
 
 EmailWebController emailWebController = new(new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 
-app.MapPost("/SetEmailConfigurationAsync", emailWebController.SetEmailConfigurationAsync)
+app.MapPost("/SetEmailConfigurationAsync", emailWebController.SetEmailAccountConfigurationAsync)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 
-app.MapPut("/UpdateEmailConfigurationAsync", emailWebController.UpdateEmailConfigurationAsync)
+app.MapPut("/UpdateEmailConfigurationAsync", emailWebController.UpdateEmailAccountConfigurationAsync)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 
-app.MapDelete("/DeleteEmailConfigurationAsync", emailWebController.DeleteEmailConfigurationAsync)
+app.MapDelete("/DeleteEmailConfigurationAsync", emailWebController.DeleteEmailAccountConfigurationAsync)
     .WithDescription("Get email configurations")
     .WithOpenApi();
 

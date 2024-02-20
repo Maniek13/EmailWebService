@@ -3,20 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebServiceLibrary.Interfaces.DbModels
 {
-    public interface IEmailConfigurationDbModel
+    public interface IEmailAccountConfigurationDbModel
     {
         [Key]
         int Id { get; set; }
-        [Required]
-        public string Subject { get; set; }
-        [Required]
-        string From { get; set; }
-        [Required]
-        string ReplyTo { get; set; }
-        [Required]
-        string ReplyToDisplayName { get; set; }
-        [Required]
-        string DisplayName { get; set; }
         [Required]
         int ServiceId { get; set; }
         [Required]
@@ -27,6 +17,6 @@ namespace EmailWebServiceLibrary.Interfaces.DbModels
         string Login { get; set; }
         [Required]
         string Password { get; set; }
-        AppPermisionDbModel AppPermision { get; set; }
+        ServicesPermisionsDbModel AppPermision { get; set; }
     }
 }

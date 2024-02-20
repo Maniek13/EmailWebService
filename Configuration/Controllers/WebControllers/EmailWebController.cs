@@ -1,6 +1,7 @@
 ﻿using Configuration.Interfaces.WebControllers;
 using EmailWebServiceLibrary.Controllers.WebControllers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
+using EmailWebServiceLibrary.Interfaces.DbModels;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrarys.Models;
 using System.Net;
@@ -13,7 +14,7 @@ namespace Configuration.Controllers.WebControllers
         readonly IEmailDbController _emailDbController = emailDbController;
 
         #region email config
-        public async Task<IResponseModel<bool>> SetEmailConfigurationAsync(string serviceName, EmailConfigurationModel configuration, HttpContext context)
+        public async Task<IResponseModel<bool>> SetEmailAccountConfigurationAsync(string serviceName, EmailAccountConfigurationModel emailAccountConfiguration, HttpContext context)
         {
             try
             {
@@ -35,7 +36,7 @@ namespace Configuration.Controllers.WebControllers
             }
         }
 
-        public async Task<IResponseModel<bool>> UpdateEmailConfigurationAsync(EmailConfigurationModel configuration, HttpContext context)
+        public async Task<IResponseModel<bool>> UpdateEmailAccountConfigurationAsync(string serviceName, EmailAccountConfigurationModel emailAccountConfiguration, HttpContext context)
         {
             try
             {
@@ -52,7 +53,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> DeleteEmailConfigurationAsync(int id, HttpContext context)
+        public async Task<IResponseModel<bool>> DeleteEmailAccountConfigurationAsync(string serviceName, int id, HttpContext context)
         {
             try
             {
@@ -72,7 +73,7 @@ namespace Configuration.Controllers.WebControllers
         #endregion
         #region email body
 
-        public async Task<IResponseModel<bool>> SetEmailBodySchemaAsync(EmailSchemaModel emailSchema, HttpContext context)
+        public async Task<IResponseModel<bool>> SetEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context)
         {
             try
             {
@@ -89,7 +90,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> UpdateEmailBodySchemaAsync(EmailSchemaModel emailSchema, HttpContext context)
+        public async Task<IResponseModel<bool>> UpdateEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context)
         {
             try
             {
@@ -106,7 +107,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> DeleteEmailBodySchemaAsync(int id, HttpContext context)
+        public async Task<IResponseModel<bool>> DeleteEmailBodySchemaAsync(string serviceName, int id, HttpContext context)
         {
             try
             {
