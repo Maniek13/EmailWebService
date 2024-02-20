@@ -1,5 +1,4 @@
-﻿using EmailWebServiceLibrarys.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using EmailWebServiceLibrary.Models;
 
 namespace EmailWebServiceLibrary.Interfaces.Models
 {

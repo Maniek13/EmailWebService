@@ -1,10 +1,6 @@
-﻿using EmailWebServiceLibrary.Models.DbModels;
-using System;
-using System.Collections.Generic;
+﻿using EmailWebServiceLibrary.Interfaces.Models.DbModels;
+using EmailWebServiceLibrary.Models.DbModels;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmailWebServiceLibrary.Interfaces.DbModels
 {

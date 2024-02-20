@@ -1,7 +1,8 @@
-﻿using EmailWebServiceLibrary.Models.DbModels;
+﻿using EmailWebServiceLibrary.Interfaces.DbModels;
+using EmailWebServiceLibrary.Models.DbModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace EmailWebServiceLibrary.Interfaces.DbModels
+namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
 {
     public interface IEmailSchemaDbModel
     {

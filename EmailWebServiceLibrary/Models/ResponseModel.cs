@@ -1,7 +1,7 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
 using System.Net;
 
-namespace EmailWebServiceLibrarys.Models
+namespace EmailWebServiceLibrary.Models
 {
     public readonly struct ResponseModel<T> : IResponseModel<T>
     {

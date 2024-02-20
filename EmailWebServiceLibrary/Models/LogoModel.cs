@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EmailWebServiceLibrary.Interfaces.DbModels
+﻿namespace EmailWebServiceLibrary.Interfaces.DbModels
 {
-    public record struct LogoModel : ILogoModel
+    public readonly record struct LogoModel : ILogoModel
     {
         public int Id { get; init; }
         public int EmailFooterId { get; init; }

@@ -1,9 +1,8 @@
-﻿using Configuration.Interfaces.WebControllers;
-using EmailWebServiceLibrary.Controllers.WebControllers;
+﻿using EmailWebServiceLibrary.Controllers.WebControllers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.DbModels;
 using EmailWebServiceLibrary.Interfaces.Models;
-using EmailWebServiceLibrarys.Models;
+using EmailWebServiceLibrary.Models;
 using System.Net;
 
 namespace Configuration.Controllers.WebControllers

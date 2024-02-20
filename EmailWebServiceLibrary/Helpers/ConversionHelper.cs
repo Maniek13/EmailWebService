@@ -1,12 +1,12 @@
 ﻿using EmailWebServiceLibrary.Interfaces.DbModels;
-using EmailWebServiceLibrary.Interfaces.Models;
+using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models.DbModels;
 
 namespace EmailWebServiceLibrary.Helpers
 {
     internal static class ConversionHelper
     {
-        public static IServicesPermisionsDbModel ConvertToAppPermisionDbModel(IServicesPermisionsDbModel appPermisionDb)
+        internal static IServicesPermisionsDbModel ConvertToAppPermisionDbModel(IServicesPermisionsDbModel appPermisionDb)
         {
             return new ServicesPermisionsDbModel()
             {
@@ -17,7 +17,7 @@ namespace EmailWebServiceLibrary.Helpers
                 EmailUsersLists = appPermisionDb.EmailUsersLists,
             };
         }
-        public static IEmailAccountConfigurationDbModel ConvertToEmailAccountConfigurationDbModel (IEmailAccountConfigurationModel emailConfigurationModel)
+        internal static IEmailAccountConfigurationDbModel ConvertToEmailAccountConfigurationDbModel(IEmailAccountConfigurationModel emailConfigurationModel)
         {
             return new EmailAccountConfigurationDbModel()
             {

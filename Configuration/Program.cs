@@ -1,7 +1,7 @@
 using Configuration.Controllers.WebControllers;
 using Configuration.Data;
 using EmailWebServiceLibrary.Controllers.DbControllers;
-using EmailWebServiceLibrarys.Models;
+using EmailWebServiceLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 

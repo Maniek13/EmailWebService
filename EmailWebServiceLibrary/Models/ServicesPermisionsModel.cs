@@ -1,8 +1,8 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
 
-namespace EmailWebServiceLibrarys.Models
+namespace EmailWebServiceLibrary.Models
 {
-    public record struct ServicesPermisionsModel : IServicesPermisionsModel
+    public readonly record struct ServicesPermisionsModel : IServicesPermisionsModel
     {
         public int Id { get; init; }
         public string ServiceName { get; init; }

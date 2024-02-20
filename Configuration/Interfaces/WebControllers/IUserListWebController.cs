@@ -1,5 +1,5 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
-using EmailWebServiceLibrarys.Models;
+using EmailWebServiceLibrary.Models;
 
 namespace Configuration.Interfaces.WebControllers
 {

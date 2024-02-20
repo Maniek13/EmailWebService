@@ -1,6 +1,6 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Configuration;
 
-namespace EmailWebServiceLibrarys.Models
+namespace EmailWebServiceLibrary.Models
 {
     public class AppConfig : IAppConfig
     {

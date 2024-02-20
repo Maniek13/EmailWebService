@@ -27,4 +27,9 @@
     <ProjectReference Include="..\EmailWebServiceLibrary\EmailWebServiceLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\Models\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

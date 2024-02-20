@@ -1,6 +1,6 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
 
-namespace EmailWebServiceLibrarys.Models
+namespace EmailWebServiceLibrary.Models
 {
     public readonly struct RequestModel<T> : IRequestModel<T>
     {

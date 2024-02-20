@@ -1,7 +1,7 @@
 using Configuration.Data;
 using Domain.Controllers.WebControllers;
 using EmailWebServiceLibrary.Controllers.DbControllers;
-using EmailWebServiceLibrarys.Models;
+using EmailWebServiceLibrary.Models;
 using System.Net;
 
 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;

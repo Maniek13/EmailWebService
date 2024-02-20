@@ -1,4 +1,7 @@
-﻿namespace Domain.Interfaces.Models
+﻿
+using Microsoft.AspNetCore.Http;
+
+namespace EmailWebServiceLibrary.Interfaces.Models
 {
     public interface IEmailModel
     {

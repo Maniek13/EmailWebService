@@ -1,4 +1,4 @@
-﻿using EmailWebServiceLibrary.Interfaces.DbModels;
+﻿using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models.DbModels;
 
 namespace EmailWebServiceLibrary.Interfaces.DbControllers

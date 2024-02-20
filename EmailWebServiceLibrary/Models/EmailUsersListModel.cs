@@ -1,8 +1,8 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
 
-namespace EmailWebServiceLibrarys.Models
+namespace EmailWebServiceLibrary.Models
 {
-    public record struct EmailUsersListModel : IEmailUsersListModel
+    public readonly record struct EmailUsersListModel : IEmailUsersListModel
     {
         public int Id { get; init; }
         public string Name { get; init; }

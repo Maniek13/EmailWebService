@@ -1,9 +1,8 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
-using System.ComponentModel.DataAnnotations;
 
-namespace EmailWebServiceLibrarys.Models
+namespace EmailWebServiceLibrary.Models
 {
-    public record struct EmailSchemaModel : IEmailSchemaModel
+    public readonly record struct EmailSchemaModel : IEmailSchemaModel
     {
         public int Id { get; init; }
         public int ServiceId { get; init; }
