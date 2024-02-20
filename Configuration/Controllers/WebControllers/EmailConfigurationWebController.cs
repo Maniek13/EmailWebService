@@ -8,7 +8,7 @@ using System.Net;
 
 namespace Configuration.Controllers.WebControllers
 {
-    public class EmailConfigurationWebController(IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : ServiceWebControllerBase(emailDbControllerRO, emailDbController), IEmailConfigurationWebController
+    public class EmailConfigurationWebController(ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : ServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailConfigurationWebController
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
@@ -18,10 +18,6 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                _ = _emailDbControllerRO.GetAppPermision(serviceName);
-
-
-
                 throw new NotImplementedException();
             }
             catch (Exception ex)

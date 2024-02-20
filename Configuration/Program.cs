@@ -39,7 +39,7 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
-EmailConfigurationWebController emailWebController = new(new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+EmailConfigurationWebController emailWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapPost("/SetEmailConfigurationAsync", emailWebController.SetEmailAccountConfigurationAsync)
     .WithDescription("Get email configurations")
     .WithOpenApi();
@@ -53,7 +53,7 @@ app.MapDelete("/DeleteEmailConfigurationAsync", emailWebController.DeleteEmailAc
     .WithOpenApi();
 
 
-EmailBodyWebController emailBodyWebController = new(new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+EmailBodyWebController emailBodyWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapPost("/SetEmailBodySchemaAsync", emailBodyWebController.SetEmailBodySchemaAsync)
     .WithDescription("Set email configurations")
     .WithOpenApi();
@@ -67,7 +67,7 @@ app.MapDelete("/DeleteEmailBodySchemaAsync", emailBodyWebController.DeleteEmailB
 .WithOpenApi();
 
 
-RecipientsListWebController recipientsListWebController = new(new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+RecipientsListWebController recipientsListWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapPost("/SetRecipientsListAsync", recipientsListWebController.SetRecipientsListAsync)
     .WithDescription("Set recipient list")
     .WithOpenApi();
@@ -80,7 +80,7 @@ app.MapDelete("/DeleteRecipientsListAsync", recipientsListWebController.DeleteRe
     .WithDescription("Delete recipient list")
     .WithOpenApi();
 
-RecipientsWebController recipientsWebController = new(new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+RecipientsWebController recipientsWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapPost("/AddRecipient", recipientsWebController.AddRecipient)
     .WithDescription("Set recipient")
     .WithOpenApi();
@@ -93,12 +93,12 @@ app.MapDelete("/DeleteRecipient", recipientsWebController.DeleteRecipient)
     .WithDescription("Delete recipient")
     .WithOpenApi();
 
-EmailFooterWebController emailFooterWebController = new(new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+EmailFooterWebController emailFooterWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapPut("/UpdateEmailFooterAsync", emailFooterWebController.UpdateEmailFooterAsync)
     .WithDescription("Update recipient")
     .WithOpenApi();
 
-EmailLogoWebController emailLogoWebController = new(new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+EmailLogoWebController emailLogoWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapPut("/UpdateEmailLogoAsync", emailLogoWebController.UpdateEmailLogoAsync)
     .WithDescription("Update logo")
     .WithOpenApi();

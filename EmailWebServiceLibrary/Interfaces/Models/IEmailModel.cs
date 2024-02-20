@@ -1,7 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Http;
-
-namespace EmailWebServiceLibrary.Interfaces.Models
+﻿namespace EmailWebServiceLibrary.Interfaces.Models
 {
     public interface IEmailModel
     {
@@ -13,6 +10,5 @@ namespace EmailWebServiceLibrary.Interfaces.Models
         string? ReplyToName { get; set; }
         string Subject { get; set; }
         string Body { get; set; }
-        FormFileCollection Atachments { get; set; }
     }
 }

@@ -9,11 +9,12 @@ using System.Net;
 
 namespace Domain.Controllers.WebControllers
 {
-    public class DomainWebController(IEmailRODbController emailDbControllerRO) : ServiceWebControllerBase(emailDbControllerRO), IDomainWebController
+    public class DomainWebController(ILogger logger, IEmailRODbController emailDbControllerRO) : ServiceWebControllerBase(logger, emailDbControllerRO), IDomainWebController
     {
         readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
+        readonly ILogger _logger = logger;
 
-        public async Task<IResponseModel<bool>> SendEmailsAsync(string serviceName, [FromForm] IFormCollection atachments, HttpContext context)
+        public async Task<IResponseModel<bool>> SendEmailsAsync(string serviceName, [FromForm] IFormFileCollection atachments, HttpContext context)
         {
             try
             {
@@ -34,14 +35,7 @@ namespace Domain.Controllers.WebControllers
                     users.Add(ConversionHelper.ConvertToEmailUserModel(userList[i]));
                 }
 
-
-                EmailModel email = new()
-                {
-                    Atachments = (FormFileCollection)atachments
-                };
-
-
-                await EmailHelper.SendEmail(emailSchema, users, configuration);
+                await EmailHelper.SendEmail(emailSchema, users, configuration, atachments);
 
 
                 return new ResponseModel<bool>()

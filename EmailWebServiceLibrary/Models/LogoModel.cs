@@ -6,6 +6,6 @@
         public int EmailFooterId { get; init; }
         public string Name { get; init; }
         public string Type { get; init; }
-        public byte[] FileByteArray { get; init; }
+        public string Base64String { get; init; }
     }
 }

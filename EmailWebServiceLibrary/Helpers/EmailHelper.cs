@@ -1,4 +1,5 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
+using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
@@ -7,12 +8,12 @@ namespace EmailWebServiceLibrary.Helpers
 {
     public class EmailHelper
     {
-        public async static Task SendEmail(IEmailSchemaModel emailSchema, List<IEmailRecipientModel> userList, IEmailAccountConfigurationModel configuration)
+        public async static Task SendEmail(IEmailSchemaModel emailSchema, List<IEmailRecipientModel> userList, IEmailAccountConfigurationModel configuration, IFormFileCollection atachments)
         {
             try
             {
                 EmailHelper.CreateBody(emailSchema);
-                var message = EmailHelper.CreateEmail(emailSchema, userList, emailSchema);
+                var message = EmailHelper.CreateEmail(userList, emailSchema, atachments);
 
                 using var smtpClient = new SmtpClient(configuration.SMTP);
                 smtpClient.Port = configuration.Port;
@@ -59,7 +60,7 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static MailMessage CreateEmail(IEmailSchemaModel email, List<IEmailRecipientModel> users, IEmailSchemaModel emailSchema)
+        public static MailMessage CreateEmail(List<IEmailRecipientModel> users, IEmailSchemaModel emailSchema, IFormFileCollection atachments)
         {
             try
             {
@@ -88,7 +89,9 @@ namespace EmailWebServiceLibrary.Helpers
                 {
                     message.AlternateViews.Add(alternate);
 
-                    using (MemoryStream fs = new MemoryStream(emailSchema.EmailFooter.Logo.FileByteArray))
+
+                    byte[] fileByteArray = System.Convert.FromBase64String(emailSchema.EmailFooter.Logo.Base64String);
+                    using (MemoryStream fs = new(fileByteArray))
                     {
                         LinkedResource footer = new(fs, $"image/{emailSchema.EmailFooter.Logo.Type}")
                         {
@@ -112,14 +115,14 @@ namespace EmailWebServiceLibrary.Helpers
                 }
 
 
-                if (email.Atachments != null && email.Atachments.Count != 0)
-                    for (int i = 0; i < email.Atachments.Count; ++i)
+                if (atachments != null && atachments.Count != 0)
+                    for (int i = 0; i < atachments.Count; ++i)
                     {
-                        if (email.Atachments[i] == null)
+                        if (atachments[i] == null)
                             continue;
 
                         using var memStream = new MemoryStream();
-                        var temp = email.Atachments[i].OpenReadStream();
+                        var temp = atachments[i].OpenReadStream();
                         byte[] byteArray;
 
                         using (MemoryStream ms = new())
