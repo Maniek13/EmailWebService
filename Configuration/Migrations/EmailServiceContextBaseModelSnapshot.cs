@@ -89,9 +89,9 @@ namespace Configuration.Migrations
                     b.Property<int>("EmailFooterId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FileByteArray")
+                    b.Property<byte[]>("FileByteArray")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

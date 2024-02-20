@@ -18,7 +18,8 @@ namespace EmailWebServiceLibrary.Interfaces.DbModels
         [Required]
         string Type { get; set; }
         [Required]
-        string FileByteArray { get; set; }
+        byte[] FileByteArray { get; set; }
+
         EmailFooterDbModel EmailFooter {  get; set; }
     }
 }

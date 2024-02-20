@@ -13,6 +13,6 @@ namespace EmailWebServiceLibrary.Interfaces.DbModels
         public int EmailFooterId { get; init; }
         public string Name { get; init; }
         public string Type { get; init; }
-        public string FileByteArray { get; init; }
+        public byte[] FileByteArray { get; init; }
     }
 }

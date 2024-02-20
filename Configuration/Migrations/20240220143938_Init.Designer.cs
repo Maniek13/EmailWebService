@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Configuration.Migrations
 {
     [DbContext(typeof(EmailServiceContextBase))]
-    [Migration("20240220135649_Update1")]
-    partial class Update1
+    [Migration("20240220143938_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,9 +92,9 @@ namespace Configuration.Migrations
                     b.Property<int>("EmailFooterId")
                         .HasColumnType("int");
 
-                    b.Property<string>("FileByteArray")
+                    b.Property<byte[]>("FileByteArray")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()

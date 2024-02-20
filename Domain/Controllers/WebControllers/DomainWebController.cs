@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using System.Reflection.PortableExecutable;
 
 namespace Domain.Controllers.WebControllers
 {
@@ -34,7 +35,8 @@ namespace Domain.Controllers.WebControllers
                     Atachments = (FormFileCollection)atachments
                 };
 
-                var message = CreateEmail(email, userList, CreateBody(bodyschama), emailSchema);
+                CreateBody(bodyschama);
+                var message = CreateEmail(email, userList, emailSchema);
 
 
                 using var smtpClient = new SmtpClient(cfg.SMTP);
@@ -67,7 +69,7 @@ namespace Domain.Controllers.WebControllers
         }
 
         #region helpers
-        private static string CreateBody(IEmailSchemaDbModel schemaBody)
+        private static void CreateBody(IEmailSchemaDbModel schemaBody)
         {
             try
             {
@@ -75,7 +77,7 @@ namespace Domain.Controllers.WebControllers
 
 
                 if (variables.Count == 0)
-                    return schemaBody.Body;
+                    return;
 
                 if (schemaBody != null)
                 {
@@ -85,8 +87,7 @@ namespace Domain.Controllers.WebControllers
                     {
                         _ = body.Replace($"#{variables[i].Name}#", variables[i].Value);
                     }
-
-                    return body;
+                    schemaBody.Body = body;
                 }
 
                 throw new Exception("Msg don't hava a body");
@@ -98,7 +99,7 @@ namespace Domain.Controllers.WebControllers
             }
         }
 
-        private static MailMessage CreateEmail(IEmailModel email, List<EmailUsersDbModel> users, string body, IEmailSchemaDbModel emailSchema)
+        private static MailMessage CreateEmail(IEmailModel email, List<EmailUsersDbModel> users, IEmailSchemaDbModel emailSchema)
         {
             try
             {
@@ -109,11 +110,33 @@ namespace Domain.Controllers.WebControllers
 
                 using MailMessage message = new();
                 message.Subject = emailSchema.Subject;
-                message.Body = body;
+                message.Body = emailSchema.Body;
 
                 ContentType mimeType = new("text/html");
-                using (AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType))
+
+                string htmlBody = string.Format("<html>" +
+                    "<body>" +
+                    "<br />" +
+                    "{0}" +
+                    "<br />" +
+                    "<img src=\"cid:Footer\" />" +
+                    "{1}" +
+                    "</body>" +
+                    "</html>", emailSchema.Body, emailSchema.EmailFooter.TextHtml);
+
+                using (AlternateView alternate = AlternateView.CreateAlternateViewFromString(emailSchema.Body, mimeType))
+                {
                     message.AlternateViews.Add(alternate);
+
+                    LinkedResource footer = new LinkedResource("Footer.jpg", MediaTypeNames.Image.Jpeg);
+                    footer.ContentId = "Footer";
+
+                    alternate.LinkedResources.Add(footer);
+                    message.AlternateViews.Add(alternate);
+                }
+                    
+
+
 
 
                 message.From = new MailAddress(emailSchema.From, string.IsNullOrWhiteSpace(emailSchema.DisplayName) ? emailSchema.From : emailSchema.DisplayName);
