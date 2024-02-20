@@ -2,7 +2,7 @@
 
 namespace EmailWebServiceLibrarys.Models
 {
-    public record EmailUsersModel : IEmailUsersModel
+    public record struct EmailUsersModel : IEmailUsersModel
     {
         public int Id { get; set; }
         public string UserListId { get; set; }

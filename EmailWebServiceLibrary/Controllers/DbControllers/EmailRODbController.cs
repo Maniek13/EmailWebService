@@ -13,7 +13,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
         {
             try
             {
-                throw new NotImplementedException();
+                return _context.AppPermisions.Where(el => el.ServiceName == serviceName).FirstOrDefault();
             }
             catch (Exception ex)
             {

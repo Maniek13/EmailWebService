@@ -2,6 +2,8 @@ using Configuration.Controllers.WebControllers;
 using Configuration.Data;
 using EmailWebServiceLibrary.Controllers.DbControllers;
 using EmailWebServiceLibrarys.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -13,9 +15,12 @@ var config = configuration.Build();
 AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
 AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
 
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSqlServer<EmailServiceContextBase>(AppConfig.ConnectionString);
+
 
 var app = builder.Build();
 
@@ -26,6 +31,11 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<EmailServiceContextBase>();
+    db.Database.Migrate();
+}
 
 EmailWebController emailWebController = new(new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 

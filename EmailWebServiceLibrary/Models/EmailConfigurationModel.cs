@@ -2,7 +2,7 @@
 
 namespace EmailWebServiceLibrarys.Models
 {
-    public record EmailConfigurationModel : IEmailConfigurationModel
+    public record struct EmailConfigurationModel : IEmailConfigurationModel
     {
         public int Id { get; set; }
         public string Subject { get; set; }

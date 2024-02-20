@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  configuration:
+    image: ${DOCKER_REGISTRY-}configuration
+    build:
+      context: .
+      dockerfile: Configuration/Dockerfile
+
+  domain:
+    image: ${DOCKER_REGISTRY-}domain
+    build:
+      context: .
+      dockerfile: Domain/Dockerfile
+  sqldata:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      - SA_PASSWORD=myStong_Password123#
+      - ACCEPT_EULA=Y
+    ports:
+      - "5434:1433"
+
+
