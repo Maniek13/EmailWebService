@@ -1,4 +1,4 @@
-namespace EmailWebServiceTests.Domain
+namespace EmailWebServiceTests.Domain.WebControllers
 {
     public class DomainController
     {

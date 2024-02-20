@@ -1,6 +1,6 @@
-namespace EmailWebServiceTests.Configuration
+namespace EmailWebServiceTests.Configuration.DbControllers
 {
-    public class EmailDbROControllerTests
+    public class EmailRODbControllerTests
     {
 
     }
