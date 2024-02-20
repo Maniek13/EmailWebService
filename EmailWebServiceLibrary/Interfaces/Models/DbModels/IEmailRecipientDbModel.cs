@@ -3,16 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
 {
-    public interface IEmailUsersDbModel
+    public interface IEmailRecipientDbModel
     {
         [Key]
         int Id { get; set; }
         [Required]
-        string UserListId { get; set; }
+        int RecipientListId { get; set; }
         [Required]
         string Name { get; set; }
         [Required]
         string EmailAdress { get; set; }
-        EmailUsersListDbModel? UsersList { get; set; }
+        EmailRecipientsListDbModel? RecipientList { get; set; }
     }
 }

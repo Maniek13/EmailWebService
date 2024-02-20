@@ -17,7 +17,7 @@ namespace EmailWebServiceLibrary.Helpers
                 ServiceName = appPermisionDb.ServiceName,
                 EmailAccountConfiguration = appPermisionDb.EmailAccountConfiguration,
                 EmailSchema = appPermisionDb.EmailSchema,
-                EmailUsersLists = appPermisionDb.EmailUsersLists,
+                EmailRecipientList = appPermisionDb.EmailRecipientList,
             };
         }
         public static EmailAccountConfigurationDbModel ConvertToEmailAccountConfigurationDbModel(IEmailAccountConfigurationModel emailConfigurationModel)
@@ -52,12 +52,12 @@ namespace EmailWebServiceLibrary.Helpers
             };
         }
 
-        public static EmailUserModel ConvertToEmailUserModel(IEmailUsersDbModel user)
+        public static EmailRecipientModel ConvertToEmailUserModel(IEmailRecipientDbModel user)
         {
-            return new EmailUserModel()
+            return new EmailRecipientModel()
             {
                 Id = user.Id,
-                UserListId = user.UserListId,
+                RecipientsListId = user.RecipientListId,
                 Name = user.Name,
                 EmailAdress = user.EmailAdress
             };

@@ -6,7 +6,6 @@ using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Net.Mail;
 
 namespace Domain.Controllers.WebControllers
 {
@@ -27,14 +26,14 @@ namespace Domain.Controllers.WebControllers
 
 
 
-                List<EmailUserModel> users = new();
+                List<IEmailRecipientModel> users = new();
 
 
-                for(int i = 0; i < userList.Count; i++)
+                for (int i = 0; i < userList.Count; i++)
                 {
                     users.Add(ConversionHelper.ConvertToEmailUserModel(userList[i]));
                 }
-                
+
 
                 EmailModel email = new()
                 {
@@ -42,7 +41,7 @@ namespace Domain.Controllers.WebControllers
                 };
 
 
-                await EmailHelper.SendEmail(emailSchema, users, );
+                await EmailHelper.SendEmail(emailSchema, users, configuration);
 
 
                 return new ResponseModel<bool>()

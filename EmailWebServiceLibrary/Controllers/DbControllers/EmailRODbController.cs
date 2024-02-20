@@ -42,7 +42,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<EmailUsersDbModel> GetUsersList(int id)
+        public List<EmailRecipientsDbModel> GetUsersList(int id)
         {
             try
             {

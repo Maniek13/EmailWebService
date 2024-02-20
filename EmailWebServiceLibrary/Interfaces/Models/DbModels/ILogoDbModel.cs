@@ -16,6 +16,6 @@ namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
         [Required]
         byte[] FileByteArray { get; set; }
 
-        EmailFooterDbModel EmailFooter { get; set; }
+        ICollection<EmailFooterDbModel> EmailFooter { get; set; }
     }
 }

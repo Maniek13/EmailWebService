@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
 {
-    public interface IEmailUsersListDbModel
+    public interface IEmailRecipientsListDbModel
     {
         [Key]
         int Id { get; set; }
@@ -12,6 +12,6 @@ namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
         [Required]
         int ServiceId { get; set; }
         ServicesPermisionsDbModel AppPermision { get; set; }
-        ICollection<EmailUsersDbModel> Users { get; set; }
+        ICollection<EmailRecipientsDbModel> Recipients { get; set; }
     }
 }

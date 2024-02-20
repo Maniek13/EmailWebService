@@ -22,9 +22,9 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
         #endregion
 
         #region user list
-        Task<bool> SetUserListAsync(EmailUsersDbModel emailUsersListsDbModel, EmailUsersListDbModel emailUsersDbModel);
-        Task<bool> UpdateUserListAsync(EmailUsersDbModel emailUsersListsDbModel, EmailUsersListDbModel emailUsersDbModel);
-        Task<bool> DeleteUserListAsync(EmailUsersDbModel emailUsersListsDbModel, EmailUsersListDbModel emailUsersDbModel);
+        Task<bool> SetUserListAsync(EmailRecipientsDbModel emailUsersListsDbModel, EmailRecipientsListDbModel emailUsersDbModel);
+        Task<bool> UpdateUserListAsync(EmailRecipientsDbModel emailUsersListsDbModel, EmailRecipientsListDbModel emailUsersDbModel);
+        Task<bool> DeleteUserListAsync(EmailRecipientsDbModel emailUsersListsDbModel, EmailRecipientsListDbModel emailUsersDbModel);
 
         #endregion
     }

@@ -7,13 +7,13 @@ using System.Net;
 
 namespace Configuration.Controllers.WebControllers
 {
-    public class UserListsWebController(IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : ServiceWebControllerBase(emailDbControllerRO, emailDbController), IUserListWebController
+    public class RecipientsListWebController(IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : ServiceWebControllerBase(emailDbControllerRO, emailDbController), IRecipientsListWebController
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
 
         #region user list
-        public async Task<IResponseModel<bool>> SetUserListAsync(EmailUsersListModel emailUsersListModel, HttpContext context)
+        public async Task<IResponseModel<bool>> SetRecipientsListAsync(string serviceName, EmailRecipientsListModel emailRecipients, HttpContext context)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> UpdateUserListAsync(EmailUsersListModel emailUsersListModel, HttpContext context)
+        public async Task<IResponseModel<bool>> UpdateRecipientsListAsync(string serviceName, EmailRecipientsListModel emailRecipients, HttpContext context)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> DeleteUserListAsync(int id, HttpContext context)
+        public async Task<IResponseModel<bool>> DeleteRecipientsListAsync(string serviceName, int id, HttpContext context)
         {
             try
             {

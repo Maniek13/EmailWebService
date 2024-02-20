@@ -8,6 +8,8 @@ namespace EmailWebServiceLibrary.Models.DbModels
         [Key]
         public int Id { get; set; }
         [Required]
+        public int EmailSchemaId { get; set; }
+        [Required]
         public string Name { get; set; }
 
         [Required]

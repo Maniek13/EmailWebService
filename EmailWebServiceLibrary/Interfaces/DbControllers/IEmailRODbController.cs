@@ -8,7 +8,7 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
         IServicesPermisionsDbModel GetAppPermision(string ServiceName);
         IEmailAccountConfigurationDbModel GetEmailAccountConfiguration(string ServiceName);
         IEmailSchemaDbModel GetEmailSchemaDbModel(string ServiceName);
-        List<EmailUsersDbModel> GetUsersList(int Id);
+        List<EmailRecipientsDbModel> GetUsersList(int Id);
         EmailSchemaDbModel GetEmailBodySchama(int Id);
     }
 }

@@ -58,9 +58,9 @@ namespace Configuration.Data
               .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ServicesPermisionsDbModel>()
-              .HasOne<EmailUsersListDbModel>(x => x.EmailUsersLists)
+              .HasOne<EmailRecipientsListDbModel>(x => x.EmailRecipientList)
               .WithOne(y => y.AppPermision)
-              .HasForeignKey<EmailUsersListDbModel>(x => x.ServiceId)
+              .HasForeignKey<EmailRecipientsListDbModel>(x => x.ServiceId)
               .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<EmailSchemaDbModel>()
@@ -69,31 +69,34 @@ namespace Configuration.Data
               .HasForeignKey<EmailFooterDbModel>(x => x.EmailSchemaId)
               .OnDelete(DeleteBehavior.Cascade);
 
+
+            //one to many
             modelBuilder.Entity<EmailFooterDbModel>()
               .HasOne<LogoDbModel>(x => x.Logo)
-              .WithOne(y => y.EmailFooter)
-              .HasForeignKey<LogoDbModel>(x => x.EmailFooterId)
+              .WithMany(y => y.EmailFooter)
+              .HasForeignKey("EmailFooterId")
               .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<EmailSchemaVariablesDbModel>()
              .HasOne<EmailSchemaDbModel>(x => x.EmailSchema)
              .WithMany(y => y.EmailSchemaVariables)
-             .HasForeignKey(x => x.Id)
+             .HasForeignKey(x => x.EmailSchemaId)
              .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<EmailUsersDbModel>()
-             .HasOne<EmailUsersListDbModel>(x => x.UsersList)
-             .WithMany(y => y.Users)
-             .HasForeignKey(x => x.Id)
+            modelBuilder.Entity<EmailRecipientsDbModel>()
+             .HasOne<EmailRecipientsListDbModel>(x => x.RecipientList)
+             .WithMany(y => y.Recipients)
+             .HasForeignKey(x => x.RecipientListId)
              .OnDelete(DeleteBehavior.Cascade);
+
         }
 
         public virtual DbSet<ServicesPermisionsDbModel> ServicesPermisions { get; set; }
         public virtual DbSet<EmailAccountConfigurationDbModel> EmailAccountConfiguration { get; set; }
         public virtual DbSet<EmailSchemaDbModel> EmailSchemas { get; set; }
         public virtual DbSet<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
-        public virtual DbSet<EmailUsersDbModel> ListUssers { get; set; }
-        public virtual DbSet<EmailUsersListDbModel> Ussers { get; set; }
+        public virtual DbSet<EmailRecipientsDbModel> ListUssers { get; set; }
+        public virtual DbSet<EmailRecipientsListDbModel> Ussers { get; set; }
         public virtual DbSet<EmailFooterDbModel> EmailFooters { get; set; }
         public virtual DbSet<LogoDbModel> Logos { get; set; }
     }

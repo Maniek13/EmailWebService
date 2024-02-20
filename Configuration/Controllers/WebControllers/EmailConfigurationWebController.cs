@@ -1,4 +1,5 @@
-﻿using EmailWebServiceLibrary.Controllers.WebControllers;
+﻿using Configuration.Interfaces.WebControllers;
+using EmailWebServiceLibrary.Controllers.WebControllers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.DbModels;
 using EmailWebServiceLibrary.Interfaces.Models;
@@ -7,7 +8,7 @@ using System.Net;
 
 namespace Configuration.Controllers.WebControllers
 {
-    public class EmailWebController(IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : ServiceWebControllerBase(emailDbControllerRO, emailDbController)//, IEmailWebController
+    public class EmailConfigurationWebController(IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : ServiceWebControllerBase(emailDbControllerRO, emailDbController), IEmailConfigurationWebController
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
@@ -53,60 +54,6 @@ namespace Configuration.Controllers.WebControllers
             }
         }
         public async Task<IResponseModel<bool>> DeleteEmailAccountConfigurationAsync(string serviceName, int id, HttpContext context)
-        {
-            try
-            {
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-                context.Response.StatusCode = 400;
-                return new ResponseModel<bool>()
-                {
-                    Data = false,
-                    ResultCode = (HttpStatusCode)400,
-                    Message = ex.Message
-                };
-            }
-        }
-        #endregion
-        #region email body
-
-        public async Task<IResponseModel<bool>> SetEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context)
-        {
-            try
-            {
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-                context.Response.StatusCode = 400;
-                return new ResponseModel<bool>()
-                {
-                    Data = false,
-                    ResultCode = (HttpStatusCode)400,
-                    Message = ex.Message
-                };
-            }
-        }
-        public async Task<IResponseModel<bool>> UpdateEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context)
-        {
-            try
-            {
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-                context.Response.StatusCode = 400;
-                return new ResponseModel<bool>()
-                {
-                    Data = false,
-                    ResultCode = (HttpStatusCode)400,
-                    Message = ex.Message
-                };
-            }
-        }
-        public async Task<IResponseModel<bool>> DeleteEmailBodySchemaAsync(string serviceName, int id, HttpContext context)
         {
             try
             {

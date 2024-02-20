@@ -1,6 +1,4 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
-using EmailWebServiceLibrary.Models;
-using Microsoft.AspNetCore.Http;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
@@ -9,7 +7,7 @@ namespace EmailWebServiceLibrary.Helpers
 {
     public class EmailHelper
     {
-        public async static Task SendEmail(IEmailSchemaModel emailSchema, List<IEmailUserModel> userList, IEmailAccountConfigurationModel configuration)
+        public async static Task SendEmail(IEmailSchemaModel emailSchema, List<IEmailRecipientModel> userList, IEmailAccountConfigurationModel configuration)
         {
             try
             {
@@ -61,7 +59,7 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static MailMessage CreateEmail(IEmailSchemaModel email, List<IEmailUserModel> users, IEmailSchemaModel emailSchema)
+        public static MailMessage CreateEmail(IEmailSchemaModel email, List<IEmailRecipientModel> users, IEmailSchemaModel emailSchema)
         {
             try
             {

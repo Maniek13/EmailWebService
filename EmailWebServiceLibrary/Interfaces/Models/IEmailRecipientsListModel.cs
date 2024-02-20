@@ -2,11 +2,11 @@
 
 namespace EmailWebServiceLibrary.Interfaces.Models
 {
-    public interface IEmailUsersListModel
+    public interface IEmailRecipientsListModel
     {
         int Id { get; init; }
         string Name { get; init; }
         int ServiceId { get; init; }
-        List<EmailUserModel> Users { get; init; }
+        List<EmailRecipientModel> Recipients { get; init; }
     }
 }

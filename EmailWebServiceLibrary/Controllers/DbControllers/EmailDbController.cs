@@ -81,7 +81,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
         }
         #endregion
         #region user list
-        public Task<bool> SetUserListAsync(EmailUsersDbModel emailUsersListsDbModel, EmailUsersListDbModel emailUsersDbModel)
+        public Task<bool> SetUserListAsync(EmailRecipientsDbModel emailUsersListsDbModel, EmailRecipientsListDbModel emailUsersDbModel)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> UpdateUserListAsync(EmailUsersDbModel emailUsersListsDbModel, EmailUsersListDbModel emailUsersDbModel)
+        public Task<bool> UpdateUserListAsync(EmailRecipientsDbModel emailUsersListsDbModel, EmailRecipientsListDbModel emailUsersDbModel)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> DeleteUserListAsync(EmailUsersDbModel emailUsersListsDbModel, EmailUsersListDbModel emailUsersDbModel)
+        public Task<bool> DeleteUserListAsync(EmailRecipientsDbModel emailUsersListsDbModel, EmailRecipientsListDbModel emailUsersDbModel)
         {
             try
             {

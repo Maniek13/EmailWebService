@@ -12,6 +12,6 @@ namespace EmailWebServiceLibrary.Models.DbModels
         public string ServiceName { get; set; }
         public EmailAccountConfigurationDbModel EmailAccountConfiguration { get; set; }
         public EmailSchemaDbModel EmailSchema { get; set; }
-        public EmailUsersListDbModel EmailUsersLists { get; set; }
+        public EmailRecipientsListDbModel EmailRecipientList { get; set; }
     }
 }

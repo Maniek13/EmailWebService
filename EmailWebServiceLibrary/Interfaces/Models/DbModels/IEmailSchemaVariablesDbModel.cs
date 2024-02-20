@@ -9,6 +9,8 @@ namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
         [Key]
         int Id { get; set; }
         [Required]
+        int EmailSchemaId { get; set; }
+        [Required]
         string Name { get; set; }
 
         [Required]
