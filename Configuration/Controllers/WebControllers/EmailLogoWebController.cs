@@ -11,6 +11,6 @@ namespace Configuration.Interfaces.WebControllers
         readonly IEmailDbController _emailDbController = emailDbController;
 
 
-        public Task<IResponseModel<bool>> UpdateEmailLogoAsync(string serviceName, LogoModel logo, HttpContext context) => throw new NotImplementedException();
+        public Task<IResponseModel<bool>> EditEmailLogoAsync(string serviceName, LogoModel logo, HttpContext context) => throw new NotImplementedException();
     }
 }

@@ -5,7 +5,6 @@ namespace Configuration.Interfaces.WebControllers
 {
     interface IRecipientsWebController
     {
-
         #region recipients 
         Task<IResponseModel<bool>> AddRecipient(string serviceName, EmailRecipientModel user, HttpContext context);
         Task<IResponseModel<bool>> EditRecipient(string serviceName, EmailRecipientModel user, HttpContext context);

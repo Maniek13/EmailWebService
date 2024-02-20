@@ -8,7 +8,7 @@ namespace Configuration.Interfaces.WebControllers
 
         #region user list
         Task<IResponseModel<bool>> SetRecipientsListAsync(string serviceName, EmailRecipientsListModel emailUsersListModel, HttpContext context);
-        Task<IResponseModel<bool>> UpdateRecipientsListAsync(string serviceName, EmailRecipientsListModel emailUsersListModel, HttpContext context);
+        Task<IResponseModel<bool>> EditRecipientsListAsync(string serviceName, EmailRecipientsListModel emailUsersListModel, HttpContext context);
         Task<IResponseModel<bool>> DeleteRecipientsListAsync(string serviceName, int id, HttpContext context);
         #endregion
 

@@ -30,7 +30,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> UpdateRecipientsListAsync(string serviceName, EmailRecipientsListModel emailRecipients, HttpContext context)
+        public async Task<IResponseModel<bool>> EditRecipientsListAsync(string serviceName, EmailRecipientsListModel emailRecipients, HttpContext context)
         {
             try
             {

@@ -11,7 +11,7 @@ namespace Configuration.Controllers.WebControllers
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
 
-        public Task<IResponseModel<bool>> UpdateEmailFooterAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context) => throw new NotImplementedException();
+        public Task<IResponseModel<bool>> EditEmailFooterAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context) => throw new NotImplementedException();
 
     }
 }

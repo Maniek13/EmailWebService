@@ -134,7 +134,7 @@ namespace Configuration.Migrations
 
                     b.HasIndex("RecipientListId");
 
-                    b.ToTable("ListUssers");
+                    b.ToTable("Recipients");
                 });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailRecipientsListDbModel", b =>
@@ -157,7 +157,7 @@ namespace Configuration.Migrations
                     b.HasIndex("ServiceId")
                         .IsUnique();
 
-                    b.ToTable("Ussers");
+                    b.ToTable("RecipientsList");
                 });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailSchemaDbModel", b =>

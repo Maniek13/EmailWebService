@@ -31,7 +31,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> UpdateEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context)
+        public async Task<IResponseModel<bool>> EditEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context)
         {
             try
             {
@@ -66,5 +66,22 @@ namespace Configuration.Controllers.WebControllers
             }
         }
         #endregion
+        public async Task<IResponseModel<bool>> EditBodySchemaVariablesAsync(string serviceName, EmailSchemaVariablesModel variables, HttpContext context)
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                context.Response.StatusCode = 400;
+                return new ResponseModel<bool>()
+                {
+                    Data = false,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }

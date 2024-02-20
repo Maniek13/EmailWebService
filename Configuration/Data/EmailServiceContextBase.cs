@@ -95,8 +95,8 @@ namespace Configuration.Data
         public virtual DbSet<EmailAccountConfigurationDbModel> EmailAccountConfiguration { get; set; }
         public virtual DbSet<EmailSchemaDbModel> EmailSchemas { get; set; }
         public virtual DbSet<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
-        public virtual DbSet<EmailRecipientsDbModel> ListUssers { get; set; }
-        public virtual DbSet<EmailRecipientsListDbModel> Ussers { get; set; }
+        public virtual DbSet<EmailRecipientsDbModel> Recipients { get; set; }
+        public virtual DbSet<EmailRecipientsListDbModel> RecipientsList { get; set; }
         public virtual DbSet<EmailFooterDbModel> EmailFooters { get; set; }
         public virtual DbSet<LogoDbModel> Logos { get; set; }
     }

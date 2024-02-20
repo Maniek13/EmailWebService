@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Configuration.Migrations
 {
     [DbContext(typeof(EmailServiceContextBase))]
-    [Migration("20240220185706_Init")]
+    [Migration("20240220222644_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -137,7 +137,7 @@ namespace Configuration.Migrations
 
                     b.HasIndex("RecipientListId");
 
-                    b.ToTable("ListUssers");
+                    b.ToTable("Recipients");
                 });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailRecipientsListDbModel", b =>
@@ -160,7 +160,7 @@ namespace Configuration.Migrations
                     b.HasIndex("ServiceId")
                         .IsUnique();
 
-                    b.ToTable("Ussers");
+                    b.ToTable("RecipientsList");
                 });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailSchemaDbModel", b =>

@@ -29,7 +29,7 @@ app.UseHttpsRedirection();
 
 
 
-DomainWebController emailServiceController = new(new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)));
+DomainWebController emailServiceController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)));
 
 app.MapPost("/SendEmails", emailServiceController.SendEmailsAsync)
     .WithDescription("Send emails")
