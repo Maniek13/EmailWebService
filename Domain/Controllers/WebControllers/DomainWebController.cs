@@ -19,12 +19,22 @@ namespace Domain.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
-                var cfg = _emailDbControllerRO.GetEmailAccountConfiguration(permisions.ServiceName);
-                var emailSchema = _emailDbControllerRO.GetEmailSchemaDbModel(serviceName);
-                var bodyschama = _emailDbControllerRO.GetEmailBodySchama(permisions.Id);
+                var emailSchema = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(serviceName));
+                var configuration = ConversionHelper.ConvertToEmailAccountConfigurationModel(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.ServiceName));
+
 
                 var userList = _emailDbControllerRO.GetUsersList(permisions.Id);
 
+
+
+                List<EmailUserModel> users = new();
+
+
+                for(int i = 0; i < userList.Count; i++)
+                {
+                    users.Add(ConversionHelper.ConvertToEmailUserModel(userList[i]));
+                }
+                
 
                 EmailModel email = new()
                 {
@@ -32,18 +42,7 @@ namespace Domain.Controllers.WebControllers
                 };
 
 
-                EmailHelper.CreateBody(bodyschama);
-                var message = EmailHelper.CreateEmail(email, userList, emailSchema);
-
-
-                using var smtpClient = new SmtpClient(cfg.SMTP);
-                smtpClient.Port = cfg.Port;
-                smtpClient.Credentials = new NetworkCredential()
-                {
-                    UserName = cfg.Login,
-                    Password = cfg.Password
-                };
-                await smtpClient.SendMailAsync(message);
+                await EmailHelper.SendEmail(emailSchema, users, );
 
 
                 return new ResponseModel<bool>()

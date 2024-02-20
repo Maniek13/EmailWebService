@@ -7,6 +7,6 @@ namespace EmailWebServiceLibrary.Models
         public int Id { get; init; }
         public string Name { get; init; }
         public int ServiceId { get; init; }
-        public List<EmailUsersModel> Users { get; init; }
+        public List<EmailUserModel> Users { get; init; }
     }
 }

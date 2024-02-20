@@ -1,6 +1,7 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
-using EmailWebServiceLibrary.Interfaces.Models.DbModels;
-using EmailWebServiceLibrary.Models.DbModels;
+using EmailWebServiceLibrary.Models;
+using Microsoft.AspNetCore.Http;
+using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 
@@ -8,7 +9,30 @@ namespace EmailWebServiceLibrary.Helpers
 {
     public class EmailHelper
     {
-        public static void CreateBody(IEmailSchemaDbModel schemaBody)
+        public async static Task SendEmail(IEmailSchemaModel emailSchema, List<IEmailUserModel> userList, IEmailAccountConfigurationModel configuration)
+        {
+            try
+            {
+                EmailHelper.CreateBody(emailSchema);
+                var message = EmailHelper.CreateEmail(emailSchema, userList, emailSchema);
+
+                using var smtpClient = new SmtpClient(configuration.SMTP);
+                smtpClient.Port = configuration.Port;
+                smtpClient.Credentials = new NetworkCredential()
+                {
+                    UserName = configuration.Login,
+                    Password = configuration.Password
+                };
+                await smtpClient.SendMailAsync(message);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public static void CreateBody(IEmailSchemaModel schemaBody)
         {
             try
             {
@@ -37,13 +61,13 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static MailMessage CreateEmail(IEmailModel email, List<EmailUsersDbModel> users, IEmailSchemaDbModel emailSchema)
+        public static MailMessage CreateEmail(IEmailSchemaModel email, List<IEmailUserModel> users, IEmailSchemaModel emailSchema)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(emailSchema.From))
                     throw new Exception("Please set a sender email");
-                if (email.To.Count == 0)
+                if (users.Count == 0)
                     throw new Exception("Please set a receiver email");
 
                 using MailMessage message = new();
@@ -66,18 +90,17 @@ namespace EmailWebServiceLibrary.Helpers
                 {
                     message.AlternateViews.Add(alternate);
 
-                    LinkedResource footer = new("Footer.jpg", MediaTypeNames.Image.Jpeg)
+                    using (MemoryStream fs = new MemoryStream(emailSchema.EmailFooter.Logo.FileByteArray))
                     {
-                        ContentId = "Footer"
-                    };
+                        LinkedResource footer = new(fs, $"image/{emailSchema.EmailFooter.Logo.Type}")
+                        {
+                            ContentId = "Footer"
+                        };
+                        alternate.LinkedResources.Add(footer);
+                    }
 
-                    alternate.LinkedResources.Add(footer);
                     message.AlternateViews.Add(alternate);
                 }
-
-
-
-
 
                 message.From = new MailAddress(emailSchema.From, string.IsNullOrWhiteSpace(emailSchema.DisplayName) ? emailSchema.From : emailSchema.DisplayName);
 

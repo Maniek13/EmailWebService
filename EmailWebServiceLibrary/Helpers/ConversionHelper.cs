@@ -1,12 +1,15 @@
 ﻿using EmailWebServiceLibrary.Interfaces.DbModels;
+using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
+using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
 
 namespace EmailWebServiceLibrary.Helpers
 {
-    internal static class ConversionHelper
+    public static class ConversionHelper
     {
-        internal static IServicesPermisionsDbModel ConvertToAppPermisionDbModel(IServicesPermisionsDbModel appPermisionDb)
+        #region convert to db models
+        public static ServicesPermisionsDbModel ConvertToAppPermisionDbModel(IServicesPermisionsDbModel appPermisionDb)
         {
             return new ServicesPermisionsDbModel()
             {
@@ -17,7 +20,7 @@ namespace EmailWebServiceLibrary.Helpers
                 EmailUsersLists = appPermisionDb.EmailUsersLists,
             };
         }
-        internal static IEmailAccountConfigurationDbModel ConvertToEmailAccountConfigurationDbModel(IEmailAccountConfigurationModel emailConfigurationModel)
+        public static EmailAccountConfigurationDbModel ConvertToEmailAccountConfigurationDbModel(IEmailAccountConfigurationModel emailConfigurationModel)
         {
             return new EmailAccountConfigurationDbModel()
             {
@@ -29,5 +32,50 @@ namespace EmailWebServiceLibrary.Helpers
                 Password = emailConfigurationModel.Password
             };
         }
+        #endregion
+
+        #region convert to models
+
+        public static EmailSchemaModel ConvertToEmailSchemaModel(IEmailSchemaDbModel emailSchema)
+        {
+            return new EmailSchemaModel()
+            {
+                Id = emailSchema.Id,
+                ServiceId = emailSchema.ServiceId,
+                From = emailSchema.From,
+                DisplayName = emailSchema.DisplayName,
+                ReplyTo = emailSchema.ReplyTo,
+                ReplyToDisplayName = emailSchema.ReplyToDisplayName,
+                Name = emailSchema.Name,
+                Body = emailSchema.Body,
+                Subject = emailSchema.Subject
+            };
+        }
+
+        public static EmailUserModel ConvertToEmailUserModel(IEmailUsersDbModel user)
+        {
+            return new EmailUserModel()
+            {
+                Id = user.Id,
+                UserListId = user.UserListId,
+                Name = user.Name,
+                EmailAdress = user.EmailAdress
+            };
+        }
+
+        public static EmailAccountConfigurationModel ConvertToEmailAccountConfigurationModel(IEmailAccountConfigurationDbModel configuration)
+        {
+            return new EmailAccountConfigurationModel()
+            {
+                Id = configuration.Id,
+                ServiceId = configuration.ServiceId,
+                SMTP = configuration.SMTP,
+                Port = configuration.Port,
+                Login = configuration.Login,
+                Password = configuration.Password
+            };
+        }
+
+        #endregion
     }
 }

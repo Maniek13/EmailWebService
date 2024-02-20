@@ -1,6 +1,6 @@
 ﻿namespace EmailWebServiceLibrary.Interfaces.Models
 {
-    public interface IEmailUsersModel
+    public interface IEmailUserModel
     {
         int Id { get; init; }
         string UserListId { get; init; }

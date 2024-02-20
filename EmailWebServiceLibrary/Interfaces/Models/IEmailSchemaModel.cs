@@ -1,4 +1,4 @@
-﻿using EmailWebServiceLibrary.Models;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace EmailWebServiceLibrary.Interfaces.Models
 {
@@ -11,9 +11,10 @@ namespace EmailWebServiceLibrary.Interfaces.Models
         string ReplyToDisplayName { get; init; }
         string ReplyTo { get; init; }
         string Name { get; init; }
-        string Body { get; init; }
+        string Body { get; set; }
         string Subject { get; init; }
-        EmailFooterModel EmailFooter { get; init; }
-        List<EmailSchemaVariablesModel> EmailSchemaVariablesModel { get; init; }
+        IFormFileCollection Atachments { get; set; }
+        IEmailFooterModel EmailFooter { get; init; }
+        List<IEmailSchemaVariablesModel> EmailSchemaVariables { get; init; }
     }
 }
