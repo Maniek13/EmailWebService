@@ -46,19 +46,19 @@ namespace Configuration.Data
 
             modelBuilder.Entity<ServicesPermisionsDbModel>()
                .HasOne<EmailAccountConfigurationDbModel>(x => x.EmailAccountConfiguration)
-               .WithOne(y => y.AppPermision)
+               .WithOne(y => y.ServicePermision)
                .HasForeignKey<EmailAccountConfigurationDbModel>(x => x.ServiceId)
                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ServicesPermisionsDbModel>()
               .HasOne<EmailSchemaDbModel>(x => x.EmailSchema)
-              .WithOne(y => y.AppPermision)
+              .WithOne(y => y.ServicePermision)
               .HasForeignKey<EmailSchemaDbModel>(x => x.ServiceId)
               .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ServicesPermisionsDbModel>()
               .HasOne<EmailRecipientsListDbModel>(x => x.EmailRecipientList)
-              .WithOne(y => y.AppPermision)
+              .WithOne(y => y.ServicePermision)
               .HasForeignKey<EmailRecipientsListDbModel>(x => x.ServiceId)
               .OnDelete(DeleteBehavior.Cascade);
 
@@ -68,13 +68,21 @@ namespace Configuration.Data
               .HasForeignKey<EmailFooterDbModel>(x => x.EmailSchemaId)
               .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<ServicesPermisionsDbModel>()
+              .HasOne<EmailRecipientDbModel>(x => x.EmailRecipient)
+              .WithOne(y => y.ServicePermision)
+              .HasForeignKey<EmailRecipientDbModel>(x => x.ServiceId)
+              .OnDelete(DeleteBehavior.NoAction);
+
+
+
 
             //one to many
             modelBuilder.Entity<EmailFooterDbModel>()
               .HasOne<LogoDbModel>(x => x.Logo)
               .WithMany(y => y.EmailFooter)
-              .HasForeignKey("EmailFooterId")
-              .OnDelete(DeleteBehavior.Cascade);
+              .HasForeignKey("EmailFooterId");
+
 
             modelBuilder.Entity<EmailSchemaVariablesDbModel>()
              .HasOne<EmailSchemaDbModel>(x => x.EmailSchema)
@@ -82,21 +90,19 @@ namespace Configuration.Data
              .HasForeignKey(x => x.EmailSchemaId)
              .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<EmailRecipientsDbModel>()
+            modelBuilder.Entity<EmailRecipientDbModel>()
              .HasOne<EmailRecipientsListDbModel>(x => x.RecipientList)
              .WithMany(y => y.Recipients)
-             .HasForeignKey(x => x.RecipientListId)
-             .OnDelete(DeleteBehavior.Cascade);
-
+             .HasForeignKey(x => x.RecipientListId);
         }
 
         public virtual DbSet<ServicesPermisionsDbModel> ServicesPermisions { get; set; }
         public virtual DbSet<EmailAccountConfigurationDbModel> EmailAccountConfiguration { get; set; }
         public virtual DbSet<EmailSchemaDbModel> EmailSchemas { get; set; }
         public virtual DbSet<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
-        public virtual DbSet<EmailRecipientsDbModel> Recipients { get; set; }
+        public virtual DbSet<EmailRecipientDbModel> Recipients { get; set; }
         public virtual DbSet<EmailRecipientsListDbModel> RecipientsList { get; set; }
-        public virtual DbSet<EmailFooterDbModel> EmailFooters { get; set; }
+        public virtual DbSet<EmailFooterDbModel> Footers { get; set; }
         public virtual DbSet<LogoDbModel> Logos { get; set; }
     }
 }

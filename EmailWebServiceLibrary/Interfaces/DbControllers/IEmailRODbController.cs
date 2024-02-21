@@ -5,15 +5,11 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
 {
     public interface IEmailRODbController
     {
-        IServicesPermisionsDbModel GetAppPermision(string ServiceName);
-        IEmailAccountConfigurationDbModel GetEmailAccountConfiguration(string ServiceName);
-        IEmailSchemaDbModel GetEmailSchemaDbModel(string ServiceName);
-        List<EmailRecipientsDbModel> GetUsersList(int Id);
-        EmailSchemaDbModel GetEmailBodySchama(int Id);
-        List<EmailRecipientsListDbModel> GetRecipientsLists();
-        List<EmailRecipientsDbModel> GetRecipients();
-        List<EmailFooterDbModel> GetFooters();
-        List<LogoDbModel> GetLogos();
-        List<EmailSchemaVariablesDbModel> GetBodySchemaVariables();
+        IServicesPermisionsDbModel GetServicePermision(string serviceName);
+        IEmailAccountConfigurationDbModel GetEmailAccountConfiguration(int serviceId);
+        IEmailSchemaDbModel GetEmailSchemaDbModel(int serviceId);
+        IEmailSchemaDbModel GetEmailBodySchama(int id);
+        List<EmailRecipientsListDbModel> GetRecipientsLists(int serviceId);
+        List<EmailRecipientDbModel> GetRecipients(int serviceId);
     }
 }

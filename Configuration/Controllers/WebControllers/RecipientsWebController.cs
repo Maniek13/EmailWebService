@@ -17,8 +17,8 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
-                var recipients = _emailDbControllerRO.GetRecipients();
+                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var recipients = _emailDbControllerRO.GetRecipients(permision.Id);
 
                 List<EmailRecipientModel> logosList = [];
                 for (int i = 0; i < recipients.Count; ++i)
@@ -48,7 +48,7 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
                 _ = await _emailDbController.SetRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
 
                 return new ResponseModel<bool>()
@@ -73,7 +73,7 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
                 _ = await _emailDbController.EditRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
 
                 return new ResponseModel<bool>()
@@ -98,7 +98,7 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
                 _ = await _emailDbController.DeleteRecipientAsync(id);
 
                 return new ResponseModel<bool>()

@@ -109,33 +109,6 @@ namespace Configuration.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmailFooters",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EmailSchemaId = table.Column<int>(type: "int", nullable: false),
-                    TextHtml = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailFooterId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmailFooters", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EmailFooters_EmailSchemas_EmailSchemaId",
-                        column: x => x.EmailSchemaId,
-                        principalTable: "EmailSchemas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EmailFooters_Logos_EmailFooterId",
-                        column: x => x.EmailFooterId,
-                        principalTable: "Logos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EmailSchemaVariables",
                 columns: table => new
                 {
@@ -157,11 +130,39 @@ namespace Configuration.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Footers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmailSchemaId = table.Column<int>(type: "int", nullable: false),
+                    TextHtml = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmailFooterId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Footers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Footers_EmailSchemas_EmailSchemaId",
+                        column: x => x.EmailSchemaId,
+                        principalTable: "EmailSchemas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Footers_Logos_EmailFooterId",
+                        column: x => x.EmailFooterId,
+                        principalTable: "Logos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Recipients",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ServiceId = table.Column<int>(type: "int", nullable: false),
                     RecipientListId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EmailAdress = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -175,23 +176,17 @@ namespace Configuration.Migrations
                         principalTable: "RecipientsList",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Recipients_ServicesPermisions_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "ServicesPermisions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmailAccountConfiguration_ServiceId",
                 table: "EmailAccountConfiguration",
                 column: "ServiceId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmailFooters_EmailFooterId",
-                table: "EmailFooters",
-                column: "EmailFooterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmailFooters_EmailSchemaId",
-                table: "EmailFooters",
-                column: "EmailSchemaId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -206,9 +201,26 @@ namespace Configuration.Migrations
                 column: "EmailSchemaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Footers_EmailFooterId",
+                table: "Footers",
+                column: "EmailFooterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Footers_EmailSchemaId",
+                table: "Footers",
+                column: "EmailSchemaId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Recipients_RecipientListId",
                 table: "Recipients",
                 column: "RecipientListId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Recipients_ServiceId",
+                table: "Recipients",
+                column: "ServiceId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipientsList_ServiceId",
@@ -230,19 +242,19 @@ namespace Configuration.Migrations
                 name: "EmailAccountConfiguration");
 
             migrationBuilder.DropTable(
-                name: "EmailFooters");
+                name: "EmailSchemaVariables");
 
             migrationBuilder.DropTable(
-                name: "EmailSchemaVariables");
+                name: "Footers");
 
             migrationBuilder.DropTable(
                 name: "Recipients");
 
             migrationBuilder.DropTable(
-                name: "Logos");
+                name: "EmailSchemas");
 
             migrationBuilder.DropTable(
-                name: "EmailSchemas");
+                name: "Logos");
 
             migrationBuilder.DropTable(
                 name: "RecipientsList");

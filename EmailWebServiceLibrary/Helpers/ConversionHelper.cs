@@ -4,6 +4,7 @@ using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
 using EmailWebServiceLibrary.Models.Models;
 using Microsoft.AspNetCore.Http;
+using System.Collections.ObjectModel;
 
 namespace EmailWebServiceLibrary.Helpers
 {
@@ -11,11 +12,11 @@ namespace EmailWebServiceLibrary.Helpers
     {
         #region convert to db models
 
-        public static EmailRecipientsListDbModel ConvertToEmailRecipientsListDbModel(EmailRecipientsListModel emailRecipientsList)
+        public static EmailRecipientsListDbModel ConvertToEmailRecipientsListDbModel(IEmailRecipientsListModel emailRecipientsList)
         {
             try
             {
-                ICollection<EmailRecipientsDbModel> recipients = new List<EmailRecipientsDbModel>();
+                Collection<EmailRecipientDbModel> recipients = [];
 
                 for (int i = 0; i < emailRecipientsList.Recipients.Count; ++i)
                 {
@@ -36,11 +37,11 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static EmailRecipientsDbModel ConvertToEmailRecipientsDbModel(EmailRecipientModel recipient)
+        public static EmailRecipientDbModel ConvertToEmailRecipientsDbModel(IEmailRecipientModel recipient)
         {
             try
             {
-                return new EmailRecipientsDbModel()
+                return new EmailRecipientDbModel()
                 {
                     Id = recipient.Id,
                     RecipientListId = recipient.RecipientsListId,
@@ -93,7 +94,7 @@ namespace EmailWebServiceLibrary.Helpers
             }
 
         }
-        public static EmailSchemaDbModel ConvertToEmailSchemaDbModel(EmailSchemaModel emailschema)
+        public static EmailSchemaDbModel ConvertToEmailSchemaDbModel(IEmailSchemaModel emailschema)
         {
             try
             {
@@ -127,7 +128,7 @@ namespace EmailWebServiceLibrary.Helpers
         }
 
 
-        public static EmailSchemaVariablesDbModel ConvertToEmailSchemaVariableDbModel(EmailSchemaVariablesModel emailSchemaVar)
+        public static EmailSchemaVariablesDbModel ConvertToEmailSchemaVariableDbModel(IEmailSchemaVariablesModel emailSchemaVar)
         {
             try
             {
@@ -146,7 +147,7 @@ namespace EmailWebServiceLibrary.Helpers
 
         }
 
-        public static EmailFooterDbModel ConvertToEmailFooterDbModel(EmailFooterModel emailFooter)
+        public static EmailFooterDbModel ConvertToEmailFooterDbModel(IEmailFooterModel emailFooter)
         {
             try
             {
@@ -165,7 +166,7 @@ namespace EmailWebServiceLibrary.Helpers
 
         }
 
-        public static LogoDbModel ConvertToLogoDbModel(LogoModel logo)
+        public static LogoDbModel ConvertToLogoDbModel(ILogoModel logo)
         {
             try
             {
@@ -226,7 +227,7 @@ namespace EmailWebServiceLibrary.Helpers
         #region convert to models
 
 
-        public static EmailSchemaVariablesModel ConvertToEmailSchemaVariablesModel(EmailSchemaVariablesDbModel emailSchemaVariables)
+        public static EmailSchemaVariablesModel ConvertToEmailSchemaVariablesModel(IEmailSchemaVariablesDbModel emailSchemaVariables)
         {
             return new EmailSchemaVariablesModel()
             {
@@ -235,7 +236,7 @@ namespace EmailWebServiceLibrary.Helpers
                 Value = emailSchemaVariables.Value
             };
         }
-        public static EmailRecipientsListModel ConvertToEmailRecipientsListModel(EmailRecipientsListDbModel emailRecipientsListDb)
+        public static EmailRecipientsListModel ConvertToEmailRecipientsListModel(IEmailRecipientsListDbModel emailRecipientsListDb)
         {
             return new EmailRecipientsListModel()
             {
@@ -285,7 +286,7 @@ namespace EmailWebServiceLibrary.Helpers
             };
         }
 
-        public static EmailFooterModel ConvertToEmailFooterModel(EmailFooterDbModel emailFooterDb)
+        public static EmailFooterModel ConvertToEmailFooterModel(IEmailFooterDbModel emailFooterDb)
         {
             try
             {
@@ -304,7 +305,7 @@ namespace EmailWebServiceLibrary.Helpers
 
         }
 
-        public static LogoModel ConvertToLogoModel(LogoDbModel logo)
+        public static LogoModel ConvertToLogoModel(ILogoDbModel logo)
         {
             try
             {

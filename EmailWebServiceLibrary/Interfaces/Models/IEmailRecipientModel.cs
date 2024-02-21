@@ -6,5 +6,6 @@
         int RecipientsListId { get; init; }
         string Name { get; init; }
         string EmailAdress { get; init; }
+
     }
 }

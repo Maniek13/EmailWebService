@@ -9,6 +9,7 @@ namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
         int Id { get; set; }
         [Required]
         int ServiceId { get; set; }
+
         [Required]
         string Name { get; set; }
         [Required]
@@ -24,7 +25,7 @@ namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
         [Required]
         string Subject { get; set; }
 
-        ServicesPermisionsDbModel AppPermision { get; set; }
+        ServicesPermisionsDbModel ServicePermision { get; set; }
         EmailFooterDbModel EmailFooter { get; set; }
         ICollection<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
     }

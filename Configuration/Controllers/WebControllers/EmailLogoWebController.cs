@@ -16,42 +16,11 @@ namespace Configuration.Interfaces.WebControllers
         readonly IEmailDbController _emailDbController = emailDbController;
 
 
-        public IResponseModel<List<LogoModel>> GetEmailLogos(string serviceName, HttpContext context)
-        {
-            try
-            {
-                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
-                var logos = _emailDbControllerRO.GetLogos();
-
-                List<LogoModel> logosList = [];
-                for (int i = 0; i < logos.Count; ++i)
-                {
-                    logosList.Add(ConversionHelper.ConvertToLogoModel(logos[i]));
-                }
-
-                return new ResponseModel<List<LogoModel>>()
-                {
-                    Data = logosList,
-                    ResultCode = (HttpStatusCode)200,
-                    Message = "ok"
-                };
-            }
-            catch (Exception ex)
-            {
-                context.Response.StatusCode = 400;
-                return new ResponseModel<List<LogoModel>>()
-                {
-                    Data = null,
-                    ResultCode = (HttpStatusCode)400,
-                    Message = ex.Message
-                };
-            }
-        }
         public async Task<IResponseModel<bool>> EditEmailLogoAsync(string serviceName, LogoModel logo, HttpContext context)
         {
             try
             {
-                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
                 _ = await _emailDbController.EditLogoAsync(ConversionHelper.ConvertToLogoDbModel(logo));
 
                 return new ResponseModel<bool>()

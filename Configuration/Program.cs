@@ -1,7 +1,7 @@
+using Configuration.Controllers.DbControllers;
 using Configuration.Controllers.WebControllers;
 using Configuration.Data;
 using Configuration.Interfaces.WebControllers;
-using EmailWebServiceLibrary.Controllers.DbControllers;
 using EmailWebServiceLibrary.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -77,10 +77,6 @@ app.MapDelete("/DeleteEmailBodySchemaAsync", emailBodyWebController.DeleteEmailB
 
 
 EmailBodyVariablesWebController emailBodyVariablesWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
-app.MapGet("/GetBodySchemaVariablesAsync", emailBodyVariablesWebController.GetBodySchemaVariables)
-    .WithDescription("Get schemas variables")
-    .WithOpenApi();
-
 app.MapPut("/EditBodySchemaVariablesAsync", emailBodyVariablesWebController.EditBodySchemaVariablesAsync)
     .WithDescription("Edit body schema variable")
     .WithOpenApi();
@@ -123,20 +119,12 @@ app.MapDelete("/DeleteRecipient", recipientsWebController.DeleteRecipient)
 
 
 EmailFooterWebController emailFooterWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
-app.MapGet("/GetEmailFooters", emailFooterWebController.GetEmailFooters)
-    .WithDescription("Get footers")
-    .WithOpenApi();
-
 app.MapPut("/EditEmailFooterAsync", emailFooterWebController.EditEmailFooterAsync)
     .WithDescription("Update recipient")
     .WithOpenApi();
 
 
 EmailLogoWebController emailLogoWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
-app.MapGet("/GetEmailLogos", emailLogoWebController.GetEmailLogos)
-    .WithDescription("Get logos")
-    .WithOpenApi();
-
 app.MapPut("/EditEmailLogoAsync", emailLogoWebController.EditEmailLogoAsync)
     .WithDescription("Update logo")
     .WithOpenApi();

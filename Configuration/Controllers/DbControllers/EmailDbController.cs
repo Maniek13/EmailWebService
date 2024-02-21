@@ -1,15 +1,18 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Data;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
-using EmailWebServiceLibrary.Models.DbModels;
 
-namespace EmailWebServiceLibrary.Controllers.DbControllers
+namespace Configuration.Controllers.DbControllers
 {
-    public class EmailRODbController(IEmailServiceContextBase dbContext) : IEmailRODbController
+    public class EmailDbController(IEmailServiceContextBase dbContext) : IEmailDbController
     {
-        private readonly IEmailServiceContextBase _context = dbContext;
+        readonly IEmailServiceContextBase _context = dbContext;
+        #region body variables
+        public async Task<bool> EditBodyVariablesAsync(IEmailSchemaVariablesDbModel emailSchemaVariablesDbModel) => throw new NotImplementedException();
+        #endregion
 
-        public List<EmailSchemaVariablesDbModel> GetBodySchemaVariables()
+        #region email config
+        public Task<bool> SetEmailConfigurationAsync(IEmailAccountConfigurationDbModel emailAccountConfiguration)
         {
             try
             {
@@ -20,7 +23,8 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<EmailRecipientsDbModel> GetRecipients()
+
+        public Task<bool> EditEmailConfigurationAsync(IEmailAccountConfigurationDbModel emailAccountConfiguration)
         {
             try
             {
@@ -31,7 +35,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<EmailFooterDbModel> GetFooters()
+        public Task<bool> DeleteEmailConfigurationAsync(int id)
         {
             try
             {
@@ -42,7 +46,10 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<LogoDbModel> GetLogos()
+        #endregion
+        #region email body
+
+        public Task<bool> SetEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema)
         {
             try
             {
@@ -53,7 +60,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<EmailRecipientsListDbModel> GetRecipientsLists()
+        public Task<bool> EditEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema)
         {
             try
             {
@@ -64,18 +71,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public IServicesPermisionsDbModel GetAppPermision(string serviceName)
-        {
-            try
-            {
-                return _context.AppPermisions.Where(el => el.ServiceName == serviceName).FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-        }
-        public IEmailAccountConfigurationDbModel GetEmailAccountConfiguration(string serviceName)
+        public Task<bool> DeleteEmailBodySchemaAsync(int id)
         {
             try
             {
@@ -86,7 +82,14 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public IEmailSchemaDbModel GetEmailSchemaDbModel(string ServiceName)
+        #endregion
+        #region recipient
+        public async Task<bool> SetRecipientAsync(IEmailRecipientDbModel recipientsDbModel) => throw new NotImplementedException();
+        public async Task<bool> EditRecipientAsync(IEmailRecipientDbModel recipientsDbModel) => throw new NotImplementedException();
+        public async Task<bool> DeleteRecipientAsync(int id) => throw new NotImplementedException();
+        #endregion
+        #region recipients  list
+        public Task<bool> SetRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel)
         {
             try
             {
@@ -97,7 +100,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<EmailRecipientsDbModel> GetUsersList(int id)
+        public Task<bool> EditRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel)
         {
             try
             {
@@ -108,7 +111,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public EmailSchemaDbModel GetEmailBodySchama(int id)
+        public Task<bool> DeleteRecipientsListAsync(int id)
         {
             try
             {
@@ -119,5 +122,14 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
+        #endregion
+
+        #region logos
+        public async Task<bool> EditLogoAsync(ILogoDbModel logo) => throw new NotImplementedException();
+        #endregion
+
+        #region footers
+        public async Task<bool> EditEmailFooterAsync(IEmailFooterDbModel footer) => throw new NotImplementedException();
+        #endregion
     }
 }

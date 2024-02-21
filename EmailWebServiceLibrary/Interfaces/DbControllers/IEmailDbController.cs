@@ -1,4 +1,4 @@
-﻿using EmailWebServiceLibrary.Models.DbModels;
+﻿using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 
 namespace EmailWebServiceLibrary.Interfaces.DbControllers
 {
@@ -6,41 +6,41 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
     {
         #region email config
 
-        Task<bool> SetEmailConfigurationAsync(EmailAccountConfigurationDbModel emailAccountConfiguration);
-        Task<bool> EditEmailConfigurationAsync(EmailAccountConfigurationDbModel emailAccountConfiguration);
+        Task<bool> SetEmailConfigurationAsync(IEmailAccountConfigurationDbModel emailAccountConfiguration);
+        Task<bool> EditEmailConfigurationAsync(IEmailAccountConfigurationDbModel emailAccountConfiguration);
         Task<bool> DeleteEmailConfigurationAsync(int id);
 
         #endregion
 
         #region email body
 
-        Task<bool> SetEmailBodySchemaAsync(EmailSchemaDbModel emailSchema);
-        Task<bool> EditEmailBodySchemaAsync(EmailSchemaDbModel emailSchema);
+        Task<bool> SetEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema);
+        Task<bool> EditEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema);
         Task<bool> DeleteEmailBodySchemaAsync(int id);
 
         #endregion
 
         #region recipient list
-        Task<bool> SetRecipientsListAsync(EmailRecipientsListDbModel recipientsListDbModel);
-        Task<bool> EditRecipientsListAsync(EmailRecipientsListDbModel recipientsListDbModel);
+        Task<bool> SetRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel);
+        Task<bool> EditRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel);
         Task<bool> DeleteRecipientsListAsync(int id);
 
         #endregion
         #region recipient
-        Task<bool> SetRecipientAsync(EmailRecipientsDbModel recipientsDbModel);
-        Task<bool> EditRecipientAsync(EmailRecipientsDbModel recipientsDbModel);
+        Task<bool> SetRecipientAsync(IEmailRecipientDbModel recipientsDbModel);
+        Task<bool> EditRecipientAsync(IEmailRecipientDbModel recipientsDbModel);
         Task<bool> DeleteRecipientAsync(int id);
         #endregion
 
         #region body variables
-        Task<bool> EditBodyVariablesAsync(EmailSchemaVariablesDbModel emailSchemaVariablesDbModel);
+        Task<bool> EditBodyVariablesAsync(IEmailSchemaVariablesDbModel emailSchemaVariablesDbModel);
         #endregion
         #region logo
-        Task<bool> EditLogoAsync(LogoDbModel logo);
+        Task<bool> EditLogoAsync(ILogoDbModel logo);
         #endregion
 
         #region footer
-        Task<bool> EditEmailFooterAsync(EmailFooterDbModel footer);
+        Task<bool> EditEmailFooterAsync(IEmailFooterDbModel footer);
         #endregion
 
     }

@@ -17,6 +17,6 @@ namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
         string Login { get; set; }
         [Required]
         string Password { get; set; }
-        ServicesPermisionsDbModel AppPermision { get; set; }
+        ServicesPermisionsDbModel ServicePermision { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
         string Name { get; set; }
         [Required]
         int ServiceId { get; set; }
-        ServicesPermisionsDbModel AppPermision { get; set; }
-        ICollection<EmailRecipientsDbModel> Recipients { get; set; }
+        ServicesPermisionsDbModel ServicePermision { get; set; }
+        ICollection<EmailRecipientDbModel> Recipients { get; set; }
     }
 }

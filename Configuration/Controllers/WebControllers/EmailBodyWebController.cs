@@ -19,11 +19,11 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
 
                 return new ResponseModel<EmailSchemaModel>()
                 {
-                    Data = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(serviceName)),
+                    Data = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(permision.Id)),
                     ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
@@ -44,7 +44,7 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
 
                 _ = await _emailDbController.SetEmailBodySchemaAsync(ConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
 
@@ -70,7 +70,7 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
 
                 _ = await _emailDbController.EditEmailBodySchemaAsync(ConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
 
@@ -96,7 +96,7 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
 
                 _ = await _emailDbController.DeleteEmailBodySchemaAsync(id);
 

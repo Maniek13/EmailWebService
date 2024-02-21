@@ -18,8 +18,8 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
-                var configuration = ConversionHelper.ConvertToEmailAccountConfigurationModel(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.ServiceName));
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var configuration = ConversionHelper.ConvertToEmailAccountConfigurationModel(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.Id));
 
                 return new ResponseModel<EmailAccountConfigurationModel>()
                 {
@@ -43,7 +43,7 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
 
                 _ = await _emailDbController.SetEmailConfigurationAsync(ConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
                 return new ResponseModel<bool>()
@@ -69,7 +69,7 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
 
                 _ = await _emailDbController.EditEmailConfigurationAsync(ConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
                 return new ResponseModel<bool>()
@@ -94,7 +94,7 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
 
                 _ = await _emailDbController.DeleteEmailConfigurationAsync(id);
                 return new ResponseModel<bool>()

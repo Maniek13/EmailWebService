@@ -18,16 +18,16 @@ namespace Domain.Controllers.WebControllers
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
-                var emailSchema = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(serviceName));
-                var configuration = ConversionHelper.ConvertToEmailAccountConfigurationModel(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.ServiceName));
-                var userList = _emailDbControllerRO.GetUsersList(permisions.Id);
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var emailSchema = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(permisions.Id));
+                var configuration = ConversionHelper.ConvertToEmailAccountConfigurationModel(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.Id));
+                var recipmentsLists = _emailDbControllerRO.GetRecipients(permisions.Id);
 
                 List<IEmailRecipientModel> users = [];
 
-                for (int i = 0; i < userList.Count; i++)
+                for (int i = 0; i < recipmentsLists.Count; i++)
                 {
-                    users.Add(ConversionHelper.ConvertToEmailRecipientsModel(userList[i]));
+                    users.Add(ConversionHelper.ConvertToEmailRecipientsModel(recipmentsLists[i]));
                 }
 
                 await EmailHelper.SendEmail(emailSchema, users, configuration, atachments);
