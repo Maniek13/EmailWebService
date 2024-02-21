@@ -21,14 +21,9 @@ namespace Domain.Controllers.WebControllers
                 var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
                 var emailSchema = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(serviceName));
                 var configuration = ConversionHelper.ConvertToEmailAccountConfigurationModel(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.ServiceName));
-
-
                 var userList = _emailDbControllerRO.GetUsersList(permisions.Id);
 
-
-
-                List<IEmailRecipientModel> users = new();
-
+                List<IEmailRecipientModel> users = [];
 
                 for (int i = 0; i < userList.Count; i++)
                 {

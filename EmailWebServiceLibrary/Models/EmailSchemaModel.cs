@@ -2,7 +2,7 @@
 
 namespace EmailWebServiceLibrary.Models
 {
-    public record struct EmailSchemaModel : IEmailSchemaModel
+    public record EmailSchemaModel : IEmailSchemaModel
     {
         public int Id { get; init; }
         public int ServiceId { get; init; }

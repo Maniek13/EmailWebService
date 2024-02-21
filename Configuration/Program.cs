@@ -3,6 +3,7 @@ using Configuration.Data;
 using Configuration.Interfaces.WebControllers;
 using EmailWebServiceLibrary.Controllers.DbControllers;
 using EmailWebServiceLibrary.Models;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -56,7 +57,8 @@ app.MapDelete("/DeleteEmailConfigurationAsync", emailWebController.DeleteEmailAc
 EmailBodyWebController emailBodyWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapPost("/SetEmailBodySchemaAsync", emailBodyWebController.SetEmailBodySchemaAsync)
     .WithDescription("Set body schema")
-    .WithOpenApi();
+    .WithOpenApi()
+    .DisableAntiforgery();
 
 app.MapPut("/EditEmailBodySchemaAsync", emailBodyWebController.EditEmailBodySchemaAsync)
     .WithDescription("Edit body schema")
@@ -69,8 +71,6 @@ app.MapDelete("/DeleteEmailBodySchemaAsync", emailBodyWebController.DeleteEmailB
 app.MapPut("/EditBodySchemaVariablesAsync", emailBodyWebController.EditBodySchemaVariablesAsync)
     .WithDescription("Edit body schema variable")
     .WithOpenApi();
-
-
 
 RecipientsListWebController recipientsListWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapPost("/SetRecipientsListAsync", recipientsListWebController.SetRecipientsListAsync)
@@ -107,5 +107,10 @@ EmailLogoWebController emailLogoWebController = new(app.Logger, new EmailRODbCon
 app.MapPut("/EditEmailLogoAsync", emailLogoWebController.EditEmailLogoAsync)
     .WithDescription("Update logo")
     .WithOpenApi();
+
+app.MapPost("/AddEmailLogoAsync", emailLogoWebController.AddEmailLogoAsync)
+    .WithDescription("Add logo")
+    .WithOpenApi()
+    .DisableAntiforgery();
 
 app.Run();

@@ -2,7 +2,7 @@
 
 namespace EmailWebServiceLibrary.Interfaces.Models
 {
-    public readonly record struct EmailFooterModel : IEmailFooterModel
+    public readonly record EmailFooterModel : IEmailFooterModel
     {
         public int Id { get; init; }
         public int EmailSchemaId { get; init; }

@@ -2,7 +2,7 @@
 
 namespace EmailWebServiceLibrary.Models
 {
-    public readonly record struct EmailRecipientsListModel : IEmailRecipientsListModel
+    public readonly record EmailRecipientsListModel : IEmailRecipientsListModel
     {
         public int Id { get; init; }
         public string Name { get; init; }

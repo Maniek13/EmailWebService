@@ -7,5 +7,10 @@ namespace EmailWebServiceTests.Configuration.WebControllers
         {
             Assert.Fail("Not implement");
         }
+        [Fact]
+        public void AddLogoTests()
+        {
+            Assert.Fail("Not implement");
+        }
     }
 }

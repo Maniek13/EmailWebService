@@ -90,7 +90,7 @@ namespace EmailWebServiceLibrary.Helpers
                     message.AlternateViews.Add(alternate);
 
 
-                    byte[] fileByteArray = System.Convert.FromBase64String(emailSchema.EmailFooter.Logo.Base64String);
+                    byte[] fileByteArray = System.Convert.FromBase64String(emailSchema.EmailFooter.Logo.FileBase64String);
                     using (MemoryStream fs = new(fileByteArray))
                     {
                         LinkedResource footer = new(fs, $"image/{emailSchema.EmailFooter.Logo.Type}")

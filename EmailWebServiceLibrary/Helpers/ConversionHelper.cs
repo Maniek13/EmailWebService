@@ -3,6 +3,7 @@ using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
+using Microsoft.AspNetCore.Http;
 
 namespace EmailWebServiceLibrary.Helpers
 {
@@ -77,5 +78,37 @@ namespace EmailWebServiceLibrary.Helpers
         }
 
         #endregion
+
+        public static ILogoDbModel ConvertToLogoDbModel(int EmailFooterId, IFormFile image, string name)
+        {
+            try
+            {
+                long fileSize = image.Length;
+                string fileType = image.ContentType;
+
+                if (fileSize > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        image.CopyTo(stream);
+                        var imageByteArray = stream.ToArray();
+
+                        return new LogoDbModel()
+                        {
+                            EmailFooterId = EmailFooterId,
+                            Name = name,
+                            Type = image.ContentType,
+                            FileByteArray = imageByteArray
+                        };
+                    }
+                }
+
+                throw new ArgumentNullException("Plik nie został ustawiony");
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
     }
 }

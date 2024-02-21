@@ -2,7 +2,7 @@
 
 namespace EmailWebServiceLibrary.Models
 {
-    public readonly record struct ServicesPermisionsModel : IServicesPermisionsModel
+    public record ServicesPermisionsModel : IServicesPermisionsModel
     {
         public int Id { get; init; }
         public string ServiceName { get; init; }
