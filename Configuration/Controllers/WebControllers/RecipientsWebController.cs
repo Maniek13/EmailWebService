@@ -49,7 +49,8 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                recipient.ServiceId = permision.Id;
                 await _emailDbController.SetRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
 
                 return new ResponseModel<bool>()
