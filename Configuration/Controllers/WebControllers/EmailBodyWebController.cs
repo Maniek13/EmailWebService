@@ -4,7 +4,6 @@ using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace Configuration.Controllers.WebControllers
@@ -25,6 +24,7 @@ namespace Configuration.Controllers.WebControllers
                 return new ResponseModel<EmailSchemaModel>()
                 {
                     Data = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(serviceName)),
+                    ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
             }
@@ -46,8 +46,14 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
 
+                _ = await _emailDbController.SetEmailBodySchemaAsync(ConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
 
-                throw new NotImplementedException();
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {
@@ -66,7 +72,14 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
 
-                throw new NotImplementedException();
+                _ = await _emailDbController.EditEmailBodySchemaAsync(ConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {
@@ -85,6 +98,14 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
 
+                _ = await _emailDbController.DeleteEmailBodySchemaAsync(id);
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = "ok"
+                };
 
                 throw new NotImplementedException();
             }

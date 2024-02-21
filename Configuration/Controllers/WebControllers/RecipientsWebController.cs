@@ -44,9 +44,81 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public Task<IResponseModel<bool>> AddRecipient(string serviceName, EmailRecipientModel user, HttpContext context) => throw new NotImplementedException();
-        public Task<IResponseModel<bool>> EditRecipient(string serviceName, EmailRecipientModel user, HttpContext context) => throw new NotImplementedException();
-        public Task<IResponseModel<bool>> DeleteRecipient(string serviceName, int id, HttpContext context) => throw new NotImplementedException();
+        public async Task<IResponseModel<bool>> AddRecipient(string serviceName, EmailRecipientModel recipient, HttpContext context)
+        {
+            try
+            {
+                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = await _emailDbController.SetRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                context.Response.StatusCode = 400;
+                return new ResponseModel<bool>()
+                {
+                    Data = false,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = ex.Message
+                };
+            }
+        }
+        public async Task<IResponseModel<bool>> EditRecipient(string serviceName, EmailRecipientModel recipient, HttpContext context)
+        {
+            try
+            {
+                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = await _emailDbController.EditRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                context.Response.StatusCode = 400;
+                return new ResponseModel<bool>()
+                {
+                    Data = false,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = ex.Message
+                };
+            }
+        }
+        public async Task<IResponseModel<bool>> DeleteRecipient(string serviceName, int id, HttpContext context)
+        {
+            try
+            {
+                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = await _emailDbController.DeleteRecipientAsync(id);
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                context.Response.StatusCode = 400;
+                return new ResponseModel<bool>()
+                {
+                    Data = false,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = ex.Message
+                };
+            }
+        }
 
     }
 }

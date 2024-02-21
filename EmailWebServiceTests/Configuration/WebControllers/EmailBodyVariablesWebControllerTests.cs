@@ -1,14 +1,14 @@
 namespace EmailWebServiceTests.Configuration.WebControllers
 {
-    public class EmailFooterWebControllerTests
+    public class EmailBodyVariablesWebControllerTests
     {
         [Fact]
-        public void GetFooters()
+        public void GetBodySchemaVariables()
         {
             Assert.Fail("Not implement");
         }
         [Fact]
-        public void UpdateFooterTests()
+        public async Task EditBodySchemaVariablesAsync()
         {
             Assert.Fail("Not implement");
         }

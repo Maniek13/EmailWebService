@@ -42,7 +42,30 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public Task<IResponseModel<bool>> EditEmailFooterAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context) => throw new NotImplementedException();
+        public async Task<IResponseModel<bool>> EditEmailFooterAsync(string serviceName, EmailFooterModel emailFooter, HttpContext context)
+        {
+            try
+            {
+                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = _emailDbController.EditEmailFooterAsync(ConversionHelper.ConvertToEmailFooterDbModel(emailFooter));
 
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                context.Response.StatusCode = 400;
+                return new ResponseModel<bool>()
+                {
+                    Data = false,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }

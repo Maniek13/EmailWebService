@@ -50,7 +50,15 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                throw new NotImplementedException();
+                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = await _emailDbController.SetRecipientsListAsync(ConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {
@@ -67,7 +75,15 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                throw new NotImplementedException();
+                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = await _emailDbController.EditRecipientsListAsync(ConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {
@@ -84,7 +100,15 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                throw new NotImplementedException();
+                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = await _emailDbController.DeleteRecipientsListAsync(id);
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {

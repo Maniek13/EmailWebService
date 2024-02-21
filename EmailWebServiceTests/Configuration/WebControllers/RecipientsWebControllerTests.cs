@@ -2,7 +2,11 @@ namespace EmailWebServiceTests.Configuration.WebControllers
 {
     public class RecipientsWebControllerTests
     {
-
+        [Fact]
+        public void GetRecipientsLists()
+        {
+            Assert.Fail("Not implement");
+        }
         [Fact]
         public async Task SetRecipientTests()
         {

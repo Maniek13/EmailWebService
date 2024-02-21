@@ -7,6 +7,10 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
     public class EmailDbController(IEmailServiceContextBase dbContext) : IEmailDbController
     {
         readonly IEmailServiceContextBase _context = dbContext;
+        #region body variables
+        public async Task<bool> EditBodyVariablesAsync(EmailSchemaVariablesDbModel emailSchemaVariablesDbModel) => throw new NotImplementedException();
+        #endregion
+
         #region email config
         public Task<bool> SetEmailConfigurationAsync(EmailAccountConfigurationDbModel emailAccountConfiguration)
         {
@@ -31,7 +35,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> DeleteEmailConfigurationAsync(EmailAccountConfigurationDbModel emailAccountConfiguration)
+        public Task<bool> DeleteEmailConfigurationAsync(int id)
         {
             try
             {
@@ -45,7 +49,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
         #endregion
         #region email body
 
-        public Task<bool> SetEmailBodySchemaAsync(EmailSchemaDbModel emailSchema, EmailSchemaVariablesDbModel emailSchemaVariables)
+        public Task<bool> SetEmailBodySchemaAsync(EmailSchemaDbModel emailSchema)
         {
             try
             {
@@ -56,7 +60,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> EditEmailBodySchemaAsync(EmailSchemaDbModel emailSchema, EmailSchemaVariablesDbModel emailSchemaVariables)
+        public Task<bool> EditEmailBodySchemaAsync(EmailSchemaDbModel emailSchema)
         {
             try
             {
@@ -67,7 +71,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> DeleteEmailBodySchemaAsync(EmailSchemaDbModel emailSchema, EmailSchemaVariablesDbModel emailSchemaVariables)
+        public Task<bool> DeleteEmailBodySchemaAsync(int id)
         {
             try
             {
@@ -79,8 +83,13 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
             }
         }
         #endregion
-        #region user list
-        public Task<bool> SetUserListAsync(EmailRecipientsDbModel emailUsersListsDbModel, EmailRecipientsListDbModel emailUsersDbModel)
+        #region recipient
+        public async Task<bool> SetRecipientAsync(EmailRecipientsDbModel recipientsDbModel) => throw new NotImplementedException();
+        public async Task<bool> EditRecipientAsync(EmailRecipientsDbModel recipientsDbModel) => throw new NotImplementedException();
+        public async Task<bool> DeleteRecipientAsync(int id) => throw new NotImplementedException();
+        #endregion
+        #region recipients  list
+        public Task<bool> SetRecipientsListAsync(EmailRecipientsListDbModel recipientsListDbModel)
         {
             try
             {
@@ -91,7 +100,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> EditUserListAsync(EmailRecipientsDbModel emailUsersListsDbModel, EmailRecipientsListDbModel emailUsersDbModel)
+        public Task<bool> EditRecipientsListAsync(EmailRecipientsListDbModel recipientsListDbModel)
         {
             try
             {
@@ -102,7 +111,7 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> DeleteUserListAsync(EmailRecipientsDbModel emailUsersListsDbModel, EmailRecipientsListDbModel emailUsersDbModel)
+        public Task<bool> DeleteRecipientsListAsync(int id)
         {
             try
             {
@@ -113,6 +122,14 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
+        #endregion
+
+        #region logos
+        public async Task<bool> EditLogoAsync(LogoDbModel logo) => throw new NotImplementedException();
+        #endregion
+
+        #region footers
+        public async Task<bool> EditEmailFooterAsync(EmailFooterDbModel footer) => throw new NotImplementedException();
         #endregion
     }
 }

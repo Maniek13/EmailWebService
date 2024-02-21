@@ -10,29 +10,217 @@ namespace EmailWebServiceLibrary.Helpers
     public static class ConversionHelper
     {
         #region convert to db models
-        public static ServicesPermisionsDbModel ConvertToAppPermisionDbModel(IServicesPermisionsDbModel appPermisionDb)
+
+        public static EmailRecipientsListDbModel ConvertToEmailRecipientsListDbModel(EmailRecipientsListModel emailRecipientsList)
         {
-            return new ServicesPermisionsDbModel()
+            try
             {
-                Id = appPermisionDb.Id,
-                ServiceName = appPermisionDb.ServiceName,
-                EmailAccountConfiguration = appPermisionDb.EmailAccountConfiguration,
-                EmailSchema = appPermisionDb.EmailSchema,
-                EmailRecipientList = appPermisionDb.EmailRecipientList,
-            };
+                ICollection<EmailRecipientsDbModel> recipients = new List<EmailRecipientsDbModel>();
+
+                for (int i = 0; i < emailRecipientsList.Recipients.Count; ++i)
+                {
+                    recipients.Add(ConvertToEmailRecipientsDbModel(emailRecipientsList.Recipients[i]));
+                }
+
+                return new EmailRecipientsListDbModel()
+                {
+                    Id = emailRecipientsList.Id,
+                    Name = emailRecipientsList.Name,
+                    ServiceId = emailRecipientsList.ServiceId,
+                    Recipients = recipients
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public static EmailRecipientsDbModel ConvertToEmailRecipientsDbModel(EmailRecipientModel recipient)
+        {
+            try
+            {
+                return new EmailRecipientsDbModel()
+                {
+                    Id = recipient.Id,
+                    RecipientListId = recipient.RecipientsListId,
+                    Name = recipient.Name,
+                    EmailAdress = recipient.EmailAdress
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+        }
+        public static ServicesPermisionsDbModel ConvertToServicePermisionDbModel(IServicesPermisionsDbModel appPermisionDb)
+        {
+            try
+            {
+                return new ServicesPermisionsDbModel()
+                {
+                    Id = appPermisionDb.Id,
+                    ServiceName = appPermisionDb.ServiceName,
+                    EmailAccountConfiguration = appPermisionDb.EmailAccountConfiguration,
+                    EmailSchema = appPermisionDb.EmailSchema,
+                    EmailRecipientList = appPermisionDb.EmailRecipientList,
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
         }
         public static EmailAccountConfigurationDbModel ConvertToEmailAccountConfigurationDbModel(IEmailAccountConfigurationModel emailConfigurationModel)
         {
-            return new EmailAccountConfigurationDbModel()
+            try
             {
-                Id = emailConfigurationModel.Id,
-                ServiceId = emailConfigurationModel.ServiceId,
-                SMTP = emailConfigurationModel.SMTP,
-                Port = emailConfigurationModel.Port,
-                Login = emailConfigurationModel.Login,
-                Password = emailConfigurationModel.Password
-            };
+                return new EmailAccountConfigurationDbModel()
+                {
+                    Id = emailConfigurationModel.Id,
+                    ServiceId = emailConfigurationModel.ServiceId,
+                    SMTP = emailConfigurationModel.SMTP,
+                    Port = emailConfigurationModel.Port,
+                    Login = emailConfigurationModel.Login,
+                    Password = emailConfigurationModel.Password
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
         }
+        public static EmailSchemaDbModel ConvertToEmailSchemaDbModel(EmailSchemaModel emailschema)
+        {
+            try
+            {
+                ICollection<EmailSchemaVariablesDbModel> emailSchemaVariables = new List<EmailSchemaVariablesDbModel>();
+
+                for (int i = 0; i < emailschema.EmailSchemaVariables.Count; ++i)
+                {
+                    emailSchemaVariables.Add(ConvertToEmailSchemaVariableDbModel(emailschema.EmailSchemaVariables[i]));
+                }
+
+                return new EmailSchemaDbModel()
+                {
+                    Id = emailschema.Id,
+                    ServiceId = emailschema.ServiceId,
+                    Name = emailschema.Name,
+                    Body = emailschema.Body,
+                    From = emailschema.From,
+                    DisplayName = emailschema.DisplayName,
+                    ReplyTo = emailschema.ReplyTo,
+                    ReplyToDisplayName = emailschema.ReplyToDisplayName,
+                    Subject = emailschema.Subject,
+                    EmailFooter = ConvertToEmailFooterDbModel(emailschema.EmailFooter),
+                    EmailSchemaVariables = emailSchemaVariables
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+        }
+
+
+        public static EmailSchemaVariablesDbModel ConvertToEmailSchemaVariableDbModel(EmailSchemaVariablesModel emailSchemaVar)
+        {
+            try
+            {
+                return new EmailSchemaVariablesDbModel()
+                {
+                    Id = emailSchemaVar.Id,
+                    EmailSchemaId = emailSchemaVar.EmailSchemaId,
+                    Name = emailSchemaVar.Name,
+                    Value = emailSchemaVar.Value
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+        }
+
+        public static EmailFooterDbModel ConvertToEmailFooterDbModel(EmailFooterModel emailFooter)
+        {
+            try
+            {
+                return new EmailFooterDbModel()
+                {
+                    Id = emailFooter.Id,
+                    EmailSchemaId = emailFooter.EmailSchemaId,
+                    TextHtml = emailFooter.TextHtml,
+                    Logo = ConvertToLogoDbModel(emailFooter.Logo),
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+        }
+
+        public static LogoDbModel ConvertToLogoDbModel(LogoModel logo)
+        {
+            try
+            {
+                var imageByteArray = Convert.FromBase64String(logo.FileBase64String);
+
+                if (imageByteArray == null)
+                    throw new Exception("Plik nie został ustawiony");
+
+                return new LogoDbModel()
+                {
+                    Id = logo.Id,
+                    EmailFooterId = logo.EmailFooterId,
+                    Name = logo.Name,
+                    Type = logo.Type,
+                    FileByteArray = imageByteArray
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public static LogoDbModel ConvertToLogoDbModel(int EmailFooterId, IFormFile image, string name)
+        {
+            try
+            {
+                long fileSize = image.Length;
+                string fileType = image.ContentType;
+
+                if (fileSize > 0)
+                {
+                    using var stream = new MemoryStream();
+                    image.CopyTo(stream);
+                    var imageByteArray = stream.ToArray();
+
+                    return new LogoDbModel()
+                    {
+                        EmailFooterId = EmailFooterId,
+                        Name = name,
+                        Type = image.ContentType,
+                        FileByteArray = imageByteArray
+                    };
+                }
+
+                throw new Exception("Plik nie został ustawiony");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+
+
         #endregion
 
         #region convert to models
@@ -136,34 +324,6 @@ namespace EmailWebServiceLibrary.Helpers
         }
         #endregion
 
-        public static ILogoDbModel ConvertToLogoDbModel(int EmailFooterId, IFormFile image, string name)
-        {
-            try
-            {
-                long fileSize = image.Length;
-                string fileType = image.ContentType;
 
-                if (fileSize > 0)
-                {
-                    using var stream = new MemoryStream();
-                    image.CopyTo(stream);
-                    var imageByteArray = stream.ToArray();
-
-                    return new LogoDbModel()
-                    {
-                        EmailFooterId = EmailFooterId,
-                        Name = name,
-                        Type = image.ContentType,
-                        FileByteArray = imageByteArray
-                    };
-                }
-
-                throw new Exception("Plik nie został ustawiony");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-        }
     }
 }

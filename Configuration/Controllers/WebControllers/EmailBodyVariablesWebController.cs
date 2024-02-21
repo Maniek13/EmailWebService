@@ -20,7 +20,6 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
-
                 var variablesDb = _emailDbControllerRO.GetBodySchemaVariables();
 
                 List<EmailSchemaVariablesModel> variablesList = [];
@@ -53,8 +52,15 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = await _emailDbController.EditBodyVariablesAsync(ConversionHelper.ConvertToEmailSchemaVariableDbModel(variables));
 
-                throw new NotImplementedException();
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {

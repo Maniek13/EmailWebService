@@ -7,8 +7,8 @@ namespace Configuration.Interfaces.WebControllers
     {
         #region recipients 
         IResponseModel<List<EmailRecipientModel>> GetRecipients(string serviceName, HttpContext context);
-        Task<IResponseModel<bool>> AddRecipient(string serviceName, EmailRecipientModel user, HttpContext context);
-        Task<IResponseModel<bool>> EditRecipient(string serviceName, EmailRecipientModel user, HttpContext context);
+        Task<IResponseModel<bool>> AddRecipient(string serviceName, EmailRecipientModel recipient, HttpContext context);
+        Task<IResponseModel<bool>> EditRecipient(string serviceName, EmailRecipientModel recipient, HttpContext context);
         Task<IResponseModel<bool>> DeleteRecipient(string serviceName, int id, HttpContext context);
         #endregion
     }

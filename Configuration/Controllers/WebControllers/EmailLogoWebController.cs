@@ -3,9 +3,7 @@ using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
-using EmailWebServiceLibrary.Models.DbModels;
 using EmailWebServiceLibrary.Models.Models;
-using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace Configuration.Interfaces.WebControllers
@@ -49,16 +47,19 @@ namespace Configuration.Interfaces.WebControllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> EditEmailLogoAsync(string serviceName, LogoModel logo, HttpContext context) => throw new NotImplementedException();
-        public async Task<IResponseModel<bool>> AddEmailLogoAsync(string serviceName, [FromForm] LogoWithFileModel logo, HttpContext context)
+        public async Task<IResponseModel<bool>> EditEmailLogoAsync(string serviceName, LogoModel logo, HttpContext context)
         {
             try
             {
-                var file = context.Request.Form.Files[0] ?? throw new Exception("Prosze wybrać zdjęcie");
-                LogoDbModel logoDbModel = (LogoDbModel)ConversionHelper.ConvertToLogoDbModel(logo.EmailFooterId, file, logo.Name);
+                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = await _emailDbController.EditLogoAsync(ConversionHelper.ConvertToLogoDbModel(logo));
 
-
-                throw new NotImplementedException();
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {

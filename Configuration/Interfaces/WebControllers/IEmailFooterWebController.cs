@@ -6,6 +6,6 @@ namespace Configuration.Interfaces.WebControllers
     interface IEmailFooterWebController
     {
         IResponseModel<List<EmailFooterModel>> GetEmailFooters(string serviceName, HttpContext context);
-        Task<IResponseModel<bool>> EditEmailFooterAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context);
+        Task<IResponseModel<bool>> EditEmailFooterAsync(string serviceName, EmailFooterModel emailFooter, HttpContext context);
     }
 }

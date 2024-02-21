@@ -43,7 +43,15 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                throw new NotImplementedException();
+                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+
+                _ = await _emailDbController.SetEmailConfigurationAsync(ConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {
@@ -61,7 +69,15 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                throw new NotImplementedException();
+                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+
+                _ = await _emailDbController.EditEmailConfigurationAsync(ConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
             }
             catch (Exception ex)
             {
@@ -78,6 +94,15 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
+                var permisions = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+
+                _ = await _emailDbController.DeleteEmailConfigurationAsync(id);
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
                 throw new NotImplementedException();
             }
             catch (Exception ex)

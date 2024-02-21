@@ -9,8 +9,8 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
     {
         private readonly IEmailServiceContextBase _context = dbContext;
 
-         public List<EmailSchemaVariablesDbModel> GetBodySchemaVariables()
-         {
+        public List<EmailSchemaVariablesDbModel> GetBodySchemaVariables()
+        {
             try
             {
                 throw new NotImplementedException();
