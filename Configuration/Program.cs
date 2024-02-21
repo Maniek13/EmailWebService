@@ -141,9 +141,5 @@ app.MapPut("/EditEmailLogoAsync", emailLogoWebController.EditEmailLogoAsync)
     .WithDescription("Update logo")
     .WithOpenApi();
 
-app.MapPost("/AddEmailLogoAsync", emailLogoWebController.AddEmailLogoAsync)
-    .WithDescription("Add logo")
-    .WithOpenApi()
-    .DisableAntiforgery();
 
 app.Run();
