@@ -4,6 +4,7 @@
     {
         int Id { get; init; }
         int RecipientsListId { get; init; }
+        int ServiceId { get; set; }
         string Name { get; init; }
         string EmailAdress { get; init; }
 

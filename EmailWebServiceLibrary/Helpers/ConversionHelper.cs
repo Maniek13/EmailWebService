@@ -44,6 +44,7 @@ namespace EmailWebServiceLibrary.Helpers
                 return new EmailRecipientDbModel()
                 {
                     Id = recipient.Id,
+                    ServiceId= recipient.ServiceId,
                     RecipientListId = recipient.RecipientsListId,
                     Name = recipient.Name,
                     EmailAdress = recipient.EmailAdress
@@ -98,7 +99,7 @@ namespace EmailWebServiceLibrary.Helpers
         {
             try
             {
-                ICollection<EmailSchemaVariablesDbModel> emailSchemaVariables = new List<EmailSchemaVariablesDbModel>();
+                List<EmailSchemaVariablesDbModel> emailSchemaVariables = [];
 
                 for (int i = 0; i < emailschema.EmailSchemaVariables.Count; ++i)
                 {
@@ -172,10 +173,9 @@ namespace EmailWebServiceLibrary.Helpers
             {
                 var imageByteArray = Convert.FromBase64String(logo.FileBase64String);
 
-                if (imageByteArray == null)
-                    throw new Exception("Plik nie został ustawiony");
-
-                return new LogoDbModel()
+                return imageByteArray == null
+                    ? throw new Exception("Plik nie został ustawiony")
+                    : new LogoDbModel()
                 {
                     Id = logo.Id,
                     EmailFooterId = logo.EmailFooterId,
@@ -267,6 +267,7 @@ namespace EmailWebServiceLibrary.Helpers
             return new EmailRecipientModel()
             {
                 Id = user.Id,
+                ServiceId = user.ServiceId,
                 RecipientsListId = user.RecipientListId,
                 Name = user.Name,
                 EmailAdress = user.EmailAdress

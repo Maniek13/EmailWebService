@@ -12,7 +12,7 @@ namespace Configuration.Controllers.WebControllers
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
-
+        readonly ILogger _logger = logger;
         #region user list
         public IResponseModel<List<EmailRecipientsListModel>> GetRecipientsLists(string serviceName, HttpContext context)
         {
@@ -37,6 +37,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<List<EmailRecipientsListModel>>()
                 {
@@ -46,12 +47,19 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> SetRecipientsListAsync(string serviceName, EmailRecipientsListModel emailRecipients, HttpContext context)
+        public async Task<IResponseModel<bool>> AddRecipientsListAsync(string serviceName, EmailRecipientsListModel emailRecipients, HttpContext context)
         {
             try
             {
-                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-                _ = await _emailDbController.SetRecipientsListAsync(ConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
+                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                emailRecipients.ServiceId = permision.Id;
+
+                for (int i = 0; i<emailRecipients.Recipients.Count; ++i)
+                {
+                    emailRecipients.Recipients[i].ServiceId = permision.Id;
+                }
+
+                await _emailDbController.SetRecipientsListAsync(ConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
 
                 return new ResponseModel<bool>()
                 {
@@ -62,6 +70,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {
@@ -76,7 +85,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-                _ = await _emailDbController.EditRecipientsListAsync(ConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
+                await _emailDbController.EditRecipientsListAsync(ConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
 
                 return new ResponseModel<bool>()
                 {
@@ -87,6 +96,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message);
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {
@@ -101,7 +111,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-                _ = await _emailDbController.DeleteRecipientsListAsync(id);
+                await _emailDbController.DeleteRecipientsListAsync(id);
 
                 return new ResponseModel<bool>()
                 {
@@ -112,6 +122,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {

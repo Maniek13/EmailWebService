@@ -12,7 +12,7 @@ namespace Configuration.Controllers.WebControllers
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
-
+        readonly ILogger _logger = logger;
         public IResponseModel<List<EmailRecipientModel>> GetRecipients(string serviceName, HttpContext context)
         {
             try
@@ -35,6 +35,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<List<EmailRecipientModel>>()
                 {
@@ -49,7 +50,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-                _ = await _emailDbController.SetRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
+                await _emailDbController.SetRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
 
                 return new ResponseModel<bool>()
                 {
@@ -60,6 +61,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {
@@ -74,7 +76,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-                _ = await _emailDbController.EditRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
+                await _emailDbController.EditRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
 
                 return new ResponseModel<bool>()
                 {
@@ -85,6 +87,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {
@@ -99,7 +102,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-                _ = await _emailDbController.DeleteRecipientAsync(id);
+                await _emailDbController.DeleteRecipientAsync(id);
 
                 return new ResponseModel<bool>()
                 {
@@ -110,6 +113,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {

@@ -5,7 +5,7 @@ namespace EmailWebServiceLibrary.Interfaces.Models
     public interface IEmailSchemaModel
     {
         int Id { get; init; }
-        int ServiceId { get; init; }
+        int ServiceId { get; set; }
         string From { get; init; }
         string DisplayName { get; init; }
         string ReplyToDisplayName { get; init; }

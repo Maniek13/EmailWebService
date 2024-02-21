@@ -14,14 +14,14 @@ namespace Configuration.Interfaces.WebControllers
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
-
+        readonly ILogger _logger = logger;
 
         public async Task<IResponseModel<bool>> EditEmailLogoAsync(string serviceName, LogoModel logo, HttpContext context)
         {
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-                _ = await _emailDbController.EditLogoAsync(ConversionHelper.ConvertToLogoDbModel(logo));
+                await _emailDbController.EditLogoAsync(ConversionHelper.ConvertToLogoDbModel(logo));
 
                 return new ResponseModel<bool>()
                 {
@@ -32,6 +32,7 @@ namespace Configuration.Interfaces.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {

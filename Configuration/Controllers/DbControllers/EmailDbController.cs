@@ -1,6 +1,7 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Data;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
+using EmailWebServiceLibrary.Models.DbModels;
 
 namespace Configuration.Controllers.DbControllers
 {
@@ -8,15 +9,27 @@ namespace Configuration.Controllers.DbControllers
     {
         readonly IEmailServiceContextBase _context = dbContext;
         #region body variables
-        public async Task<bool> EditBodyVariablesAsync(IEmailSchemaVariablesDbModel emailSchemaVariablesDbModel) => throw new NotImplementedException();
+        public async Task EditBodyVariablesAsync(IEmailSchemaVariablesDbModel emailSchemaVariablesDbModel)
+        {
+            try
+            {
+                _context.EmailSchemaVariables.Update((EmailSchemaVariablesDbModel)emailSchemaVariablesDbModel);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
         #endregion
 
         #region email config
-        public Task<bool> SetEmailConfigurationAsync(IEmailAccountConfigurationDbModel emailAccountConfiguration)
+        public async Task SetEmailConfigurationAsync(IEmailAccountConfigurationDbModel emailAccountConfiguration)
         {
             try
             {
-                throw new NotImplementedException();
+                await _context.EmailSchemaVariables.AddAsync((EmailSchemaVariablesDbModel)emailAccountConfiguration);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -24,22 +37,25 @@ namespace Configuration.Controllers.DbControllers
             }
         }
 
-        public Task<bool> EditEmailConfigurationAsync(IEmailAccountConfigurationDbModel emailAccountConfiguration)
+        public async Task EditEmailConfigurationAsync(IEmailAccountConfigurationDbModel emailAccountConfiguration)
         {
             try
             {
-                throw new NotImplementedException();
+                _context.EmailAccountConfiguration.Update((EmailAccountConfigurationDbModel)emailAccountConfiguration);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> DeleteEmailConfigurationAsync(int id)
+        public async Task DeleteEmailConfigurationAsync(int id)
         {
             try
             {
-                throw new NotImplementedException();
+                var entity = _context.EmailAccountConfiguration.Where(el => el.Id == id).FirstOrDefault();
+                _context.EmailAccountConfiguration.Remove(entity);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -49,33 +65,37 @@ namespace Configuration.Controllers.DbControllers
         #endregion
         #region email body
 
-        public Task<bool> SetEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema)
+        public async Task SetEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema)
         {
             try
             {
-                throw new NotImplementedException();
+                await _context.EmailSchemas.AddAsync((EmailSchemaDbModel)emailSchema);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> EditEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema)
+        public async Task EditEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema)
         {
             try
             {
-                throw new NotImplementedException();
+                _context.EmailSchemas.Update((EmailSchemaDbModel)emailSchema);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> DeleteEmailBodySchemaAsync(int id)
+        public async Task DeleteEmailBodySchemaAsync(int id)
         {
             try
             {
-                throw new NotImplementedException();
+                var entity = _context.EmailSchemaVariables.Where(el => el.Id == id).FirstOrDefault();
+                _context.EmailSchemaVariables.Remove(entity);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -84,38 +104,76 @@ namespace Configuration.Controllers.DbControllers
         }
         #endregion
         #region recipient
-        public async Task<bool> SetRecipientAsync(IEmailRecipientDbModel recipientsDbModel) => throw new NotImplementedException();
-        public async Task<bool> EditRecipientAsync(IEmailRecipientDbModel recipientsDbModel) => throw new NotImplementedException();
-        public async Task<bool> DeleteRecipientAsync(int id) => throw new NotImplementedException();
+        public async Task SetRecipientAsync(IEmailRecipientDbModel recipientsDbModel)
+        {
+            try
+            {
+                await _context.Recipients.AddAsync((EmailRecipientDbModel)recipientsDbModel);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public async Task EditRecipientAsync(IEmailRecipientDbModel recipientsDbModel)
+        {
+            try
+            {
+                _context.Recipients.Update((EmailRecipientDbModel)recipientsDbModel);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public async Task DeleteRecipientAsync(int id)
+        {
+            try
+            {
+                var entity = _context.Recipients.Where(el => el.Id == id).FirstOrDefault();
+                _context.Recipients.Remove(entity);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
         #endregion
         #region recipients  list
-        public Task<bool> SetRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel)
+        public async Task SetRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel)
         {
             try
             {
-                throw new NotImplementedException();
+                await _context.RecipientsList.AddAsync((EmailRecipientsListDbModel)recipientsListDbModel);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> EditRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel)
+        public async Task EditRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel)
         {
             try
             {
-                throw new NotImplementedException();
+                _context.RecipientsList.Update((EmailRecipientsListDbModel)recipientsListDbModel);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
         }
-        public Task<bool> DeleteRecipientsListAsync(int id)
+        public async Task DeleteRecipientsListAsync(int id)
         {
             try
             {
-                throw new NotImplementedException();
+                var entity = _context.RecipientsList.Where(el => el.Id == id).FirstOrDefault();
+                _context.RecipientsList.Remove(entity);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -125,11 +183,33 @@ namespace Configuration.Controllers.DbControllers
         #endregion
 
         #region logos
-        public async Task<bool> EditLogoAsync(ILogoDbModel logo) => throw new NotImplementedException();
+        public async Task EditLogoAsync(ILogoDbModel logo)
+        {
+            try
+            {
+                _context.Logos.Update((LogoDbModel)logo);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
         #endregion
 
         #region footers
-        public async Task<bool> EditEmailFooterAsync(IEmailFooterDbModel footer) => throw new NotImplementedException();
+        public async Task EditEmailFooterAsync(IEmailFooterDbModel footer)
+        {
+            try
+            {
+                _context.Footers.Update((EmailFooterDbModel)footer);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
         #endregion
     }
 }

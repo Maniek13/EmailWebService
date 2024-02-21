@@ -54,11 +54,20 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<EmailRecipientDbModel> GetRecipients(int serviceId)
+        public List<IEmailRecipientDbModel> GetRecipients(int serviceId)
         {
             try
             {
-                return _context.Recipients.Where(el => el.ServiceId == serviceId).ToList();
+                var list = _context.Recipients.Where(el => el.ServiceId == serviceId).ToList();
+                List<IEmailRecipientDbModel> res = [];
+
+                for (int i =0; i< list.Count; ++i)
+                {
+                    res.Add(res[i]);
+                }
+
+
+                return res;
 
             }
             catch (Exception ex)
@@ -67,11 +76,20 @@ namespace Configuration.Controllers.DbControllers
             }
         }
 
-        public List<EmailRecipientsListDbModel> GetRecipientsLists(int ServiceId)
+        public List<IEmailRecipientsListDbModel> GetRecipientsLists(int ServiceId)
         {
             try
             {
-                return _context.RecipientsList.Where(el => el.ServiceId == ServiceId).ToList();
+                var list = _context.RecipientsList.Where(el => el.ServiceId == ServiceId).ToList(); ;
+                List<IEmailRecipientsListDbModel> res = [];
+
+                for (int i = 0; i < list.Count; ++i)
+                {
+                    res.Add(res[i]);
+                }
+
+
+                return res;
             }
             catch (Exception ex)
             {

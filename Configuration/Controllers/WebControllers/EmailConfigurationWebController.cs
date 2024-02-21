@@ -12,6 +12,7 @@ namespace Configuration.Controllers.WebControllers
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
+        readonly ILogger _logger = logger;
 
         #region email config
         public IResponseModel<EmailAccountConfigurationModel> GetEmailAccountConfiguration(string serviceName, HttpContext context)
@@ -30,6 +31,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<EmailAccountConfigurationModel>()
                 {
@@ -39,13 +41,13 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        public async Task<IResponseModel<bool>> SetEmailAccountConfigurationAsync(string serviceName, EmailAccountConfigurationModel emailAccountConfiguration, HttpContext context)
+        public async Task<IResponseModel<bool>> AddEmailAccountConfigurationAsync(string serviceName, EmailAccountConfigurationModel emailAccountConfiguration, HttpContext context)
         {
             try
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-
-                _ = await _emailDbController.SetEmailConfigurationAsync(ConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
+                emailAccountConfiguration.ServiceId = permisions.Id;
+                await _emailDbController.SetEmailConfigurationAsync(ConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
                 return new ResponseModel<bool>()
                 {
                     Data = true,
@@ -55,6 +57,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {
@@ -71,7 +74,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
 
-                _ = await _emailDbController.EditEmailConfigurationAsync(ConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
+                await _emailDbController.EditEmailConfigurationAsync(ConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
                 return new ResponseModel<bool>()
                 {
                     Data = true,
@@ -81,6 +84,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {
@@ -96,7 +100,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
 
-                _ = await _emailDbController.DeleteEmailConfigurationAsync(id);
+                await _emailDbController.DeleteEmailConfigurationAsync(id);
                 return new ResponseModel<bool>()
                 {
                     Data = true,
@@ -107,6 +111,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {

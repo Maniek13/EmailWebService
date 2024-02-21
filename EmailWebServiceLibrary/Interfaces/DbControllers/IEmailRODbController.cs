@@ -9,7 +9,7 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
         IEmailAccountConfigurationDbModel GetEmailAccountConfiguration(int serviceId);
         IEmailSchemaDbModel GetEmailSchemaDbModel(int serviceId);
         IEmailSchemaDbModel GetEmailBodySchama(int id);
-        List<EmailRecipientsListDbModel> GetRecipientsLists(int serviceId);
-        List<EmailRecipientDbModel> GetRecipients(int serviceId);
+        List<IEmailRecipientsListDbModel> GetRecipientsLists(int serviceId);
+        List<IEmailRecipientDbModel> GetRecipients(int serviceId);
     }
 }

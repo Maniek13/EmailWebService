@@ -19,7 +19,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-                _ = await _emailDbController.EditBodyVariablesAsync(ConversionHelper.ConvertToEmailSchemaVariableDbModel(variables));
+                await _emailDbController.EditBodyVariablesAsync(ConversionHelper.ConvertToEmailSchemaVariableDbModel(variables));
 
 
                 return new ResponseModel<bool>()
@@ -31,6 +31,7 @@ namespace Configuration.Controllers.WebControllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
                 return new ResponseModel<bool>()
                 {

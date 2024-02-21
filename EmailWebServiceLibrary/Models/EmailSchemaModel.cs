@@ -5,7 +5,7 @@ namespace EmailWebServiceLibrary.Models
     public record EmailSchemaModel : IEmailSchemaModel
     {
         public int Id { get; init; }
-        public int ServiceId { get; init; }
+        public int ServiceId { get; set; }
         public string From { get; init; }
         public string DisplayName { get; init; }
         public string Name { get; init; }

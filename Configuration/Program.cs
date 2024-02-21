@@ -41,29 +41,29 @@ using (var scope = app.Services.CreateScope())
 
 EmailConfigurationWebController emailWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapGet("/GetEmailAccountConfiguration", emailWebController.GetEmailAccountConfiguration)
-    .WithDescription("Get email configurations")
+    .WithDescription("Get email configuration")
     .WithOpenApi();
 
-app.MapPost("/SetEmailConfigurationAsync", emailWebController.SetEmailAccountConfigurationAsync)
-    .WithDescription("Set email configurations")
+app.MapPost("/AddEmailAccountConfigurationAsync", emailWebController.AddEmailAccountConfigurationAsync)
+    .WithDescription("Add email configuration")
     .WithOpenApi();
 
 app.MapPut("/EditEmailAccountConfigurationAsync", emailWebController.EditEmailAccountConfigurationAsync)
-    .WithDescription("Edit email configurations")
+    .WithDescription("Edit email configuration")
     .WithOpenApi();
 
 app.MapDelete("/DeleteEmailConfigurationAsync", emailWebController.DeleteEmailAccountConfigurationAsync)
-    .WithDescription("Delete email configurations")
+    .WithDescription("Delete email configuration")
     .WithOpenApi();
 
 
 EmailBodyWebController emailBodyWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapGet("/GetEmailBodySchema", emailBodyWebController.GetEmailBodySchema)
-    .WithDescription("Get body schamas")
+    .WithDescription("Get body schama")
     .WithOpenApi();
 
-app.MapPost("/SetEmailBodySchemaAsync", emailBodyWebController.SetEmailBodySchemaAsync)
-    .WithDescription("Set body schema")
+app.MapPost("/AddEmailBodySchemaAsync", emailBodyWebController.AddEmailBodySchemaAsync)
+    .WithDescription("Add body schema")
     .WithOpenApi()
     .DisableAntiforgery();
 
@@ -73,7 +73,7 @@ app.MapPut("/EditEmailBodySchemaAsync", emailBodyWebController.EditEmailBodySche
 
 app.MapDelete("/DeleteEmailBodySchemaAsync", emailBodyWebController.DeleteEmailBodySchemaAsync)
     .WithDescription("Delete email schema")
-.WithOpenApi();
+    .WithOpenApi();
 
 
 EmailBodyVariablesWebController emailBodyVariablesWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
@@ -84,19 +84,19 @@ app.MapPut("/EditBodySchemaVariablesAsync", emailBodyVariablesWebController.Edit
 
 RecipientsListWebController recipientsListWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapGet("/GetRecipientsLists", recipientsListWebController.GetRecipientsLists)
-    .WithDescription("Get recipients lists")
+    .WithDescription("Get recipients list")
     .WithOpenApi();
 
-app.MapPost("/SetRecipientsListAsync", recipientsListWebController.SetRecipientsListAsync)
-    .WithDescription("Set recipient list")
+app.MapPost("/AddRecipientsListAsync", recipientsListWebController.AddRecipientsListAsync)
+    .WithDescription("Add recipients list")
     .WithOpenApi();
 
 app.MapPut("/EditRecipientsListAsync", recipientsListWebController.EditRecipientsListAsync)
-    .WithDescription("Update recipient list")
+    .WithDescription("Edit recipients list")
     .WithOpenApi();
 
 app.MapDelete("/DeleteRecipientsListAsync", recipientsListWebController.DeleteRecipientsListAsync)
-    .WithDescription("Delete recipient list")
+    .WithDescription("Delete recipients list")
     .WithOpenApi();
 
 
@@ -106,11 +106,11 @@ app.MapGet("/GetRecipients", recipientsWebController.GetRecipients)
     .WithOpenApi();
 
 app.MapPost("/AddRecipient", recipientsWebController.AddRecipient)
-    .WithDescription("Set recipient")
+    .WithDescription("Add recipient")
     .WithOpenApi();
 
 app.MapPut("/EditRecipient", recipientsWebController.EditRecipient)
-    .WithDescription("Update recipient")
+    .WithDescription("Edit recipient")
     .WithOpenApi();
 
 app.MapDelete("/DeleteRecipient", recipientsWebController.DeleteRecipient)
@@ -120,13 +120,13 @@ app.MapDelete("/DeleteRecipient", recipientsWebController.DeleteRecipient)
 
 EmailFooterWebController emailFooterWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapPut("/EditEmailFooterAsync", emailFooterWebController.EditEmailFooterAsync)
-    .WithDescription("Update recipient")
+    .WithDescription("Edit footer")
     .WithOpenApi();
 
 
 EmailLogoWebController emailLogoWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
 app.MapPut("/EditEmailLogoAsync", emailLogoWebController.EditEmailLogoAsync)
-    .WithDescription("Update logo")
+    .WithDescription("Edit logo")
     .WithOpenApi();
 
 
