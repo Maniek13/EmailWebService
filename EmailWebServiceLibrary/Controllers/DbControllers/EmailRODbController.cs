@@ -9,6 +9,61 @@ namespace EmailWebServiceLibrary.Controllers.DbControllers
     {
         private readonly IEmailServiceContextBase _context = dbContext;
 
+         public List<EmailSchemaVariablesDbModel> GetBodySchemaVariables()
+         {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public List<EmailRecipientsDbModel> GetRecipients()
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public List<EmailFooterDbModel> GetFooters()
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public List<LogoDbModel> GetLogos()
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public List<EmailRecipientsListDbModel> GetRecipientsLists()
+        {
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
         public IServicesPermisionsDbModel GetAppPermision(string serviceName)
         {
             try

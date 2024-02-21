@@ -1,8 +1,7 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models.DbModels;
-using EmailWebServiceLibrary.Models.DbModels;
 using System.ComponentModel.DataAnnotations;
 
-namespace EmailWebServiceLibrary.Interfaces.DbModels
+namespace EmailWebServiceLibrary.Models.DbModels
 {
     public record EmailFooterDbModel : IEmailFooterDbModel
     {

@@ -1,5 +1,4 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Data;
-using EmailWebServiceLibrary.Interfaces.DbModels;
 using EmailWebServiceLibrary.Models.DbModels;
 using Microsoft.EntityFrameworkCore;
 

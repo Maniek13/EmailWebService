@@ -1,8 +1,9 @@
-﻿using EmailWebServiceLibrary.Interfaces.DbModels;
+﻿using EmailWebServiceLibrary.Interfaces.Models;
+using EmailWebServiceLibrary.Models.Models;
 
-namespace EmailWebServiceLibrary.Interfaces.Models
+namespace EmailWebServiceLibrary.Models
 {
-    public readonly record EmailFooterModel : IEmailFooterModel
+    public record EmailFooterModel : IEmailFooterModel
     {
         public int Id { get; init; }
         public int EmailSchemaId { get; init; }

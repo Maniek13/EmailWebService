@@ -1,4 +1,4 @@
-﻿namespace EmailWebServiceLibrary.Interfaces.DbModels
+﻿namespace EmailWebServiceLibrary.Interfaces.Models
 {
     public interface ILogoModel
     {

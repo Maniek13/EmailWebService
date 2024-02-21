@@ -1,9 +1,8 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
-using EmailWebServiceLibrary.Models;
 
-namespace EmailWebServiceLibrary.Interfaces.DbModels
+namespace EmailWebServiceLibrary.Models
 {
-    public readonly record EmailAccountConfigurationModel : IEmailAccountConfigurationModel
+    public record EmailAccountConfigurationModel : IEmailAccountConfigurationModel
     {
         public int Id { get; init; }
         public int ServiceId { get; init; }

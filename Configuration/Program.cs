@@ -3,7 +3,6 @@ using Configuration.Data;
 using Configuration.Interfaces.WebControllers;
 using EmailWebServiceLibrary.Controllers.DbControllers;
 using EmailWebServiceLibrary.Models;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
@@ -41,8 +40,12 @@ using (var scope = app.Services.CreateScope())
 }
 
 EmailConfigurationWebController emailWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
-app.MapPost("/SetEmailConfigurationAsync", emailWebController.SetEmailAccountConfigurationAsync)
+app.MapGet("/GetEmailAccountConfiguration", emailWebController.GetEmailAccountConfiguration)
     .WithDescription("Get email configurations")
+    .WithOpenApi();
+
+app.MapPost("/SetEmailConfigurationAsync", emailWebController.SetEmailAccountConfigurationAsync)
+    .WithDescription("Set email configurations")
     .WithOpenApi();
 
 app.MapPut("/EditEmailAccountConfigurationAsync", emailWebController.EditEmailAccountConfigurationAsync)
@@ -55,6 +58,10 @@ app.MapDelete("/DeleteEmailConfigurationAsync", emailWebController.DeleteEmailAc
 
 
 EmailBodyWebController emailBodyWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+app.MapGet("/GetEmailBodySchema", emailBodyWebController.GetEmailBodySchema)
+    .WithDescription("Get body schamas")
+    .WithOpenApi();
+
 app.MapPost("/SetEmailBodySchemaAsync", emailBodyWebController.SetEmailBodySchemaAsync)
     .WithDescription("Set body schema")
     .WithOpenApi()
@@ -68,11 +75,22 @@ app.MapDelete("/DeleteEmailBodySchemaAsync", emailBodyWebController.DeleteEmailB
     .WithDescription("Delete email schema")
 .WithOpenApi();
 
-app.MapPut("/EditBodySchemaVariablesAsync", emailBodyWebController.EditBodySchemaVariablesAsync)
+
+EmailBodyVariablesWebController emailBodyVariablesWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+app.MapGet("/GetBodySchemaVariablesAsync", emailBodyVariablesWebController.GetBodySchemaVariables)
+    .WithDescription("Get schemas variables")
+    .WithOpenApi();
+
+app.MapPut("/EditBodySchemaVariablesAsync", emailBodyVariablesWebController.EditBodySchemaVariablesAsync)
     .WithDescription("Edit body schema variable")
     .WithOpenApi();
 
+
 RecipientsListWebController recipientsListWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+app.MapGet("/GetRecipientsLists", recipientsListWebController.GetRecipientsLists)
+    .WithDescription("Get recipients lists")
+    .WithOpenApi();
+
 app.MapPost("/SetRecipientsListAsync", recipientsListWebController.SetRecipientsListAsync)
     .WithDescription("Set recipient list")
     .WithOpenApi();
@@ -85,7 +103,12 @@ app.MapDelete("/DeleteRecipientsListAsync", recipientsListWebController.DeleteRe
     .WithDescription("Delete recipient list")
     .WithOpenApi();
 
+
 RecipientsWebController recipientsWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+app.MapGet("/GetRecipients", recipientsWebController.GetRecipients)
+    .WithDescription("Get recipients")
+    .WithOpenApi();
+
 app.MapPost("/AddRecipient", recipientsWebController.AddRecipient)
     .WithDescription("Set recipient")
     .WithOpenApi();
@@ -98,12 +121,22 @@ app.MapDelete("/DeleteRecipient", recipientsWebController.DeleteRecipient)
     .WithDescription("Delete recipient")
     .WithOpenApi();
 
+
 EmailFooterWebController emailFooterWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+app.MapGet("/GetEmailFooters", emailFooterWebController.GetEmailFooters)
+    .WithDescription("Get footers")
+    .WithOpenApi();
+
 app.MapPut("/EditEmailFooterAsync", emailFooterWebController.EditEmailFooterAsync)
     .WithDescription("Update recipient")
     .WithOpenApi();
 
+
 EmailLogoWebController emailLogoWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+app.MapGet("/GetEmailLogos", emailLogoWebController.GetEmailLogos)
+    .WithDescription("Get logos")
+    .WithOpenApi();
+
 app.MapPut("/EditEmailLogoAsync", emailLogoWebController.EditEmailLogoAsync)
     .WithDescription("Update logo")
     .WithOpenApi();

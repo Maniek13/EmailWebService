@@ -1,9 +1,10 @@
 ﻿using EmailWebServiceLibrary.Controllers.WebControllers;
 using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
-using EmailWebServiceLibrary.Interfaces.DbModels;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
+using EmailWebServiceLibrary.Models.DbModels;
+using EmailWebServiceLibrary.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -17,16 +18,43 @@ namespace Configuration.Interfaces.WebControllers
         readonly IEmailDbController _emailDbController = emailDbController;
 
 
+        public IResponseModel<List<LogoModel>> GetEmailLogos(string serviceName, HttpContext context)
+        {
+            try
+            {
+                _ = _emailDbControllerRO.GetAppPermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var logos = _emailDbControllerRO.GetLogos();
+
+                List<LogoModel> logosList = [];
+                for (int i = 0; i < logos.Count; ++i)
+                {
+                    logosList.Add(ConversionHelper.ConvertToLogoModel(logos[i]));
+                }
+
+                return new ResponseModel<List<LogoModel>>()
+                {
+                    Data = logosList,
+                    ResultCode = (HttpStatusCode)200,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                context.Response.StatusCode = 400;
+                return new ResponseModel<List<LogoModel>>()
+                {
+                    Data = null,
+                    ResultCode = (HttpStatusCode)400,
+                    Message = ex.Message
+                };
+            }
+        }
         public async Task<IResponseModel<bool>> EditEmailLogoAsync(string serviceName, LogoModel logo, HttpContext context) => throw new NotImplementedException();
         public async Task<IResponseModel<bool>> AddEmailLogoAsync(string serviceName, [FromForm] LogoWithFileModel logo, HttpContext context)
         {
             try
             {
-                var file = context.Request.Form.Files[0];
-
-                if(file == null) 
-                    throw new ArgumentNullException("Prosze wybrać zdjęcie");
-
+                var file = context.Request.Form.Files[0] ?? throw new Exception("Prosze wybrać zdjęcie");
                 LogoDbModel logoDbModel = (LogoDbModel)ConversionHelper.ConvertToLogoDbModel(logo.EmailFooterId, file, logo.Name);
 
 

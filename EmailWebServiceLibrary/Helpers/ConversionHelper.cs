@@ -1,8 +1,8 @@
-﻿using EmailWebServiceLibrary.Interfaces.DbModels;
-using EmailWebServiceLibrary.Interfaces.Models;
+﻿using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
+using EmailWebServiceLibrary.Models.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace EmailWebServiceLibrary.Helpers
@@ -37,6 +37,26 @@ namespace EmailWebServiceLibrary.Helpers
 
         #region convert to models
 
+
+        public static EmailSchemaVariablesModel ConvertToEmailSchemaVariablesModel(EmailSchemaVariablesDbModel emailSchemaVariables)
+        {
+            return new EmailSchemaVariablesModel()
+            {
+                Id = emailSchemaVariables.Id,
+                Name = emailSchemaVariables.Name,
+                Value = emailSchemaVariables.Value
+            };
+        }
+        public static EmailRecipientsListModel ConvertToEmailRecipientsListModel(EmailRecipientsListDbModel emailRecipientsListDb)
+        {
+            return new EmailRecipientsListModel()
+            {
+                Id = emailRecipientsListDb.Id,
+                Name = emailRecipientsListDb.Name,
+                ServiceId = emailRecipientsListDb.ServiceId
+            };
+        }
+
         public static EmailSchemaModel ConvertToEmailSchemaModel(IEmailSchemaDbModel emailSchema)
         {
             return new EmailSchemaModel()
@@ -53,7 +73,7 @@ namespace EmailWebServiceLibrary.Helpers
             };
         }
 
-        public static EmailRecipientModel ConvertToEmailUserModel(IEmailRecipientDbModel user)
+        public static EmailRecipientModel ConvertToEmailRecipientsModel(IEmailRecipientDbModel user)
         {
             return new EmailRecipientModel()
             {
@@ -77,6 +97,43 @@ namespace EmailWebServiceLibrary.Helpers
             };
         }
 
+        public static EmailFooterModel ConvertToEmailFooterModel(EmailFooterDbModel emailFooterDb)
+        {
+            try
+            {
+                return new EmailFooterModel()
+                {
+                    Id = emailFooterDb.Id,
+                    EmailSchemaId = emailFooterDb.EmailSchemaId,
+                    TextHtml = emailFooterDb.TextHtml,
+                    Logo = ConvertToLogoModel(emailFooterDb.Logo)
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+        }
+
+        public static LogoModel ConvertToLogoModel(LogoDbModel logo)
+        {
+            try
+            {
+                return new LogoModel()
+                {
+                    Id = logo.Id,
+                    EmailFooterId = logo.EmailFooterId,
+                    Name = logo.Name,
+                    Type = logo.Type,
+                    FileBase64String = Convert.ToBase64String(logo.FileByteArray)
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
         #endregion
 
         public static ILogoDbModel ConvertToLogoDbModel(int EmailFooterId, IFormFile image, string name)
@@ -88,24 +145,22 @@ namespace EmailWebServiceLibrary.Helpers
 
                 if (fileSize > 0)
                 {
-                    using (var stream = new MemoryStream())
-                    {
-                        image.CopyTo(stream);
-                        var imageByteArray = stream.ToArray();
+                    using var stream = new MemoryStream();
+                    image.CopyTo(stream);
+                    var imageByteArray = stream.ToArray();
 
-                        return new LogoDbModel()
-                        {
-                            EmailFooterId = EmailFooterId,
-                            Name = name,
-                            Type = image.ContentType,
-                            FileByteArray = imageByteArray
-                        };
-                    }
+                    return new LogoDbModel()
+                    {
+                        EmailFooterId = EmailFooterId,
+                        Name = name,
+                        Type = image.ContentType,
+                        FileByteArray = imageByteArray
+                    };
                 }
 
-                throw new ArgumentNullException("Plik nie został ustawiony");
+                throw new Exception("Plik nie został ustawiony");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }

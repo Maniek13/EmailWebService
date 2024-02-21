@@ -27,7 +27,7 @@ namespace Domain.Controllers.WebControllers
 
                 for (int i = 0; i < userList.Count; i++)
                 {
-                    users.Add(ConversionHelper.ConvertToEmailUserModel(userList[i]));
+                    users.Add(ConversionHelper.ConvertToEmailRecipientsModel(userList[i]));
                 }
 
                 await EmailHelper.SendEmail(emailSchema, users, configuration, atachments);

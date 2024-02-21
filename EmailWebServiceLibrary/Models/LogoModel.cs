@@ -1,6 +1,8 @@
-﻿namespace EmailWebServiceLibrary.Interfaces.DbModels
+﻿using EmailWebServiceLibrary.Interfaces.Models;
+
+namespace EmailWebServiceLibrary.Models.Models
 {
-    public readonly record LogoModel : ILogoModel
+    public record LogoModel : ILogoModel
     {
         public int Id { get; init; }
         public int EmailFooterId { get; init; }

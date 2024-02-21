@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EmailWebServiceLibrary.Interfaces.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace EmailWebServiceLibrary.Interfaces.Models
+namespace EmailWebServiceLibrary.Models
 {
     public record struct LogoWithFileModel : ILogoWithFileModel
     {
