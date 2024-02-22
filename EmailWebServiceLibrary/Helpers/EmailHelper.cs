@@ -41,7 +41,7 @@ namespace EmailWebServiceLibrary.Helpers
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception($"SendEmail error: {ex.Message}", ex);
             }
         }
 
@@ -50,7 +50,7 @@ namespace EmailWebServiceLibrary.Helpers
             try
             {
                 if (schemaBody == null || String.IsNullOrWhiteSpace(schemaBody.Body))
-                    throw new Exception("Msg don't hava a body");
+                    throw new Exception("Wiadomość nie posiada treśći");
 
                 if (schemaBody.EmailSchemaVariables == null || schemaBody.EmailSchemaVariables.Count == 0)
                     return;
@@ -67,7 +67,7 @@ namespace EmailWebServiceLibrary.Helpers
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception($"CreateBody error: {ex.Message}", ex);
             }
         }
 
@@ -76,13 +76,13 @@ namespace EmailWebServiceLibrary.Helpers
             try
             {
                 if (string.IsNullOrWhiteSpace(emailSchema.From))
-                    throw new Exception("Please set a sender email");
+                    throw new Exception("Nie ustawiono nadawcy");
                 if (toRecipients.Count == 0)
-                    throw new Exception("Please set a receiver email");
+                    throw new Exception("Nie ustawiono odbiorcy/ów");
 
                 message.Subject = emailSchema.Subject;
                 message.Body = emailSchema.Body;
-                
+
 
                 message.From = new MailAddress(emailSchema.From, string.IsNullOrWhiteSpace(emailSchema.DisplayName) ? emailSchema.From : emailSchema.DisplayName);
 
@@ -119,7 +119,7 @@ namespace EmailWebServiceLibrary.Helpers
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception($"CreateEmail error: {ex.Message}", ex);
             }
         }
 
@@ -139,15 +139,15 @@ namespace EmailWebServiceLibrary.Helpers
 
         public static void AddFooterToBody(IEmailSchemaModel emailSchema)
         {
-                emailSchema.Body = string.Format("<html>" +
-                    "<body>" +
-                    "<br />" +
-                    "{0}" +
-                    "<br />" +
-                    "<img src=\"cid:Footer\" />" +
-                    "{1}" +
-                    "</body>" +
-                    "</html>", emailSchema.Body, emailSchema.EmailFooter.TextHtml);
+            emailSchema.Body = string.Format("<html>" +
+                "<body>" +
+                "<br />" +
+                "{0}" +
+                "<br />" +
+                "<img src=\"cid:Footer\" />" +
+                "{1}" +
+                "</body>" +
+                "</html>", emailSchema.Body, emailSchema.EmailFooter.TextHtml);
         }
     }
 }

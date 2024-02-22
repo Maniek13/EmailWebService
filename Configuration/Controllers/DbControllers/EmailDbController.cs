@@ -111,7 +111,7 @@ namespace Configuration.Controllers.DbControllers
                 await _context.Recipients.AddAsync((EmailRecipientDbModel)recipientsDbModel);
                 await _context.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }

@@ -1,7 +1,6 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Data;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
-using EmailWebServiceLibrary.Models.DbModels;
 
 namespace Configuration.Controllers.DbControllers
 {
@@ -61,7 +60,7 @@ namespace Configuration.Controllers.DbControllers
                 var list = _context.Recipients.Where(el => el.ServiceId == serviceId).ToList();
                 List<IEmailRecipientDbModel> res = [];
 
-                for (int i =0; i< list.Count; ++i)
+                for (int i = 0; i < list.Count; ++i)
                 {
                     res.Add(res[i]);
                 }

@@ -47,8 +47,8 @@ app.UseAuthorization();
 
 using (var scope = app.Services.CreateScope())
 {
-        var db = scope.ServiceProvider.GetRequiredService<EmailServiceContextBase>();
-        db.Database.Migrate();
+    var db = scope.ServiceProvider.GetRequiredService<EmailServiceContextBase>();
+    db.Database.Migrate();
 }
 
 EmailConfigurationWebController emailWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));

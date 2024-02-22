@@ -4,7 +4,6 @@ using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
-using Microsoft.AspNetCore.Authorization;
 using System.Net;
 
 namespace Configuration.Controllers.WebControllers
@@ -15,12 +14,12 @@ namespace Configuration.Controllers.WebControllers
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
         #region user list
-        
+
         public IResponseModel<List<EmailRecipientsListModel>> GetRecipientsLists(string serviceName, HttpContext context)
         {
             try
             {
-                var permission = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permission = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var recipientsDbLists = _emailDbControllerRO.GetRecipientsLists(permission.Id);
 
 
@@ -49,15 +48,15 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-       
+
         public async Task<IResponseModel<bool>> AddRecipientsListAsync(string serviceName, EmailRecipientsListModel emailRecipients, HttpContext context)
         {
             try
             {
-                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 emailRecipients.ServiceId = permision.Id;
 
-                for (int i = 0; i<emailRecipients.Recipients.Count; ++i)
+                for (int i = 0; i < emailRecipients.Recipients.Count; ++i)
                 {
                     emailRecipients.Recipients[i].ServiceId = permision.Id;
                 }
@@ -83,12 +82,12 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        
+
         public async Task<IResponseModel<bool>> EditRecipientsListAsync(string serviceName, EmailRecipientsListModel emailRecipients, HttpContext context)
         {
             try
             {
-                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 await _emailDbController.EditRecipientsListAsync(ConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
 
                 return new ResponseModel<bool>()
@@ -110,12 +109,12 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        
+
         public async Task<IResponseModel<bool>> DeleteRecipientsListAsync(string serviceName, int id, HttpContext context)
         {
             try
             {
-                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 await _emailDbController.DeleteRecipientsListAsync(id);
 
                 return new ResponseModel<bool>()

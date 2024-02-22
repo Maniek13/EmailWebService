@@ -44,7 +44,7 @@ namespace EmailWebServiceLibrary.Helpers
                 return new EmailRecipientDbModel()
                 {
                     Id = recipient.Id,
-                    ServiceId= recipient.ServiceId,
+                    ServiceId = recipient.ServiceId,
                     RecipientListId = recipient.RecipientsListId,
                     Name = recipient.Name,
                     EmailAdress = recipient.EmailAdress
@@ -176,13 +176,13 @@ namespace EmailWebServiceLibrary.Helpers
                 return imageByteArray == null
                     ? throw new Exception("Plik nie został ustawiony")
                     : new LogoDbModel()
-                {
-                    Id = logo.Id,
-                    EmailFooterId = logo.EmailFooterId,
-                    Name = logo.Name,
-                    Type = logo.Type,
-                    FileByteArray = imageByteArray
-                };
+                    {
+                        Id = logo.Id,
+                        EmailFooterId = logo.EmailFooterId,
+                        Name = logo.Name,
+                        Type = logo.Type,
+                        FileByteArray = imageByteArray
+                    };
             }
             catch (Exception ex)
             {
@@ -216,12 +216,9 @@ namespace EmailWebServiceLibrary.Helpers
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception($"ConvertToLogoDbModel error: {ex.Message}", ex);
             }
         }
-
-
-
         #endregion
 
         #region convert to models
@@ -301,7 +298,7 @@ namespace EmailWebServiceLibrary.Helpers
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception($"ConvertToEmailFooterModel error: {ex.Message}", ex);
             }
 
         }
@@ -321,7 +318,7 @@ namespace EmailWebServiceLibrary.Helpers
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw new Exception($"ConvertToLogoModel error: {ex.Message}", ex);
             }
         }
         #endregion

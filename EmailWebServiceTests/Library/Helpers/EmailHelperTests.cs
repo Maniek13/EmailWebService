@@ -8,7 +8,7 @@ namespace EmailWebServiceTests.Library.Helpers
 {
     public class EmailHelperTests
     {
-        public EmailHelperTests() 
+        public EmailHelperTests()
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
@@ -18,8 +18,9 @@ namespace EmailWebServiceTests.Library.Helpers
         {
             try
             {
-                
-                var model = new EmailSchemaModel() {
+
+                var model = new EmailSchemaModel()
+                {
                     From = "mariusz.a.szczerba@gmail.com",
                     DisplayName = "DisplayName",
                     Subject = "Subject",

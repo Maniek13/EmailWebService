@@ -4,7 +4,6 @@ using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
-using Microsoft.AspNetCore.Authorization;
 using System.Net;
 
 namespace Configuration.Controllers.WebControllers
@@ -14,12 +13,12 @@ namespace Configuration.Controllers.WebControllers
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
-        
+
         public async Task<IResponseModel<bool>> EditEmailFooterAsync(string serviceName, EmailFooterModel emailFooter, HttpContext context)
         {
             try
             {
-                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 _ = _emailDbController.EditEmailFooterAsync(ConversionHelper.ConvertToEmailFooterDbModel(emailFooter));
 
                 return new ResponseModel<bool>()

@@ -4,7 +4,6 @@ using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
-using Microsoft.AspNetCore.Authorization;
 using System.Net;
 
 namespace Configuration.Controllers.WebControllers
@@ -15,12 +14,12 @@ namespace Configuration.Controllers.WebControllers
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
         #region email body
-        
+
         public IResponseModel<EmailSchemaModel> GetEmailBodySchema(string serviceName, HttpContext context)
         {
             try
             {
-                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
 
                 return new ResponseModel<EmailSchemaModel>()
                 {
@@ -41,12 +40,12 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        
+
         public async Task<IResponseModel<bool>> AddEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context)
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 emailSchema.ServiceId = permisions.Id;
                 await _emailDbController.SetEmailBodySchemaAsync(ConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
 
@@ -69,13 +68,12 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        
+
         public async Task<IResponseModel<bool>> EditEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context)
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 await _emailDbController.EditEmailBodySchemaAsync(ConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
 
                 return new ResponseModel<bool>()
@@ -97,13 +95,12 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        
+
         public async Task<IResponseModel<bool>> DeleteEmailBodySchemaAsync(string serviceName, int id, HttpContext context)
         {
             try
             {
-                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("service don't have a permision");
-
+                var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 await _emailDbController.DeleteEmailBodySchemaAsync(id);
 
                 return new ResponseModel<bool>()
