@@ -47,12 +47,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 using (var scope = app.Services.CreateScope())
 {
-    try
-    {
+
         var db = scope.ServiceProvider.GetRequiredService<EmailServiceContextBase>();
         db.Database.Migrate();
-    }
-    catch { }
 }
 
 EmailConfigurationWebController emailWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
