@@ -73,6 +73,16 @@ namespace EmailWebServiceTests.Library.Helpers
         {
             Assert.Fail("Not implement");
         }
+        [Fact]
+        public void AddFooterToBody()
+        {
+            Assert.Fail("Not implement");
+        }
+        [Fact]
+        public void AddAlternateFooterImage()
+        {
+            Assert.Fail("Not implement");
+        }
 
     }
 }
