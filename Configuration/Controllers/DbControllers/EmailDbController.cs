@@ -203,6 +203,7 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 _context.Footers.Update((EmailFooterDbModel)footer);
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

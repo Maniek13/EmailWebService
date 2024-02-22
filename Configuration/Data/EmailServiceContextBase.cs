@@ -43,6 +43,7 @@ namespace Configuration.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ServicesPermisionsDbModel>().HasIndex(u => u.ServiceName).IsUnique();
+            modelBuilder.Entity<EmailRecipientDbModel>().HasIndex(i => i.EmailAdress).IsUnique();
 
             modelBuilder.Entity<ServicesPermisionsDbModel>()
                .HasOne<EmailAccountConfigurationDbModel>(x => x.EmailAccountConfiguration)
