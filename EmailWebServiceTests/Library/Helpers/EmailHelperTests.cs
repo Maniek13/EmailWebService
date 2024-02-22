@@ -44,21 +44,19 @@ namespace EmailWebServiceTests.Library.Helpers
                     Password = ""
                 };
 
-                using (var stream = File.OpenRead(@"C:\Users\mani3\OneDrive\Pulpit\cv.pdf"))
+                using var stream = File.OpenRead(@"C:\Users\mani3\OneDrive\Pulpit\cv.pdf");
+                var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
                 {
-                    var file = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name))
-                    {
-                        Headers = new HeaderDictionary(),
-                        ContentType = "application/pdf"
-                    };
+                    Headers = new HeaderDictionary(),
+                    ContentType = "application/pdf"
+                };
 
-                    var attachments = new FormFileCollection()
+                var attachments = new FormFileCollection()
                     {
                         file
                     };
 
-                    await EmailHelper.SendEmail(model, usserList, cfg, attachments);
-                }
+                await EmailHelper.SendEmail(model, usserList, cfg, attachments);
             }
             catch (Exception ex)
             {

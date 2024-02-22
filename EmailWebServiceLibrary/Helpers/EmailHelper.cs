@@ -23,14 +23,18 @@ namespace EmailWebServiceLibrary.Helpers
 
                 EmailHelper.CreateBody(emailSchema);
 
-                using (var mailMessage = new MailMessage())
-                {
-                    using(var memoryStream = new MemoryStream())
-                    {
-                        var message = EmailHelper.CreateEmail(mailMessage, memoryStream, userList, emailSchema, atachments);
-                        await smtpClient.SendMailAsync(message);
-                    }
-                }
+                using var mailMessage = new MailMessage();
+                using var memoryStream = new MemoryStream();
+
+                if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
+                    AddFooterToBody(emailSchema);
+
+                ContentType mimeType = new("text/html");
+                using AlternateView alternate = AlternateView.CreateAlternateViewFromString(emailSchema.Body, mimeType);
+
+
+                var message = EmailHelper.CreateEmail(mailMessage, memoryStream, alternate, userList, emailSchema, atachments);
+                await smtpClient.SendMailAsync(message);
             }
             catch (Exception ex)
             {
@@ -64,7 +68,7 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static MailMessage CreateEmail(MailMessage message, MemoryStream memStream, List<IEmailRecipientModel> toRecipients, IEmailSchemaModel emailSchema, IFormFileCollection atachments)
+        public static MailMessage CreateEmail(MailMessage message, MemoryStream memStream, AlternateView alternate, List<IEmailRecipientModel> toRecipients, IEmailSchemaModel emailSchema, IFormFileCollection atachments)
         {
             try
             {
@@ -73,39 +77,18 @@ namespace EmailWebServiceLibrary.Helpers
                 if (toRecipients.Count == 0)
                     throw new Exception("Please set a receiver email");
 
-
                 message.Subject = emailSchema.Subject;
                 message.Body = emailSchema.Body;
-
-                ContentType mimeType = new("text/html");
-
-                if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
-                {
-                    message.Body = string.Format("<html>" +
-                        "<body>" +
-                        "<br />" +
-                        "{0}" +
-                        "<br />" +
-                        "<img src=\"cid:Footer\" />" +
-                        "{1}" +
-                        "</body>" +
-                        "</html>", emailSchema.Body, emailSchema.EmailFooter.TextHtml);
-                }
-
-                
-                AlternateView alternate = AlternateView.CreateAlternateViewFromString(emailSchema.Body, mimeType);
                 
                 if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
                 {
                     byte[] fileByteArray = System.Convert.FromBase64String(emailSchema.EmailFooter.Logo.FileBase64String);
-                    using (MemoryStream fs = new(fileByteArray))
+                    using MemoryStream fs = new(fileByteArray);
+                    LinkedResource footer = new(fs, $"image/{emailSchema.EmailFooter.Logo.Type}")
                     {
-                        LinkedResource footer = new(fs, $"image/{emailSchema.EmailFooter.Logo.Type}")
-                        {
-                            ContentId = "Footer"
-                        };
-                        alternate.LinkedResources.Add(footer);
-                    }
+                        ContentId = "Footer"
+                    };
+                    alternate.LinkedResources.Add(footer);
                 }
 
                 message.AlternateViews.Add(alternate);
@@ -148,6 +131,19 @@ namespace EmailWebServiceLibrary.Helpers
             {
                 throw new Exception(ex.Message, ex);
             }
+        }
+
+        private static void AddFooterToBody(IEmailSchemaModel emailSchema)
+        {
+                emailSchema.Body = string.Format("<html>" +
+                    "<body>" +
+                    "<br />" +
+                    "{0}" +
+                    "<br />" +
+                    "<img src=\"cid:Footer\" />" +
+                    "{1}" +
+                    "</body>" +
+                    "</html>", emailSchema.Body, emailSchema.EmailFooter.TextHtml);
         }
     }
 }
