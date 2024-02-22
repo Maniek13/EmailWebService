@@ -14,7 +14,7 @@ namespace Configuration.Controllers.WebControllers
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
-        [Authorize]
+        
         public IResponseModel<List<EmailRecipientModel>> GetRecipients(string serviceName, HttpContext context)
         {
             try
@@ -47,7 +47,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> AddRecipient(string serviceName, EmailRecipientModel recipient, HttpContext context)
         {
             try
@@ -75,7 +75,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> EditRecipient(string serviceName, EmailRecipientModel recipient, HttpContext context)
         {
             try
@@ -102,7 +102,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> DeleteRecipient(string serviceName, int id, HttpContext context)
         {
             try

@@ -15,7 +15,7 @@ namespace Configuration.Controllers.WebControllers
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
         #region email body
-        [Authorize()]
+        
         public IResponseModel<EmailSchemaModel> GetEmailBodySchema(string serviceName, HttpContext context)
         {
             try
@@ -41,7 +41,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> AddEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context)
         {
             try
@@ -69,7 +69,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> EditEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context)
         {
             try
@@ -97,7 +97,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize()]
+        
         public async Task<IResponseModel<bool>> DeleteEmailBodySchemaAsync(string serviceName, int id, HttpContext context)
         {
             try

@@ -16,7 +16,7 @@ namespace Configuration.Interfaces.WebControllers
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> EditEmailLogoAsync(string serviceName, LogoModel logo, HttpContext context)
         {
             try

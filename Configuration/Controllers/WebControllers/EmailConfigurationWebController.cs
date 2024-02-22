@@ -16,7 +16,7 @@ namespace Configuration.Controllers.WebControllers
         readonly ILogger _logger = logger;
 
         #region email config
-        [Authorize]
+        
         public IResponseModel<EmailAccountConfigurationModel> GetEmailAccountConfiguration(string serviceName, HttpContext context)
         {
             try
@@ -43,7 +43,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> AddEmailAccountConfigurationAsync(string serviceName, EmailAccountConfigurationModel emailAccountConfiguration, HttpContext context)
         {
             try
@@ -70,7 +70,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> EditEmailAccountConfigurationAsync(string serviceName, EmailAccountConfigurationModel emailAccountConfiguration, HttpContext context)
         {
             try
@@ -97,7 +97,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> DeleteEmailAccountConfigurationAsync(string serviceName, int id, HttpContext context)
         {
             try

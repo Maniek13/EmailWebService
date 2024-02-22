@@ -15,7 +15,7 @@ namespace Configuration.Controllers.WebControllers
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
         #region user list
-        [Authorize]
+        
         public IResponseModel<List<EmailRecipientsListModel>> GetRecipientsLists(string serviceName, HttpContext context)
         {
             try
@@ -49,7 +49,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+       
         public async Task<IResponseModel<bool>> AddRecipientsListAsync(string serviceName, EmailRecipientsListModel emailRecipients, HttpContext context)
         {
             try
@@ -83,7 +83,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> EditRecipientsListAsync(string serviceName, EmailRecipientsListModel emailRecipients, HttpContext context)
         {
             try
@@ -110,7 +110,7 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        [Authorize]
+        
         public async Task<IResponseModel<bool>> DeleteRecipientsListAsync(string serviceName, int id, HttpContext context)
         {
             try

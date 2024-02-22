@@ -17,7 +17,7 @@ var config = configuration.Build();
 
 AppConfig.SigningKey = config.GetSection("AppConfig").GetSection("SigningKey").Value;
 AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
-AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
+AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("IsAuthenticated").Value;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
@@ -28,7 +28,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         o.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AppConfig.SigningKey))
         };
     });
@@ -36,7 +35,6 @@ builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -45,9 +43,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+
 using (var scope = app.Services.CreateScope())
 {
-
         var db = scope.ServiceProvider.GetRequiredService<EmailServiceContextBase>();
         db.Database.Migrate();
 }
