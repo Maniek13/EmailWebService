@@ -14,7 +14,6 @@ namespace Configuration.Controllers.WebControllers
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
         #region email body
-
         public IResponseModel<EmailSchemaModel> GetEmailBodySchema(string serviceName, HttpContext context)
         {
             try

@@ -3,25 +3,36 @@ using Configuration.Controllers.WebControllers;
 using Configuration.Data;
 using Configuration.Interfaces.WebControllers;
 using EmailWebServiceLibrary.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Net;
+using System.Text;
 
 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-
 
 var configuration = new ConfigurationBuilder()
      .AddJsonFile($"appsettings.json");
 var config = configuration.Build();
 
-AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
+AppConfig.SigningKey = config.GetSection("AppConfig").GetSection("SigningKey").Value;
 AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
-
+AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSqlServer<EmailServiceContextBase>(AppConfig.ConnectionString);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(o =>
+    {
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(AppConfig.SigningKey))
+        };
+    });
+builder.Services.AddAuthorization();
 
 
 var app = builder.Build();
@@ -32,11 +43,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
+app.UseAuthorization();
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<EmailServiceContextBase>();
-    db.Database.Migrate();
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<EmailServiceContextBase>();
+        db.Database.Migrate();
+    }
+    catch { }
 }
 
 EmailConfigurationWebController emailWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
