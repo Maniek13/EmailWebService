@@ -68,14 +68,6 @@ namespace Configuration.Data
               .HasForeignKey<EmailFooterDbModel>(x => x.EmailSchemaId)
               .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<ServicesPermisionsDbModel>()
-              .HasOne<EmailRecipientDbModel>(x => x.EmailRecipient)
-              .WithOne(y => y.ServicePermision)
-              .HasForeignKey<EmailRecipientDbModel>(x => x.ServiceId)
-              .OnDelete(DeleteBehavior.NoAction);
-
-
-
 
             //one to many
             modelBuilder.Entity<EmailFooterDbModel>()

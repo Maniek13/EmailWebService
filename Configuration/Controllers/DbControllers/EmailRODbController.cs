@@ -62,7 +62,7 @@ namespace Configuration.Controllers.DbControllers
 
                 for (int i = 0; i < list.Count; ++i)
                 {
-                    res.Add(res[i]);
+                    res.Add(list[i]);
                 }
 
 

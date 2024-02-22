@@ -5,7 +5,7 @@
 namespace Configuration.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -176,11 +176,6 @@ namespace Configuration.Migrations
                         principalTable: "RecipientsList",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Recipients_ServicesPermisions_ServiceId",
-                        column: x => x.ServiceId,
-                        principalTable: "ServicesPermisions",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -215,12 +210,6 @@ namespace Configuration.Migrations
                 name: "IX_Recipients_RecipientListId",
                 table: "Recipients",
                 column: "RecipientListId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Recipients_ServiceId",
-                table: "Recipients",
-                column: "ServiceId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_RecipientsList_ServiceId",

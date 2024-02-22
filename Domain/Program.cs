@@ -13,9 +13,10 @@ var configuration = new ConfigurationBuilder()
      .AddJsonFile($"appsettings.json");
 var config = configuration.Build();
 
-AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
-AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
 AppConfig.SigningKey = config.GetSection("AppConfig").GetSection("SigningKey").Value;
+AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
+AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();

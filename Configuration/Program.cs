@@ -17,7 +17,7 @@ var config = configuration.Build();
 
 AppConfig.SigningKey = config.GetSection("AppConfig").GetSection("SigningKey").Value;
 AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
-AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("IsAuthenticated").Value;
+AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();

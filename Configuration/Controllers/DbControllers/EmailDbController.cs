@@ -28,7 +28,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                await _context.EmailSchemaVariables.AddAsync((EmailSchemaVariablesDbModel)emailAccountConfiguration);
+                await _context.EmailAccountConfiguration.AddAsync((EmailAccountConfigurationDbModel)emailAccountConfiguration);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

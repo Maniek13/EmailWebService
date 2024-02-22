@@ -18,7 +18,6 @@ namespace EmailWebServiceTests.Library.Helpers
         {
             try
             {
-
                 var model = new EmailSchemaModel()
                 {
                     From = "mariusz.a.szczerba@gmail.com",

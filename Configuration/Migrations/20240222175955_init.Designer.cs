@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Configuration.Migrations
 {
     [DbContext(typeof(EmailServiceContextBase))]
-    [Migration("20240221194019_Init")]
-    partial class Init
+    [Migration("20240222175955_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -111,9 +111,6 @@ namespace Configuration.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("RecipientListId");
-
-                    b.HasIndex("ServiceId")
-                        .IsUnique();
 
                     b.ToTable("Recipients");
                 });
@@ -300,15 +297,7 @@ namespace Configuration.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.ServicesPermisionsDbModel", "ServicePermision")
-                        .WithOne("EmailRecipient")
-                        .HasForeignKey("EmailWebServiceLibrary.Models.DbModels.EmailRecipientDbModel", "ServiceId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.Navigation("RecipientList");
-
-                    b.Navigation("ServicePermision");
                 });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailRecipientsListDbModel", b =>
@@ -365,9 +354,6 @@ namespace Configuration.Migrations
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.ServicesPermisionsDbModel", b =>
                 {
                     b.Navigation("EmailAccountConfiguration")
-                        .IsRequired();
-
-                    b.Navigation("EmailRecipient")
                         .IsRequired();
 
                     b.Navigation("EmailRecipientList")

@@ -15,7 +15,6 @@ namespace EmailWebServiceLibrary.Models.DbModels
         public string Name { get; set; }
         [Required]
         public string EmailAdress { get; set; }
-        public ServicesPermisionsDbModel ServicePermision { get; set; }
         public EmailRecipientsListDbModel RecipientList { get; set; }
     }
 }

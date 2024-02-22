@@ -1,6 +1,4 @@
-﻿using EmailWebServiceLibrary.Models;
-
-namespace EmailWebServiceLibrary.Interfaces.Models
+﻿namespace EmailWebServiceLibrary.Interfaces.Models
 {
     public interface IEmailAccountConfigurationModel
     {
@@ -10,6 +8,5 @@ namespace EmailWebServiceLibrary.Interfaces.Models
         int Port { get; init; }
         string Login { get; init; }
         string Password { get; init; }
-        ServicesPermisionsModel ServicePermision { get; init; }
     }
 }
