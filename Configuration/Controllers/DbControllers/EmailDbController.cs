@@ -1,6 +1,7 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Data;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
+using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
 
 namespace Configuration.Controllers.DbControllers
@@ -160,6 +161,10 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 _context.RecipientsList.Update((EmailRecipientsListDbModel)recipientsListDbModel);
+                for (int i = 0;i< recipientsListDbModel.Recipients.Count;++i)
+                {
+                    _context.Recipients.Update((EmailRecipientDbModel)recipientsListDbModel.Recipients.ElementAt(i));
+                }
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
