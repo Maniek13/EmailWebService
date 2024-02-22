@@ -149,6 +149,10 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 await _context.RecipientsList.AddAsync((EmailRecipientsListDbModel)recipientsListDbModel);
+                for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
+                {
+                    _context.Recipients.AddAsync((EmailRecipientDbModel)recipientsListDbModel.Recipients.ElementAt(i));
+                }
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
