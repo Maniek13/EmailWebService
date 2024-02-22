@@ -12,18 +12,25 @@ namespace EmailWebServiceLibrary.Helpers
         {
             try
             {
-                EmailHelper.CreateBody(emailSchema);
-                var message = EmailHelper.CreateEmail(userList, emailSchema, atachments);
-
                 using var smtpClient = new SmtpClient(configuration.SMTP);
+                smtpClient.EnableSsl = true;
                 smtpClient.Port = configuration.Port;
                 smtpClient.Credentials = new NetworkCredential()
                 {
                     UserName = configuration.Login,
                     Password = configuration.Password
                 };
-                await smtpClient.SendMailAsync(message);
 
+                EmailHelper.CreateBody(emailSchema);
+
+                using (var mailMessage = new MailMessage())
+                {
+                    using(var memoryStream = new MemoryStream())
+                    {
+                        var message = EmailHelper.CreateEmail(mailMessage, memoryStream, userList, emailSchema, atachments);
+                        await smtpClient.SendMailAsync(message);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -35,23 +42,20 @@ namespace EmailWebServiceLibrary.Helpers
         {
             try
             {
-                var variables = schemaBody.EmailSchemaVariables.ToList();
+                if (schemaBody == null || String.IsNullOrWhiteSpace(schemaBody.Body))
+                    throw new Exception("Msg don't hava a body");
 
-                if (variables.Count == 0)
+                if (schemaBody.EmailSchemaVariables == null || schemaBody.EmailSchemaVariables.Count == 0)
                     return;
+                string body = schemaBody.Body;
 
-                if (schemaBody != null)
+                var variables = schemaBody.EmailSchemaVariables.ToList();
+                for (int i = 0; i < variables.Count; i++)
                 {
-                    string body = schemaBody.Body;
-
-                    for (int i = 0; i < variables.Count; i++)
-                    {
-                        _ = body.Replace($"#{variables[i].Name}#", variables[i].Value);
-                    }
-                    schemaBody.Body = body;
+                    _ = body.Replace($"#{variables[i].Name}#", variables[i].Value);
                 }
 
-                throw new Exception("Msg don't hava a body");
+                schemaBody.Body = body;
 
             }
             catch (Exception ex)
@@ -60,36 +64,39 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static MailMessage CreateEmail(List<IEmailRecipientModel> users, IEmailSchemaModel emailSchema, IFormFileCollection atachments)
+        public static MailMessage CreateEmail(MailMessage message, MemoryStream memStream, List<IEmailRecipientModel> toRecipients, IEmailSchemaModel emailSchema, IFormFileCollection atachments)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(emailSchema.From))
                     throw new Exception("Please set a sender email");
-                if (users.Count == 0)
+                if (toRecipients.Count == 0)
                     throw new Exception("Please set a receiver email");
 
-                using MailMessage message = new();
+
                 message.Subject = emailSchema.Subject;
                 message.Body = emailSchema.Body;
 
                 ContentType mimeType = new("text/html");
 
-                string htmlBody = string.Format("<html>" +
-                    "<body>" +
-                    "<br />" +
-                    "{0}" +
-                    "<br />" +
-                    "<img src=\"cid:Footer\" />" +
-                    "{1}" +
-                    "</body>" +
-                    "</html>", emailSchema.Body, emailSchema.EmailFooter.TextHtml);
-
-                using (AlternateView alternate = AlternateView.CreateAlternateViewFromString(emailSchema.Body, mimeType))
+                if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
                 {
-                    message.AlternateViews.Add(alternate);
+                    message.Body = string.Format("<html>" +
+                        "<body>" +
+                        "<br />" +
+                        "{0}" +
+                        "<br />" +
+                        "<img src=\"cid:Footer\" />" +
+                        "{1}" +
+                        "</body>" +
+                        "</html>", emailSchema.Body, emailSchema.EmailFooter.TextHtml);
+                }
 
-
+                
+                AlternateView alternate = AlternateView.CreateAlternateViewFromString(emailSchema.Body, mimeType);
+                
+                if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
+                {
                     byte[] fileByteArray = System.Convert.FromBase64String(emailSchema.EmailFooter.Logo.FileBase64String);
                     using (MemoryStream fs = new(fileByteArray))
                     {
@@ -99,9 +106,10 @@ namespace EmailWebServiceLibrary.Helpers
                         };
                         alternate.LinkedResources.Add(footer);
                     }
-
-                    message.AlternateViews.Add(alternate);
                 }
+
+                message.AlternateViews.Add(alternate);
+                
 
                 message.From = new MailAddress(emailSchema.From, string.IsNullOrWhiteSpace(emailSchema.DisplayName) ? emailSchema.From : emailSchema.DisplayName);
 
@@ -109,10 +117,8 @@ namespace EmailWebServiceLibrary.Helpers
                     message.ReplyTo = new MailAddress(emailSchema.ReplyTo, string.IsNullOrWhiteSpace(emailSchema.ReplyToDisplayName) ? emailSchema.ReplyTo : emailSchema.ReplyToDisplayName);
 
 
-                for (int i = 0; i < users.Count; ++i)
-                {
-                    message.To.Add(new MailAddress(users[i].EmailAdress, string.IsNullOrWhiteSpace(users[i].Name) ? users[i].EmailAdress : users[i].Name));
-                }
+                for (int i = 0; i < toRecipients.Count; ++i)
+                    message.To.Add(new MailAddress(toRecipients[i].EmailAdress, string.IsNullOrWhiteSpace(toRecipients[i].Name) ? toRecipients[i].EmailAdress : toRecipients[i].Name));
 
 
                 if (atachments != null && atachments.Count != 0)
@@ -121,19 +127,19 @@ namespace EmailWebServiceLibrary.Helpers
                         if (atachments[i] == null)
                             continue;
 
-                        using var memStream = new MemoryStream();
                         var temp = atachments[i].OpenReadStream();
                         byte[] byteArray;
 
                         using (MemoryStream ms = new())
                         {
+                            ms.Position = 0;
                             temp.CopyTo(ms);
                             byteArray = ms.ToArray();
                         }
 
                         memStream.Write(byteArray, 0, byteArray.Length);
                         memStream.Seek(0, SeekOrigin.Begin);
-                        message.Attachments.Add(new Attachment(memStream, MediaTypeNames.Application.Octet));
+                        message.Attachments.Add(new Attachment(memStream, atachments[i].ContentType));
                     }
 
                 return message;
