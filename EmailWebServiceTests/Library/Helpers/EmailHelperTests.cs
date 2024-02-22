@@ -74,7 +74,7 @@ namespace EmailWebServiceTests.Library.Helpers
             Assert.Fail("Not implement");
         }
         [Fact]
-        public void AddFooterToBody()
+        public void AddAlternateHtml()
         {
             Assert.Fail("Not implement");
         }
