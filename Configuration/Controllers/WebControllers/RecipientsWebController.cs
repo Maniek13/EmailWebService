@@ -21,15 +21,15 @@ namespace Configuration.Controllers.WebControllers
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var recipients = _emailDbControllerRO.GetRecipients(permision.Id);
 
-                List<EmailRecipientModel> logosList = [];
+                List<EmailRecipientModel> recipientsList = [];
                 for (int i = 0; i < recipients.Count; ++i)
                 {
-                    logosList.Add(ConversionHelper.ConvertToEmailRecipientsModel(recipients[i]));
+                    recipientsList.Add(ConversionHelper.ConvertToEmailRecipientsModel(recipients[i]));
                 }
 
                 return new ResponseModel<List<EmailRecipientModel>>()
                 {
-                    Data = logosList,
+                    Data = recipientsList,
                     ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };

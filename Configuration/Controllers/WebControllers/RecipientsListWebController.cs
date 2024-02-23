@@ -15,21 +15,24 @@ namespace Configuration.Controllers.WebControllers
         readonly ILogger _logger = logger;
         #region user list
 
-        public IResponseModel<List<EmailRecipientsListModel>> GetRecipientsLists(string serviceName, HttpContext context)
+        public IResponseModel<EmailRecipientsListModel> GetRecipientsList(string serviceName, HttpContext context)
         {
             try
             {
                 var permission = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                var recipientsDbLists = _emailDbControllerRO.GetRecipientsLists(permission.Id);
-                List<EmailRecipientsListModel> recipientsLists = [];
-                for (int i = 0; i < recipientsDbLists.Count; ++i)
-                {
-                    recipientsLists.Add(ConversionHelper.ConvertToEmailRecipientsListModel(recipientsDbLists[i]));
-                }
+                var recipintsList = ConversionHelper.ConvertToEmailRecipientsListModel(_emailDbControllerRO.GetRecipientsList(permission.Id));
+                var recipientsDb = _emailDbControllerRO.GetRecipients(recipintsList.Id);
+                List<EmailRecipientModel> recipients = [];
 
-                return new ResponseModel<List<EmailRecipientsListModel>>()
+
+                for (int i = 0; i < recipientsDb.Count; ++i)
                 {
-                    Data = recipientsLists,
+                    recipients.Add(ConversionHelper.ConvertToEmailRecipientsModel(recipientsDb.ElementAt(i)));
+                }
+                recipintsList.Recipients = recipients;
+                return new ResponseModel<EmailRecipientsListModel>()
+                {
+                    Data = recipintsList,
                     ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
@@ -38,7 +41,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 _logger.LogError($"{GetType()} : {ex.Message}");
                 context.Response.StatusCode = 400;
-                return new ResponseModel<List<EmailRecipientsListModel>>()
+                return new ResponseModel<EmailRecipientsListModel>()
                 {
                     Data = null,
                     ResultCode = (HttpStatusCode)400,

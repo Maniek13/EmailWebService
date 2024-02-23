@@ -25,7 +25,7 @@ namespace Configuration.Controllers.WebControllers
                 var x = _emailDbControllerRO.GetEmailFooterLogo(res.EmailFooter.Id);
                 res.EmailFooter.Logo = ConversionHelper.ConvertToLogoModel(_emailDbControllerRO.GetEmailFooterLogo(res.EmailFooter.Id));
                 var variablesDb = _emailDbControllerRO.GetVariablesList(res.Id);
-                res.EmailSchemaVariables = new List<EmailSchemaVariablesModel>();
+                res.EmailSchemaVariables = [];
 
                 for(int i =0; i< variablesDb.Count; ++i)
                 {

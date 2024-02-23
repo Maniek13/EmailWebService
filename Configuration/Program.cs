@@ -95,7 +95,7 @@ app.MapPut("/EditBodySchemaVariablesAsync", emailBodyVariablesWebController.Edit
 
 
 RecipientsListWebController recipientsListWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
-app.MapGet("/GetRecipientsLists", recipientsListWebController.GetRecipientsLists)
+app.MapGet("/GetRecipientsList", recipientsListWebController.GetRecipientsList)
     .WithDescription("Get recipients list")
     .WithOpenApi();
 

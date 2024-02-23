@@ -75,11 +75,11 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<IEmailRecipientDbModel> GetRecipients(int serviceId)
+        public List<IEmailRecipientDbModel> GetRecipients(int recipientsList)
         {
             try
             {
-                var list = _context.Recipients.Where(el => el.ServiceId == serviceId).ToList();
+                var list = _context.Recipients.Where(el => el.RecipientListId == recipientsList).ToList();
                 List<IEmailRecipientDbModel> res = [];
 
                 for (int i = 0; i < list.Count; ++i)
@@ -96,11 +96,13 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
+
+
         public List<IEmailSchemaVariablesDbModel> GetVariablesList(int schemaId)
         {
             try
             {
-                return _context.EmailSchemaVariables.Select(el => (IEmailSchemaVariablesDbModel)el).Where(el => el.EmailSchemaId == schemaId).ToList();
+                return [.. _context.EmailSchemaVariables.Select(el => (IEmailSchemaVariablesDbModel)el).Where(el => el.EmailSchemaId == schemaId)];
             }
             catch (Exception ex)
             {
@@ -108,20 +110,11 @@ namespace Configuration.Controllers.DbControllers
             }
         }
 
-        public List<IEmailRecipientsListDbModel> GetRecipientsLists(int ServiceId)
+        public IEmailRecipientsListDbModel GetRecipientsList(int ServiceId)
         {
             try
             {
-                var list = _context.RecipientsList.Where(el => el.ServiceId == ServiceId).ToList(); ;
-                List<IEmailRecipientsListDbModel> res = [];
-
-                for (int i = 0; i < list.Count; ++i)
-                {
-                    res.Add(res[i]);
-                }
-
-
-                return res;
+                return _context.RecipientsList.Where(el => el.ServiceId == ServiceId).FirstOrDefault(); 
             }
             catch (Exception ex)
             {
