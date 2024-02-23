@@ -26,7 +26,6 @@ namespace Configuration.Interfaces.WebControllers
                 return new ResponseModel<bool>()
                 {
                     Data = true,
-                    ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
             }
@@ -37,7 +36,6 @@ namespace Configuration.Interfaces.WebControllers
                 return new ResponseModel<bool>()
                 {
                     Data = false,
-                    ResultCode = (HttpStatusCode)400,
                     Message = ex.Message
                 };
             }

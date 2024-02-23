@@ -29,14 +29,12 @@ namespace Domain.Controllers.WebControllers
                 {
                     users.Add(ConversionHelper.ConvertToEmailRecipientsModel(recipments[i]));
                 }
-
                 await EmailHelper.SendEmail(emailSchema, users, configuration, atachments);
 
 
                 return new ResponseModel<bool>()
                 {
                     Data = true,
-                    ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
             }
@@ -46,7 +44,6 @@ namespace Domain.Controllers.WebControllers
                 return new ResponseModel<bool>()
                 {
                     Data = false,
-                    ResultCode = (HttpStatusCode)400,
                     Message = ex.Message
                 };
             }

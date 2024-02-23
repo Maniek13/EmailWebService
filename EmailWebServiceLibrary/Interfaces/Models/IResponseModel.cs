@@ -5,7 +5,6 @@ namespace EmailWebServiceLibrary.Interfaces.Models
     public interface IResponseModel<T>
     {
         T Data { get; init; }
-        HttpStatusCode ResultCode { get; init; }
         string Message { get; init; }
     }
 }

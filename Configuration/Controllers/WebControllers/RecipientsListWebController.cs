@@ -33,7 +33,6 @@ namespace Configuration.Controllers.WebControllers
                 return new ResponseModel<EmailRecipientsListModel>()
                 {
                     Data = recipintsList,
-                    ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
             }
@@ -44,7 +43,6 @@ namespace Configuration.Controllers.WebControllers
                 return new ResponseModel<EmailRecipientsListModel>()
                 {
                     Data = null,
-                    ResultCode = (HttpStatusCode)400,
                     Message = ex.Message
                 };
             }
@@ -67,7 +65,6 @@ namespace Configuration.Controllers.WebControllers
                 return new ResponseModel<bool>()
                 {
                     Data = true,
-                    ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
             }
@@ -78,7 +75,6 @@ namespace Configuration.Controllers.WebControllers
                 return new ResponseModel<bool>()
                 {
                     Data = false,
-                    ResultCode = (HttpStatusCode)400,
                     Message = ex.Message
                 };
             }
@@ -94,7 +90,6 @@ namespace Configuration.Controllers.WebControllers
                 return new ResponseModel<bool>()
                 {
                     Data = true,
-                    ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
             }
@@ -105,7 +100,6 @@ namespace Configuration.Controllers.WebControllers
                 return new ResponseModel<bool>()
                 {
                     Data = false,
-                    ResultCode = (HttpStatusCode)400,
                     Message = ex.Message
                 };
             }
@@ -121,7 +115,6 @@ namespace Configuration.Controllers.WebControllers
                 return new ResponseModel<bool>()
                 {
                     Data = true,
-                    ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };
             }
@@ -132,7 +125,6 @@ namespace Configuration.Controllers.WebControllers
                 return new ResponseModel<bool>()
                 {
                     Data = false,
-                    ResultCode = (HttpStatusCode)400,
                     Message = ex.Message
                 };
             }
