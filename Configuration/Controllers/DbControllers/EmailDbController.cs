@@ -171,7 +171,8 @@ namespace Configuration.Controllers.DbControllers
                 await _context.RecipientsList.AddAsync((EmailRecipientsListDbModel)recipientsListDbModel);
                 for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                 {
-                    _context.Recipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i));
+                    if(_context.Recipients.Where(el => el.EmailAdress == recipientsListDbModel.Recipients.ElementAt(i).EmailAdress).FirstOrDefault() == null)
+                        _context.Recipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i));
                 }
                 await _context.SaveChangesAsync();
             }

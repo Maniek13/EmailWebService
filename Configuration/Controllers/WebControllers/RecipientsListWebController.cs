@@ -21,8 +21,6 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permission = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var recipientsDbLists = _emailDbControllerRO.GetRecipientsLists(permission.Id);
-
-
                 List<EmailRecipientsListModel> recipientsLists = [];
                 for (int i = 0; i < recipientsDbLists.Count; ++i)
                 {
