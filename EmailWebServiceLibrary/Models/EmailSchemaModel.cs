@@ -13,7 +13,7 @@ namespace EmailWebServiceLibrary.Models
         public string Body { get; set; }
         public string ReplyTo { get; init; }
         public string ReplyToDisplayName { get; init; }
-        public EmailFooterModel EmailFooter { get; init; }
-        public List<EmailSchemaVariablesModel> EmailSchemaVariables { get; init; }
+        public EmailFooterModel EmailFooter { get; set; }
+        public List<EmailSchemaVariablesModel> EmailSchemaVariables { get; set; }
     }
 }

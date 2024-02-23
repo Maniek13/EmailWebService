@@ -73,7 +73,14 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 await _context.EmailSchemas.AddAsync((EmailSchemaDbModel)emailSchema);
+
                 await _context.Footers.AddAsync(emailSchema.EmailFooter);
+                await _context.SaveChangesAsync();
+
+                var footerId = _context.Footers.Where(el => el.EmailSchemaId == emailSchema.Id).FirstOrDefault().Id;
+
+                emailSchema.EmailFooter.Logo.EmailFooterId = footerId;
+                await _context.Logos.AddAsync(emailSchema.EmailFooter.Logo);
                 for(int i = 0; i<emailSchema.EmailSchemaVariables.Count; ++i)
                 {
                     await _context.EmailSchemaVariables.AddAsync(emailSchema.EmailSchemaVariables.ElementAt(i));
@@ -91,6 +98,7 @@ namespace Configuration.Controllers.DbControllers
             {
                 _context.EmailSchemas.Update((EmailSchemaDbModel)emailSchema);
                 _context.Footers.Update(emailSchema.EmailFooter);
+                _context.Logos.Update(emailSchema.EmailFooter.Logo);
                 for (int i = 0; i < emailSchema.EmailSchemaVariables.Count; ++i)
                 {
                     _context.EmailSchemaVariables.Update(emailSchema.EmailSchemaVariables.ElementAt(i));

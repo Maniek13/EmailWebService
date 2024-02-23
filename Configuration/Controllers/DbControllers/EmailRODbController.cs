@@ -35,7 +35,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                return _context.EmailSchemas.Where(el => el.ServiceId == serviceId).FirstOrDefault();
+               return _context.EmailSchemas.Where(el => el.ServiceId == serviceId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -47,6 +47,28 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 return _context.EmailSchemas.Where(el => el.Id == id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public IEmailFooterDbModel GetEmailFooter(int schemaId)
+        {
+            try
+            {
+                return _context.Footers.Where(el => el.EmailSchemaId == schemaId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public ILogoDbModel GetEmailFooterLogo(int footerId)
+        {
+            try
+            {
+                return _context.Logos.Where(el => el.EmailFooterId == footerId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -68,6 +90,17 @@ namespace Configuration.Controllers.DbControllers
 
                 return res;
 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public List<IEmailSchemaVariablesDbModel> GetVariablesList(int schemaId)
+        {
+            try
+            {
+                return _context.EmailSchemaVariables.Select(el => (IEmailSchemaVariablesDbModel)el).Where(el => el.EmailSchemaId == schemaId).ToList();
             }
             catch (Exception ex)
             {

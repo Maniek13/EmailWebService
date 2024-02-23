@@ -20,10 +20,21 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
+                var res = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(permision.Id));
+                res.EmailFooter = ConversionHelper.ConvertToEmailFooterModel(_emailDbControllerRO.GetEmailFooter(res.Id));
+                var x = _emailDbControllerRO.GetEmailFooterLogo(res.EmailFooter.Id);
+                res.EmailFooter.Logo = ConversionHelper.ConvertToLogoModel(_emailDbControllerRO.GetEmailFooterLogo(res.EmailFooter.Id));
+                var variablesDb = _emailDbControllerRO.GetVariablesList(res.Id);
+                res.EmailSchemaVariables = new List<EmailSchemaVariablesModel>();
+
+                for(int i =0; i< variablesDb.Count; ++i)
+                {
+                    res.EmailSchemaVariables.Add(ConversionHelper.ConvertToEmailSchemaVariablesModel(variablesDb[i]));
+                }
 
                 return new ResponseModel<EmailSchemaModel>()
                 {
-                    Data = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(permision.Id)),
+                    Data = res,
                     ResultCode = (HttpStatusCode)200,
                     Message = "ok"
                 };

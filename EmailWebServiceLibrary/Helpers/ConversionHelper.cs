@@ -307,6 +307,8 @@ namespace EmailWebServiceLibrary.Helpers
         {
             try
             {
+                if (logo == null)
+                    return new LogoModel();
                 return new LogoModel()
                 {
                     Id = logo.Id,
