@@ -83,6 +83,7 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 _context.EmailSchemas.Update((EmailSchemaDbModel)emailSchema);
+                _context.Footers.Update(emailSchema.EmailFooter);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
