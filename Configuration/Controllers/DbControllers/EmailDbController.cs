@@ -3,6 +3,7 @@ using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
+using System.Runtime.Serialization.Formatters;
 
 namespace Configuration.Controllers.DbControllers
 {
@@ -30,6 +31,7 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 await _context.EmailAccountConfiguration.AddAsync((EmailAccountConfigurationDbModel)emailAccountConfiguration);
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -71,6 +73,11 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 await _context.EmailSchemas.AddAsync((EmailSchemaDbModel)emailSchema);
+                await _context.Footers.AddAsync(emailSchema.EmailFooter);
+                for(int i = 0; i<emailSchema.EmailSchemaVariables.Count; ++i)
+                {
+                    await _context.EmailSchemaVariables.AddAsync(emailSchema.EmailSchemaVariables.ElementAt(i));
+                }
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -84,6 +91,10 @@ namespace Configuration.Controllers.DbControllers
             {
                 _context.EmailSchemas.Update((EmailSchemaDbModel)emailSchema);
                 _context.Footers.Update(emailSchema.EmailFooter);
+                for (int i = 0; i < emailSchema.EmailSchemaVariables.Count; ++i)
+                {
+                    _context.EmailSchemaVariables.Update(emailSchema.EmailSchemaVariables.ElementAt(i));
+                }
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -152,7 +163,7 @@ namespace Configuration.Controllers.DbControllers
                 await _context.RecipientsList.AddAsync((EmailRecipientsListDbModel)recipientsListDbModel);
                 for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                 {
-                    _context.Recipients.AddAsync((EmailRecipientDbModel)recipientsListDbModel.Recipients.ElementAt(i));
+                    _context.Recipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i));
                 }
                 await _context.SaveChangesAsync();
             }
@@ -168,7 +179,7 @@ namespace Configuration.Controllers.DbControllers
                 _context.RecipientsList.Update((EmailRecipientsListDbModel)recipientsListDbModel);
                 for (int i = 0;i< recipientsListDbModel.Recipients.Count;++i)
                 {
-                    _context.Recipients.Update((EmailRecipientDbModel)recipientsListDbModel.Recipients.ElementAt(i));
+                    _context.Recipients.Update(recipientsListDbModel.Recipients.ElementAt(i));
                 }
                 await _context.SaveChangesAsync();
             }
@@ -183,6 +194,10 @@ namespace Configuration.Controllers.DbControllers
             {
                 var entity = _context.RecipientsList.Where(el => el.Id == id).FirstOrDefault();
                 _context.RecipientsList.Remove(entity);
+                for (int i = 0; i < entity.Recipients.Count; ++i)
+                {
+                    _context.Recipients.Remove(entity.Recipients.ElementAt(i));
+                }
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
