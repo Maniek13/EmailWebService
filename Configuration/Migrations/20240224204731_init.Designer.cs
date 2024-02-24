@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Configuration.Migrations
 {
     [DbContext(typeof(EmailServiceContextBase))]
-    [Migration("20240222175955_init")]
+    [Migration("20240224204731_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -66,10 +66,10 @@ namespace Configuration.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("EmailFooterId")
+                    b.Property<int>("EmailSchemaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EmailSchemaId")
+                    b.Property<int>("LogoId")
                         .HasColumnType("int");
 
                     b.Property<string>("TextHtml")
@@ -78,10 +78,10 @@ namespace Configuration.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmailFooterId");
-
                     b.HasIndex("EmailSchemaId")
                         .IsUnique();
+
+                    b.HasIndex("LogoId");
 
                     b.ToTable("Footers");
                 });
@@ -96,7 +96,7 @@ namespace Configuration.Migrations
 
                     b.Property<string>("EmailAdress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -109,6 +109,9 @@ namespace Configuration.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmailAdress")
+                        .IsUnique();
 
                     b.HasIndex("RecipientListId");
 
@@ -219,9 +222,6 @@ namespace Configuration.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("EmailFooterId")
-                        .HasColumnType("int");
-
                     b.Property<byte[]>("FileByteArray")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
@@ -272,15 +272,15 @@ namespace Configuration.Migrations
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailFooterDbModel", b =>
                 {
-                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.LogoDbModel", "Logo")
-                        .WithMany("EmailFooter")
-                        .HasForeignKey("EmailFooterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EmailWebServiceLibrary.Models.DbModels.EmailSchemaDbModel", "EmailSchema")
                         .WithOne("EmailFooter")
                         .HasForeignKey("EmailWebServiceLibrary.Models.DbModels.EmailFooterDbModel", "EmailSchemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.LogoDbModel", "Logo")
+                        .WithMany("EmailFooter")
+                        .HasForeignKey("LogoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

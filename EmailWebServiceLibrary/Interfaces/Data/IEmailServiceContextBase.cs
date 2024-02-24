@@ -5,7 +5,6 @@ namespace EmailWebServiceLibrary.Interfaces.Data
 {
     public interface IEmailServiceContextBase
     {
-        virtual Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) => throw new NotImplementedException();
         virtual DbSet<ServicesPermisionsDbModel> ServicesPermisions => throw new NotImplementedException();
         virtual DbSet<EmailAccountConfigurationDbModel> EmailAccountConfiguration => throw new NotImplementedException();
         virtual DbSet<EmailSchemaDbModel> EmailSchemas => throw new NotImplementedException();

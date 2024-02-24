@@ -8,8 +8,6 @@ namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
         [Key]
         int Id { get; set; }
         [Required]
-        int EmailFooterId { get; set; }
-        [Required]
         string Name { get; set; }
         [Required]
         string Type { get; set; }

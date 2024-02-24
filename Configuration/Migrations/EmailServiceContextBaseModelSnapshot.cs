@@ -63,10 +63,10 @@ namespace Configuration.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("EmailFooterId")
+                    b.Property<int>("EmailSchemaId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EmailSchemaId")
+                    b.Property<int>("LogoId")
                         .HasColumnType("int");
 
                     b.Property<string>("TextHtml")
@@ -75,10 +75,10 @@ namespace Configuration.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmailFooterId");
-
                     b.HasIndex("EmailSchemaId")
                         .IsUnique();
+
+                    b.HasIndex("LogoId");
 
                     b.ToTable("Footers");
                 });
@@ -219,9 +219,6 @@ namespace Configuration.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("EmailFooterId")
-                        .HasColumnType("int");
-
                     b.Property<byte[]>("FileByteArray")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
@@ -272,15 +269,15 @@ namespace Configuration.Migrations
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailFooterDbModel", b =>
                 {
-                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.LogoDbModel", "Logo")
-                        .WithMany("EmailFooter")
-                        .HasForeignKey("EmailFooterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EmailWebServiceLibrary.Models.DbModels.EmailSchemaDbModel", "EmailSchema")
                         .WithOne("EmailFooter")
                         .HasForeignKey("EmailWebServiceLibrary.Models.DbModels.EmailFooterDbModel", "EmailSchemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.LogoDbModel", "Logo")
+                        .WithMany("EmailFooter")
+                        .HasForeignKey("LogoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

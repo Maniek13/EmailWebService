@@ -1,4 +1,5 @@
-﻿using EmailWebServiceLibrary.Interfaces.Data;
+﻿using Configuration.Data;
+using EmailWebServiceLibrary.Interfaces.Data;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models;
@@ -7,9 +8,9 @@ using System.Runtime.Serialization.Formatters;
 
 namespace Configuration.Controllers.DbControllers
 {
-    public class EmailDbController(IEmailServiceContextBase dbContext) : IEmailDbController
+    public class EmailDbController(EmailServiceContext dbContext) : IEmailDbController
     {
-        readonly IEmailServiceContextBase _context = dbContext;
+        readonly EmailServiceContext _context = dbContext;
         #region body variables
         public async Task EditBodyVariablesAsync(IEmailSchemaVariablesDbModel emailSchemaVariablesDbModel)
         {
@@ -31,7 +32,6 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 await _context.EmailAccountConfiguration.AddAsync((EmailAccountConfigurationDbModel)emailAccountConfiguration);
-
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -72,23 +72,43 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                await _context.EmailSchemas.AddAsync((EmailSchemaDbModel)emailSchema);
+                await _context.Database.BeginTransactionAsync();
 
+                EmailSchemaDbModel schema = new()
+                {
+                    ServiceId = emailSchema.ServiceId,
+                    Name = emailSchema.Name,
+                    Body = emailSchema.Body,
+                    From = emailSchema.From,
+                    DisplayName = emailSchema.DisplayName,
+                    ReplyTo = emailSchema.ReplyTo,
+                    ReplyToDisplayName = emailSchema.ReplyToDisplayName,
+                    Subject = emailSchema.Subject
+                };
+
+                await _context.EmailSchemas.AddAsync(schema);
+                await _context.Logos.AddAsync(emailSchema.EmailFooter.Logo);
+                await _context.SaveChangesAsync();
+
+
+                emailSchema.EmailFooter.EmailSchemaId = schema.Id;
+                emailSchema.EmailFooter.LogoId = emailSchema.EmailFooter.Logo.Id;
                 await _context.Footers.AddAsync(emailSchema.EmailFooter);
                 await _context.SaveChangesAsync();
 
-                var footerId = _context.Footers.Where(el => el.EmailSchemaId == emailSchema.Id).FirstOrDefault().Id;
 
-                emailSchema.EmailFooter.Logo.EmailFooterId = footerId;
-                await _context.Logos.AddAsync(emailSchema.EmailFooter.Logo);
-                for(int i = 0; i<emailSchema.EmailSchemaVariables.Count; ++i)
+                for (int i = 0; i < emailSchema.EmailSchemaVariables.Count; ++i)
                 {
+                    emailSchema.EmailSchemaVariables.ElementAt(i).EmailSchemaId = schema.Id;
                     await _context.EmailSchemaVariables.AddAsync(emailSchema.EmailSchemaVariables.ElementAt(i));
                 }
                 await _context.SaveChangesAsync();
+
+                await _context.Database.CommitTransactionAsync();
             }
             catch (Exception ex)
             {
+                await _context.Database.RollbackTransactionAsync();
                 throw new Exception(ex.Message, ex);
             }
         }
@@ -110,12 +130,20 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public async Task DeleteEmailBodySchemaAsync(int id)
+        public async Task DeleteEmailBodySchemaAsync(int serviceId)
         {
             try
             {
-                var entity = _context.EmailSchemaVariables.Where(el => el.Id == id).FirstOrDefault();
-                _context.EmailSchemaVariables.Remove(entity);
+                var entity = _context.EmailSchemas.Where(el => el.ServiceId == serviceId).FirstOrDefault();
+                _context.EmailSchemas.Remove(entity);
+
+                var variables = _context.EmailSchemaVariables.Where(el => el.EmailSchemaId == entity.Id).ToList();
+                _context.EmailSchemaVariables.RemoveRange(variables);
+
+                var footer = _context.Footers.Where(el => el.EmailSchemaId == entity.Id).FirstOrDefault();
+                _context.Footers.Remove(footer);
+
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -172,7 +200,7 @@ namespace Configuration.Controllers.DbControllers
                 for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                 {
                     if(_context.Recipients.Where(el => el.EmailAdress == recipientsListDbModel.Recipients.ElementAt(i).EmailAdress).FirstOrDefault() == null)
-                        _context.Recipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i));
+                        _ = _context.Recipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i));
                 }
                 await _context.SaveChangesAsync();
             }

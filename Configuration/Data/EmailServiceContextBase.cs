@@ -74,7 +74,7 @@ namespace Configuration.Data
             modelBuilder.Entity<EmailFooterDbModel>()
               .HasOne<LogoDbModel>(x => x.Logo)
               .WithMany(y => y.EmailFooter)
-              .HasForeignKey("EmailFooterId");
+              .HasForeignKey(y => y.LogoId);
 
 
             modelBuilder.Entity<EmailSchemaVariablesDbModel>()

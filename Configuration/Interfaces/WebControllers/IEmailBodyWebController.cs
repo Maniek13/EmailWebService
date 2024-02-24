@@ -8,6 +8,6 @@ namespace Configuration.Interfaces.WebControllers
         IResponseModel<EmailSchemaModel> GetEmailBodySchema(string serviceName, HttpContext context);
         Task<IResponseModel<bool>> AddEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context);
         Task<IResponseModel<bool>> EditEmailBodySchemaAsync(string serviceName, EmailSchemaModel emailSchema, HttpContext context);
-        Task<IResponseModel<bool>> DeleteEmailBodySchemaAsync(string serviceName, int id, HttpContext context);
+        Task<IResponseModel<bool>> DeleteEmailBodySchemaAsync(string serviceName, HttpContext context);
     }
 }

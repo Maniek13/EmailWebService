@@ -21,7 +21,6 @@ namespace EmailWebServiceLibrary.Helpers
                     Password = configuration.Password
                 };
 
-
                 ContentType mimeType = new("text/html");
                 EmailHelper.CreateBody(emailSchema);
                 if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
@@ -34,8 +33,6 @@ namespace EmailWebServiceLibrary.Helpers
 
                 if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
                     AddAlternateFooterImage(mailMessage, logoMS, emailSchema);
-
-
 
                 mailMessage.AlternateViews.Add(alternate);
                 var message = EmailHelper.CreateEmail(mailMessage, memoryStream, userList, emailSchema, atachments);
@@ -64,7 +61,6 @@ namespace EmailWebServiceLibrary.Helpers
                 {
                     schemaBody.Body = body.Replace($"#{variables[i].Name}#", variables[i].Value);
                 }
-
             }
             catch (Exception ex)
             {
@@ -83,8 +79,6 @@ namespace EmailWebServiceLibrary.Helpers
 
                 message.Subject = emailSchema.Subject;
                 message.Body = emailSchema.Body;
-
-
                 message.From = new MailAddress(emailSchema.From, string.IsNullOrWhiteSpace(emailSchema.DisplayName) ? emailSchema.From : emailSchema.DisplayName);
 
                 if (!string.IsNullOrWhiteSpace(emailSchema.ReplyTo))
@@ -126,11 +120,12 @@ namespace EmailWebServiceLibrary.Helpers
 
         public static void AddAlternateFooterImage(MailMessage mail, MemoryStream fs, IEmailSchemaModel emailSchema)
         {
-            byte[] fileByteArray = System.Convert.FromBase64String(emailSchema.EmailFooter.Logo.FileBase64String);
-                
+            byte[] fileByteArray = Convert.FromBase64String(emailSchema.EmailFooter.Logo.FileBase64String);
             fs = new(fileByteArray);
-            Attachment attachment = new Attachment(fs, emailSchema.EmailFooter.Logo.Name + "." + emailSchema.EmailFooter.Logo.Type);
-            attachment.ContentId = "footer";
+            Attachment attachment = new(fs, emailSchema.EmailFooter.Logo.Name + "." + emailSchema.EmailFooter.Logo.Type)
+            {
+                ContentId = "footer"
+            };
             mail.Attachments.Add(attachment);
         }
 

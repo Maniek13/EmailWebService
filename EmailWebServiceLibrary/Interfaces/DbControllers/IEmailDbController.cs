@@ -16,7 +16,7 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
 
         Task SetEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema);
         Task EditEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema);
-        Task DeleteEmailBodySchemaAsync(int id);
+        Task DeleteEmailBodySchemaAsync(int serviceId);
 
         #endregion
 

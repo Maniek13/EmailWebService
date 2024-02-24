@@ -101,6 +101,7 @@ namespace EmailWebServiceLibrary.Helpers
             {
                 List<EmailSchemaVariablesDbModel> emailSchemaVariables = [];
 
+
                 for (int i = 0; i < emailschema.EmailSchemaVariables.Count; ++i)
                 {
                     emailSchemaVariables.Add(ConvertToEmailSchemaVariableDbModel(emailschema.EmailSchemaVariables[i]));
@@ -156,6 +157,7 @@ namespace EmailWebServiceLibrary.Helpers
                 {
                     Id = emailFooter.Id,
                     EmailSchemaId = emailFooter.EmailSchemaId,
+                    LogoId = emailFooter.EmailLogoId,
                     TextHtml = emailFooter.TextHtml,
                     Logo = ConvertToLogoDbModel(emailFooter.Logo),
                 };
@@ -178,7 +180,6 @@ namespace EmailWebServiceLibrary.Helpers
                     : new LogoDbModel()
                     {
                         Id = logo.Id,
-                        EmailFooterId = logo.EmailFooterId,
                         Name = logo.Name,
                         Type = logo.Type,
                         FileByteArray = imageByteArray
@@ -190,35 +191,6 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static LogoDbModel ConvertToLogoDbModel(int EmailFooterId, IFormFile image, string name)
-        {
-            try
-            {
-                long fileSize = image.Length;
-                string fileType = image.ContentType;
-
-                if (fileSize > 0)
-                {
-                    using var stream = new MemoryStream();
-                    image.CopyTo(stream);
-                    var imageByteArray = stream.ToArray();
-
-                    return new LogoDbModel()
-                    {
-                        EmailFooterId = EmailFooterId,
-                        Name = name,
-                        Type = image.ContentType,
-                        FileByteArray = imageByteArray
-                    };
-                }
-
-                throw new Exception("Plik nie został ustawiony");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"ConvertToLogoDbModel error: {ex.Message}", ex);
-            }
-        }
         #endregion
 
         #region convert to models
@@ -229,6 +201,7 @@ namespace EmailWebServiceLibrary.Helpers
             return new EmailSchemaVariablesModel()
             {
                 Id = emailSchemaVariables.Id,
+                EmailSchemaId = emailSchemaVariables.EmailSchemaId,
                 Name = emailSchemaVariables.Name,
                 Value = emailSchemaVariables.Value
             };
@@ -245,18 +218,26 @@ namespace EmailWebServiceLibrary.Helpers
 
         public static EmailSchemaModel ConvertToEmailSchemaModel(IEmailSchemaDbModel emailSchema)
         {
-            return new EmailSchemaModel()
+            try
             {
-                Id = emailSchema.Id,
-                ServiceId = emailSchema.ServiceId,
-                From = emailSchema.From,
-                DisplayName = emailSchema.DisplayName,
-                ReplyTo = emailSchema.ReplyTo,
-                ReplyToDisplayName = emailSchema.ReplyToDisplayName,
-                Name = emailSchema.Name,
-                Body = emailSchema.Body,
-                Subject = emailSchema.Subject
-            };
+                return new EmailSchemaModel()
+                {
+                    Id = emailSchema.Id,
+                    ServiceId = emailSchema.ServiceId,
+                    From = emailSchema.From,
+                    DisplayName = emailSchema.DisplayName,
+                    ReplyTo = emailSchema.ReplyTo,
+                    ReplyToDisplayName = emailSchema.ReplyToDisplayName,
+                    Name = emailSchema.Name,
+                    Body = emailSchema.Body,
+                    Subject = emailSchema.Subject
+                };
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.ToString(), ex);
+            }
+           
         }
 
         public static EmailRecipientModel ConvertToEmailRecipientsModel(IEmailRecipientDbModel user)
@@ -292,6 +273,7 @@ namespace EmailWebServiceLibrary.Helpers
                 {
                     Id = emailFooterDb.Id,
                     EmailSchemaId = emailFooterDb.EmailSchemaId,
+                    EmailLogoId = emailFooterDb.LogoId,
                     TextHtml = emailFooterDb.TextHtml,
                     Logo = ConvertToLogoModel(emailFooterDb.Logo)
                 };
@@ -312,7 +294,6 @@ namespace EmailWebServiceLibrary.Helpers
                 return new LogoModel()
                 {
                     Id = logo.Id,
-                    EmailFooterId = logo.EmailFooterId,
                     Name = logo.Name,
                     Type = logo.Type,
                     FileBase64String = Convert.ToBase64String(logo.FileByteArray)

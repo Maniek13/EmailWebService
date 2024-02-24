@@ -10,6 +10,8 @@ namespace EmailWebServiceLibrary.Models.DbModels
         [Required]
         public int EmailSchemaId { get; set; }
         [Required]
+        public int LogoId { get; set; }
+        [Required]
         public string TextHtml { get; set; }
         public EmailSchemaDbModel EmailSchema { get; set; }
         public LogoDbModel Logo { get; set; }

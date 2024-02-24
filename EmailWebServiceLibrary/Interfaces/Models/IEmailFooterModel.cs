@@ -6,6 +6,7 @@ namespace EmailWebServiceLibrary.Interfaces.Models
     {
         int Id { get; init; }
         int EmailSchemaId { get; init; }
+        int EmailLogoId { get; init; }
         string TextHtml { get; init; }
         LogoModel Logo { get; set; }
     }

@@ -1,12 +1,13 @@
-﻿using EmailWebServiceLibrary.Interfaces.Data;
+﻿using Configuration.Data;
+using EmailWebServiceLibrary.Interfaces.Data;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 
 namespace Configuration.Controllers.DbControllers
 {
-    public class EmailRODbController(IEmailServiceContextBase dbContext) : IEmailRODbController
+    public class EmailRODbController(EmailServiceContextRO dbContext) : IEmailRODbController
     {
-        private readonly IEmailServiceContextBase _context = dbContext;
+        private readonly EmailServiceContextRO _context = dbContext;
 
 
         public IServicesPermisionsDbModel GetServicePermision(string serviceName)
@@ -64,11 +65,11 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public ILogoDbModel GetEmailFooterLogo(int footerId)
+        public ILogoDbModel GetEmailFooterLogo(int logoId)
         {
             try
             {
-                return _context.Logos.Where(el => el.EmailFooterId == footerId).FirstOrDefault();
+                return _context.Logos.Where(el => el.Id == logoId).FirstOrDefault();
             }
             catch (Exception ex)
             {

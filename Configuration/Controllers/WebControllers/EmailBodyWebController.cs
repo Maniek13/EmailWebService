@@ -20,10 +20,11 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                var res = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(permision.Id));
+                var schema = _emailDbControllerRO.GetEmailSchemaDbModel(permision.Id) ?? throw new Exception("Brak schematu dla danego serwisu"); ;
+                var res = ConversionHelper.ConvertToEmailSchemaModel(schema);
                 res.EmailFooter = ConversionHelper.ConvertToEmailFooterModel(_emailDbControllerRO.GetEmailFooter(res.Id));
                 var x = _emailDbControllerRO.GetEmailFooterLogo(res.EmailFooter.Id);
-                res.EmailFooter.Logo = ConversionHelper.ConvertToLogoModel(_emailDbControllerRO.GetEmailFooterLogo(res.EmailFooter.Id));
+                res.EmailFooter.Logo = ConversionHelper.ConvertToLogoModel(_emailDbControllerRO.GetEmailFooterLogo(res.EmailFooter.EmailLogoId));
                 var variablesDb = _emailDbControllerRO.GetVariablesList(res.Id);
                 res.EmailSchemaVariables = [];
 
@@ -101,12 +102,12 @@ namespace Configuration.Controllers.WebControllers
             }
         }
 
-        public async Task<IResponseModel<bool>> DeleteEmailBodySchemaAsync(string serviceName, int id, HttpContext context)
+        public async Task<IResponseModel<bool>> DeleteEmailBodySchemaAsync(string serviceName, HttpContext context)
         {
             try
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                await _emailDbController.DeleteEmailBodySchemaAsync(id);
+                await _emailDbController.DeleteEmailBodySchemaAsync(permisions.Id);
 
                 return new ResponseModel<bool>()
                 {

@@ -16,7 +16,6 @@ namespace Configuration.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EmailFooterId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FileByteArray = table.Column<byte[]>(type: "varbinary(max)", nullable: false)
@@ -26,18 +25,18 @@ namespace Configuration.Migrations
                     table.PrimaryKey("PK_Logos", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "ServicesPermisions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ServiceName = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ServicesPermisions", x => x.Id);
-                });
+            //migrationBuilder.CreateTable(
+            //    name: "ServicesPermisions",
+            //    columns: table => new
+            //    {
+            //        Id = table.Column<int>(type: "int", nullable: false)
+            //            .Annotation("SqlServer:Identity", "1, 1"),
+            //        ServiceName = table.Column<string>(type: "nvarchar(450)", nullable: false)
+            //    },
+            //    constraints: table =>
+            //    {
+            //        table.PrimaryKey("PK_ServicesPermisions", x => x.Id);
+            //    });
 
             migrationBuilder.CreateTable(
                 name: "EmailAccountConfiguration",
@@ -136,8 +135,8 @@ namespace Configuration.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     EmailSchemaId = table.Column<int>(type: "int", nullable: false),
-                    TextHtml = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailFooterId = table.Column<int>(type: "int", nullable: false)
+                    LogoId = table.Column<int>(type: "int", nullable: false),
+                    TextHtml = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -149,8 +148,8 @@ namespace Configuration.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Footers_Logos_EmailFooterId",
-                        column: x => x.EmailFooterId,
+                        name: "FK_Footers_Logos_LogoId",
+                        column: x => x.LogoId,
                         principalTable: "Logos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -165,7 +164,7 @@ namespace Configuration.Migrations
                     ServiceId = table.Column<int>(type: "int", nullable: false),
                     RecipientListId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmailAdress = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    EmailAdress = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,14 +195,20 @@ namespace Configuration.Migrations
                 column: "EmailSchemaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Footers_EmailFooterId",
-                table: "Footers",
-                column: "EmailFooterId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Footers_EmailSchemaId",
                 table: "Footers",
                 column: "EmailSchemaId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Footers_LogoId",
+                table: "Footers",
+                column: "LogoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Recipients_EmailAdress",
+                table: "Recipients",
+                column: "EmailAdress",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -217,11 +222,11 @@ namespace Configuration.Migrations
                 column: "ServiceId",
                 unique: true);
 
-            migrationBuilder.CreateIndex(
-                name: "IX_ServicesPermisions_ServiceName",
-                table: "ServicesPermisions",
-                column: "ServiceName",
-                unique: true);
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_ServicesPermisions_ServiceName",
+            //    table: "ServicesPermisions",
+            //    column: "ServiceName",
+            //    unique: true);
         }
 
         /// <inheritdoc />
