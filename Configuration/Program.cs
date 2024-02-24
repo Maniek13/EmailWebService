@@ -94,7 +94,7 @@ app.MapPut("/EditBodySchemaVariablesAsync", emailBodyVariablesWebController.Edit
     .WithOpenApi();
 
 
-RecipientsListWebController recipientsListWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
+EmailRecipientsListWebController recipientsListWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapGet("/GetRecipientsList", recipientsListWebController.GetRecipientsList)
     .WithDescription("Get recipients list")
     .WithOpenApi();
@@ -112,7 +112,7 @@ app.MapDelete("/DeleteRecipientsListAsync", recipientsListWebController.DeleteRe
     .WithOpenApi();
 
 
-RecipientsWebController recipientsWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
+EmailRecipientsWebController recipientsWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapGet("/GetRecipients", recipientsWebController.GetRecipients)
     .WithDescription("Get recipients")
     .WithOpenApi();

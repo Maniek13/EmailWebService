@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Domain.Controllers.WebControllers
 {
-    public class DomainWebController(ILogger logger, IEmailRODbController emailDbControllerRO) : ServiceWebControllerBase(logger, emailDbControllerRO), IDomainWebController
+    public class DomainWebController(ILogger logger, IEmailRODbController emailDbControllerRO) : EmailServiceWebControllerBase(logger, emailDbControllerRO), IDomainWebController
     {
         readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly ILogger _logger = logger;

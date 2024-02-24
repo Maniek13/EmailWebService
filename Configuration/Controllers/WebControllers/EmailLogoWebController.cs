@@ -9,13 +9,13 @@ namespace Configuration.Interfaces.WebControllers
 {
 
 
-    public class EmailLogoWebController(ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : ServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailLogoWebController
+    public class EmailLogoWebController(ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : EmailServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailLogoWebController
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
 
-        public async Task<IResponseModel<bool>> EditEmailLogoAsync(string serviceName, LogoModel logo, HttpContext context)
+        public async Task<IResponseModel<bool>> EditEmailLogoAsync(string serviceName, EmailLogoModel logo, HttpContext context)
         {
             try
             {

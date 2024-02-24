@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
 {
-    public interface ILogoDbModel
+    public interface IEmailLogoDbModel
     {
         [Key]
         int Id { get; set; }

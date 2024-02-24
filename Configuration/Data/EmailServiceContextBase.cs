@@ -72,7 +72,7 @@ namespace Configuration.Data
 
             //one to many
             modelBuilder.Entity<EmailFooterDbModel>()
-              .HasOne<LogoDbModel>(x => x.Logo)
+              .HasOne<EmailLogoDbModel>(x => x.Logo)
               .WithMany(y => y.EmailFooter)
               .HasForeignKey(y => y.LogoId);
 
@@ -93,9 +93,9 @@ namespace Configuration.Data
         public virtual DbSet<EmailAccountConfigurationDbModel> EmailAccountConfiguration { get; set; }
         public virtual DbSet<EmailSchemaDbModel> EmailSchemas { get; set; }
         public virtual DbSet<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
-        public virtual DbSet<EmailRecipientDbModel> Recipients { get; set; }
-        public virtual DbSet<EmailRecipientsListDbModel> RecipientsList { get; set; }
-        public virtual DbSet<EmailFooterDbModel> Footers { get; set; }
-        public virtual DbSet<LogoDbModel> Logos { get; set; }
+        public virtual DbSet<EmailRecipientDbModel> EmailRecipients { get; set; }
+        public virtual DbSet<EmailRecipientsListDbModel> EmailRecipientsLists { get; set; }
+        public virtual DbSet<EmailFooterDbModel> EmailFooters { get; set; }
+        public virtual DbSet<EmailLogoDbModel> EmailLogos { get; set; }
     }
 }

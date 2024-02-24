@@ -1,6 +1,6 @@
 ﻿namespace EmailWebServiceLibrary.Interfaces.Models
 {
-    public interface ILogoModel
+    public interface IEmailLogoModel
     {
         int Id { get; init; }
         string Name { get; init; }

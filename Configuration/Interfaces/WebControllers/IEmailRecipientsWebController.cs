@@ -3,7 +3,7 @@ using EmailWebServiceLibrary.Models;
 
 namespace Configuration.Interfaces.WebControllers
 {
-    interface IRecipientsWebController
+    interface IEmailRecipientsWebController
     {
         #region recipients 
         IResponseModel<List<EmailRecipientModel>> GetRecipients(string serviceName, HttpContext context);

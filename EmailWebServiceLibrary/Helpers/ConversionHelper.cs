@@ -168,7 +168,7 @@ namespace EmailWebServiceLibrary.Helpers
 
         }
 
-        public static LogoDbModel ConvertToLogoDbModel(ILogoModel logo)
+        public static EmailLogoDbModel ConvertToLogoDbModel(IEmailLogoModel logo)
         {
             try
             {
@@ -176,7 +176,7 @@ namespace EmailWebServiceLibrary.Helpers
 
                 return imageByteArray == null
                     ? throw new Exception("Plik nie został ustawiony")
-                    : new LogoDbModel()
+                    : new EmailLogoDbModel()
                     {
                         Id = logo.Id,
                         Name = logo.Name,
@@ -284,13 +284,13 @@ namespace EmailWebServiceLibrary.Helpers
 
         }
 
-        public static LogoModel ConvertToLogoModel(ILogoDbModel logo)
+        public static EmailLogoModel ConvertToLogoModel(IEmailLogoDbModel logo)
         {
             try
             {
                 if (logo == null)
-                    return new LogoModel();
-                return new LogoModel()
+                    return new EmailLogoModel();
+                return new EmailLogoModel()
                 {
                     Id = logo.Id,
                     Name = logo.Name,

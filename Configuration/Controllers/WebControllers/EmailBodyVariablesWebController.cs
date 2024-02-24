@@ -7,7 +7,7 @@ using EmailWebServiceLibrary.Models;
 
 namespace Configuration.Controllers.WebControllers
 {
-    public class EmailBodyVariablesWebController(ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : ServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailBodyVariablesWebController
+    public class EmailBodyVariablesWebController(ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : EmailServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailBodyVariablesWebController
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;

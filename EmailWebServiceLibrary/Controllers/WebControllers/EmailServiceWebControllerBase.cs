@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EmailWebServiceLibrary.Controllers.WebControllers
 {
-    public class ServiceWebControllerBase(ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController = null)
+    public class EmailServiceWebControllerBase(ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController = null)
     {
     }
 }

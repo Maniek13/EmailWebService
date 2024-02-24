@@ -60,19 +60,19 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
-                return _context.Footers.Where(el => el.EmailSchemaId == schemaId).FirstOrDefault();
+                return _context.EmailFooters.Where(el => el.EmailSchemaId == schemaId).FirstOrDefault();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
         }
-        public ILogoDbModel GetEmailFooterLogo(int logoId)
+        public IEmailLogoDbModel GetEmailFooterLogo(int logoId)
         {
             try
             {
                 EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
-                return _context.Logos.Where(el => el.Id == logoId).FirstOrDefault();
+                return _context.EmailLogos.Where(el => el.Id == logoId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
-                var list = _context.Recipients.Where(el => el.RecipientListId == recipientsList).ToList();
+                var list = _context.EmailRecipients.Where(el => el.RecipientListId == recipientsList).ToList();
                 List<IEmailRecipientDbModel> res = [];
 
                 for (int i = 0; i < list.Count; ++i)
@@ -121,7 +121,7 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
-                return _context.RecipientsList.Where(el => el.ServiceId == ServiceId).FirstOrDefault();
+                return _context.EmailRecipientsLists.Where(el => el.ServiceId == ServiceId).FirstOrDefault();
             }
             catch (Exception ex)
             {

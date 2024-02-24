@@ -12,6 +12,6 @@ namespace EmailWebServiceLibrary.Interfaces.Data
         virtual DbSet<EmailRecipientDbModel> Recipients => throw new NotImplementedException();
         virtual DbSet<EmailRecipientsListDbModel> RecipientsList => throw new NotImplementedException();
         public virtual DbSet<EmailFooterDbModel> Footers => throw new NotImplementedException();
-        public virtual DbSet<LogoDbModel> Logos => throw new NotImplementedException();
+        public virtual DbSet<EmailLogoDbModel> Logos => throw new NotImplementedException();
     }
 }

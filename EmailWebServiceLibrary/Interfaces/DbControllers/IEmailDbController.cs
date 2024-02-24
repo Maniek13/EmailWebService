@@ -36,7 +36,7 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
         Task EditBodyVariablesAsync(IEmailSchemaVariablesDbModel emailSchemaVariablesDbModel);
         #endregion
         #region logo
-        Task EditLogoAsync(ILogoDbModel logo);
+        Task EditLogoAsync(IEmailLogoDbModel logo);
         #endregion
 
         #region footer

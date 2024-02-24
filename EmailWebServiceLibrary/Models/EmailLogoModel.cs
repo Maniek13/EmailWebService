@@ -2,7 +2,7 @@
 
 namespace EmailWebServiceLibrary.Models.Models
 {
-    public record LogoModel : ILogoModel
+    public record EmailLogoModel : IEmailLogoModel
     {
         public int Id { get; init; }
         public string Name { get; init; }

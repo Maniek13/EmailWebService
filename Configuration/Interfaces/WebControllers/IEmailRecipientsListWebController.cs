@@ -3,7 +3,7 @@ using EmailWebServiceLibrary.Models;
 
 namespace Configuration.Interfaces.WebControllers
 {
-    interface IRecipientsListWebController
+    interface IEmailRecipientsListWebController
     {
 
         #region user list

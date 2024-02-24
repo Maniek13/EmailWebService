@@ -33,7 +33,7 @@ namespace EmailWebServiceTests.Library.Helpers
                 {
                     Id = 1,
                     TextHtml = @"<a style=""color:red;"">podpis</a>",
-                    Logo = new LogoModel()
+                    Logo = new EmailLogoModel()
                     {
                         Id = 1,
                         Name = "test",

@@ -14,6 +14,6 @@ namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
         [Required]
         string TextHtml { get; set; }
         EmailSchemaDbModel EmailSchema { get; set; }
-        LogoDbModel Logo { get; set; }
+        EmailLogoDbModel Logo { get; set; }
     }
 }
