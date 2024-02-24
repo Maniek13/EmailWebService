@@ -1,6 +1,6 @@
 ﻿namespace EmailWebServiceTests.Library.Helpers
 {
-    public class ConversionHelperTests
+    public class EmailConversionHelperTests
     {
         [Fact]
         public void ConvertToLogoDbModel()

@@ -1,26 +1,27 @@
 namespace EmailWebServiceTests.Configuration.WebControllers
 {
-    public class RecipientsWebControllerTests
+    public class EmailRecipientsListWebControllerTests
     {
+
         [Fact]
-        public void GetRecipientsLists()
+        public void GetRecipients()
         {
             Assert.Fail("Not implement");
         }
         [Fact]
-        public async Task SetRecipientTests()
+        public async Task SetRecipientsListTests()
         {
             Assert.Fail("Not implement");
         }
 
         [Fact]
-        public async Task UpdateRecipientTests()
+        public async Task UpdateRecipientsListTests()
         {
             Assert.Fail("Not implement");
         }
 
         [Fact]
-        public void DeleteRecipientTests()
+        public void DeleteRecipientsListTests()
         {
             Assert.Fail("Not implement");
         }

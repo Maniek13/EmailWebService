@@ -18,15 +18,15 @@ namespace Domain.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                var emailSchema = ConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(permisions.Id));
-                var configuration = ConversionHelper.ConvertToEmailAccountConfigurationModel(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.Id));
+                var emailSchema = EmailConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(permisions.Id));
+                var configuration = EmailConversionHelper.ConvertToEmailAccountConfigurationModel(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.Id));
                 var recipments = _emailDbControllerRO.GetRecipients(permisions.Id);
 
                 List<IEmailRecipientModel> users = [];
 
                 for (int i = 0; i < recipments.Count; i++)
                 {
-                    users.Add(ConversionHelper.ConvertToEmailRecipientsModel(recipments[i]));
+                    users.Add(EmailConversionHelper.ConvertToEmailRecipientsModel(recipments[i]));
                 }
                 await EmailHelper.SendEmail(emailSchema, users, configuration, atachments);
 

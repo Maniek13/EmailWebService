@@ -19,14 +19,14 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permission = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                var recipintsList = ConversionHelper.ConvertToEmailRecipientsListModel(_emailDbControllerRO.GetRecipientsList(permission.Id));
+                var recipintsList = EmailConversionHelper.ConvertToEmailRecipientsListModel(_emailDbControllerRO.GetRecipientsList(permission.Id));
                 var recipientsDb = _emailDbControllerRO.GetRecipients(recipintsList.Id);
                 List<EmailRecipientModel> recipients = [];
 
 
                 for (int i = 0; i < recipientsDb.Count; ++i)
                 {
-                    recipients.Add(ConversionHelper.ConvertToEmailRecipientsModel(recipientsDb.ElementAt(i)));
+                    recipients.Add(EmailConversionHelper.ConvertToEmailRecipientsModel(recipientsDb.ElementAt(i)));
                 }
                 recipintsList.Recipients = recipients;
                 return new ResponseModel<EmailRecipientsListModel>()
@@ -59,7 +59,7 @@ namespace Configuration.Controllers.WebControllers
                     emailRecipients.Recipients[i].ServiceId = permision.Id;
                 }
 
-                await _emailDbController.SetRecipientsListAsync(ConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
+                await _emailDbController.SetRecipientsListAsync(EmailConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
 
                 return new ResponseModel<bool>()
                 {
@@ -83,7 +83,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                await _emailDbController.EditRecipientsListAsync(ConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
+                await _emailDbController.EditRecipientsListAsync(EmailConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
 
                 return new ResponseModel<bool>()
                 {

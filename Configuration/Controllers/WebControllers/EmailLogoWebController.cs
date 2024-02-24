@@ -20,7 +20,7 @@ namespace Configuration.Interfaces.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                await _emailDbController.EditLogoAsync(ConversionHelper.ConvertToLogoDbModel(logo));
+                await _emailDbController.EditLogoAsync(EmailConversionHelper.ConvertToLogoDbModel(logo));
 
                 return new ResponseModel<bool>()
                 {

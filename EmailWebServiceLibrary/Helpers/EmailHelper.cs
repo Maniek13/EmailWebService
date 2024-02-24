@@ -131,7 +131,7 @@ namespace EmailWebServiceLibrary.Helpers
 
         public static void AddFooterToBody(IEmailSchemaModel emailSchema)
         {
-            emailSchema.Body = $"<br>{emailSchema.Body}<br>{emailSchema.EmailFooter.TextHtml}</p><img style=\"width:100px; height:100px; float:right; \" src=\"cid:footer\">";
+            emailSchema.Body = $"{emailSchema.Body}<br>{emailSchema.EmailFooter.TextHtml}";
         }
     }
 }

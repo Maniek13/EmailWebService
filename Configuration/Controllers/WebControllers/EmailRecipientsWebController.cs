@@ -23,7 +23,7 @@ namespace Configuration.Controllers.WebControllers
                 List<EmailRecipientModel> recipientsList = [];
                 for (int i = 0; i < recipients.Count; ++i)
                 {
-                    recipientsList.Add(ConversionHelper.ConvertToEmailRecipientsModel(recipients[i]));
+                    recipientsList.Add(EmailConversionHelper.ConvertToEmailRecipientsModel(recipients[i]));
                 }
 
                 return new ResponseModel<List<EmailRecipientModel>>()
@@ -52,7 +52,7 @@ namespace Configuration.Controllers.WebControllers
                     throw new Exception("Odbiorca nie posiada nr listy do jakiej go dodac");
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 recipient.ServiceId = permision.Id;
-                await _emailDbController.SetRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
+                await _emailDbController.SetRecipientAsync(EmailConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
 
                 return new ResponseModel<bool>()
                 {
@@ -77,7 +77,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                await _emailDbController.EditRecipientAsync(ConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
+                await _emailDbController.EditRecipientAsync(EmailConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
 
                 return new ResponseModel<bool>()
                 {

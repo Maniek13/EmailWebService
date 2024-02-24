@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace EmailWebServiceLibrary.Helpers
 {
-    public static class ConversionHelper
+    public static class EmailConversionHelper
     {
         #region convert to db models
 

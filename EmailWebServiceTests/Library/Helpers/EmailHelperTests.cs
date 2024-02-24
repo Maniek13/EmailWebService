@@ -32,7 +32,7 @@ namespace EmailWebServiceTests.Library.Helpers
                 var footer = new EmailFooterModel()
                 {
                     Id = 1,
-                    TextHtml = @"<a style=""color:red;"">podpis</a>",
+                    TextHtml = @"<a style=""color:red;"">podpis</a><img style=""width:100px; height:100px; float:right; "" src=""cid:footer"">",
                     Logo = new EmailLogoModel()
                     {
                         Id = 1,
