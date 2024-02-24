@@ -181,12 +181,13 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
+
         public async Task EditRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel)
         {
             try
             {
                 _context.RecipientsList.Update((EmailRecipientsListDbModel)recipientsListDbModel);
-                for (int i = 0;i< recipientsListDbModel.Recipients.Count;++i)
+                for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                 {
                     _context.Recipients.Update(recipientsListDbModel.Recipients.ElementAt(i));
                 }
