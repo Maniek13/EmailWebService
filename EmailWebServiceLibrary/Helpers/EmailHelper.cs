@@ -21,19 +21,22 @@ namespace EmailWebServiceLibrary.Helpers
                     Password = configuration.Password
                 };
 
-                EmailHelper.CreateBody(emailSchema);
-                ContentType mimeType = new("text/html");
 
+                ContentType mimeType = new("text/html");
+                EmailHelper.CreateBody(emailSchema);
+                if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
+                    AddFooterToBody(emailSchema);
+            
                 using var mailMessage = new MailMessage();
                 using var memoryStream = new MemoryStream();
                 using var logoMS = new MemoryStream();
                 using AlternateView alternate = AlternateView.CreateAlternateViewFromString(emailSchema.Body, mimeType);
 
                 if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
-                {
-                    AddFooterToBody(emailSchema);
-                    AddAlternateFooterImage(alternate, logoMS, emailSchema);
-                }
+                    AddAlternateFooterImage(mailMessage, logoMS, emailSchema);
+
+
+
                 mailMessage.AlternateViews.Add(alternate);
                 var message = EmailHelper.CreateEmail(mailMessage, memoryStream, userList, emailSchema, atachments);
 
@@ -121,23 +124,19 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static void AddAlternateFooterImage(AlternateView alternate, MemoryStream fs, IEmailSchemaModel emailSchema)
+        public static void AddAlternateFooterImage(MailMessage mail, MemoryStream fs, IEmailSchemaModel emailSchema)
         {
-            if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
-            {
-                byte[] fileByteArray = System.Convert.FromBase64String(emailSchema.EmailFooter.Logo.FileBase64String);
-                fs = new(fileByteArray);
-                LinkedResource footer = new(fs, $"image/{emailSchema.EmailFooter.Logo.Type}")
-                {
-                    ContentId = "footer"
-                };
-                alternate.LinkedResources.Add(footer);
-            }
+            byte[] fileByteArray = System.Convert.FromBase64String(emailSchema.EmailFooter.Logo.FileBase64String);
+                
+            fs = new(fileByteArray);
+            Attachment attachment = new Attachment(fs, emailSchema.EmailFooter.Logo.Name + "." + emailSchema.EmailFooter.Logo.Type);
+            attachment.ContentId = "footer";
+            mail.Attachments.Add(attachment);
         }
 
         public static void AddFooterToBody(IEmailSchemaModel emailSchema)
         {
-            emailSchema.Body = $"<html><body><br />{emailSchema.Body}<br>{emailSchema.EmailFooter.TextHtml}</body></html>";
+            emailSchema.Body = $"<br>{emailSchema.Body}<br>{emailSchema.EmailFooter.TextHtml}<img style=\"width=50px; heigh=50px; \" src=\"cid:footer\">";
         }
     }
 }
