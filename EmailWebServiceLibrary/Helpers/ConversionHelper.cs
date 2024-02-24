@@ -3,7 +3,6 @@ using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
 using EmailWebServiceLibrary.Models.Models;
-using Microsoft.AspNetCore.Http;
 using System.Collections.ObjectModel;
 
 namespace EmailWebServiceLibrary.Helpers
@@ -233,11 +232,11 @@ namespace EmailWebServiceLibrary.Helpers
                     Subject = emailSchema.Subject
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.ToString(), ex);
             }
-           
+
         }
 
         public static EmailRecipientModel ConvertToEmailRecipientsModel(IEmailRecipientDbModel user)

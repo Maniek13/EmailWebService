@@ -51,7 +51,7 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 }
 
-EmailConfigurationWebController emailWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+EmailConfigurationWebController emailWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapGet("/GetEmailAccountConfiguration", emailWebController.GetEmailAccountConfiguration)
     .WithDescription("Get email configuration")
     .WithOpenApi();
@@ -69,7 +69,7 @@ app.MapDelete("/DeleteEmailConfigurationAsync", emailWebController.DeleteEmailAc
     .WithOpenApi();
 
 
-EmailBodyWebController emailBodyWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+EmailBodyWebController emailBodyWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapGet("/GetEmailBodySchema", emailBodyWebController.GetEmailBodySchema)
     .WithDescription("Get body schama")
     .WithOpenApi();
@@ -88,13 +88,13 @@ app.MapDelete("/DeleteEmailBodySchemaAsync", emailBodyWebController.DeleteEmailB
     .WithOpenApi();
 
 
-EmailBodyVariablesWebController emailBodyVariablesWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+EmailBodyVariablesWebController emailBodyVariablesWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapPut("/EditBodySchemaVariablesAsync", emailBodyVariablesWebController.EditBodySchemaVariablesAsync)
     .WithDescription("Edit body schema variable")
     .WithOpenApi();
 
 
-RecipientsListWebController recipientsListWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+RecipientsListWebController recipientsListWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapGet("/GetRecipientsList", recipientsListWebController.GetRecipientsList)
     .WithDescription("Get recipients list")
     .WithOpenApi();
@@ -112,7 +112,7 @@ app.MapDelete("/DeleteRecipientsListAsync", recipientsListWebController.DeleteRe
     .WithOpenApi();
 
 
-RecipientsWebController recipientsWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+RecipientsWebController recipientsWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapGet("/GetRecipients", recipientsWebController.GetRecipients)
     .WithDescription("Get recipients")
     .WithOpenApi();
@@ -130,13 +130,13 @@ app.MapDelete("/DeleteRecipient", recipientsWebController.DeleteRecipient)
     .WithOpenApi();
 
 
-EmailFooterWebController emailFooterWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+EmailFooterWebController emailFooterWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapPut("/EditEmailFooterAsync", emailFooterWebController.EditEmailFooterAsync)
     .WithDescription("Edit footer")
     .WithOpenApi();
 
 
-EmailLogoWebController emailLogoWebController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)), new EmailDbController(new EmailServiceContext(AppConfig.ConnectionString)));
+EmailLogoWebController emailLogoWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapPut("/EditEmailLogoAsync", emailLogoWebController.EditEmailLogoAsync)
     .WithDescription("Edit logo")
     .WithOpenApi();

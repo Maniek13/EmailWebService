@@ -25,7 +25,7 @@ namespace EmailWebServiceLibrary.Helpers
                 EmailHelper.CreateBody(emailSchema);
                 if (emailSchema.EmailFooter != null && emailSchema.EmailFooter.Id > 0)
                     AddFooterToBody(emailSchema);
-            
+
                 using var mailMessage = new MailMessage();
                 using var memoryStream = new MemoryStream();
                 using var logoMS = new MemoryStream();

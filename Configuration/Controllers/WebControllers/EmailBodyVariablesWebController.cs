@@ -4,7 +4,6 @@ using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
-using System.Net;
 
 namespace Configuration.Controllers.WebControllers
 {

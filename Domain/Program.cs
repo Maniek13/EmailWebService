@@ -1,5 +1,4 @@
 using Configuration.Controllers.DbControllers;
-using Configuration.Data;
 using Domain.Controllers.WebControllers;
 using EmailWebServiceLibrary.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,7 +43,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-DomainWebController emailServiceController = new(app.Logger, new EmailRODbController(new EmailServiceContextRO(AppConfig.ConnectionStringRO)));
+DomainWebController emailServiceController = new(app.Logger, new EmailRODbController());
 
 app.MapPost("/SendEmails", emailServiceController.SendEmailsAsync)
     .WithDescription("Send emails")

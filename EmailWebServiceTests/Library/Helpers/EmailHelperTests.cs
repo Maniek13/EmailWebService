@@ -123,12 +123,12 @@ namespace EmailWebServiceTests.Library.Helpers
 
                 EmailHelper.CreateBody(model);
 
-               
+
                 if (String.Compare(old, model.Body) == 0)
                     Assert.Fail($"Treść maila nie została przerobiona {old} {model.Body}");
 
             }
-            catch(Exception ex) { Assert.Fail(ex.Message);}  
+            catch (Exception ex) { Assert.Fail(ex.Message); }
         }
     }
 }

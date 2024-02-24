@@ -1,5 +1,4 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
-using System.Net;
 
 namespace EmailWebServiceLibrary.Models
 {

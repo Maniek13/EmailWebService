@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace EmailWebServiceLibrary.Interfaces.Models
+﻿namespace EmailWebServiceLibrary.Interfaces.Models
 {
     public interface IResponseModel<T>
     {

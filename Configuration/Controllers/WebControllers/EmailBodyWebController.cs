@@ -4,7 +4,6 @@ using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
-using System.Net;
 
 namespace Configuration.Controllers.WebControllers
 {
@@ -28,7 +27,7 @@ namespace Configuration.Controllers.WebControllers
                 var variablesDb = _emailDbControllerRO.GetVariablesList(res.Id);
                 res.EmailSchemaVariables = [];
 
-                for(int i =0; i< variablesDb.Count; ++i)
+                for (int i = 0; i < variablesDb.Count; ++i)
                 {
                     res.EmailSchemaVariables.Add(ConversionHelper.ConvertToEmailSchemaVariablesModel(variablesDb[i]));
                 }

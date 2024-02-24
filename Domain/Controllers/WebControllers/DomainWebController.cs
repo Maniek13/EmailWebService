@@ -5,7 +5,6 @@ using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Domain.Controllers.WebControllers
 {
