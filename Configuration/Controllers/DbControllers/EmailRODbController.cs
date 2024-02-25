@@ -11,7 +11,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
                 return _context.ServicesPermisions.Where(el => el.ServiceName == serviceName).FirstOrDefault();
             }
             catch (Exception ex)
@@ -23,7 +23,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
                 return _context.EmailAccountConfiguration.Where(el => el.ServiceId == serviceId).FirstOrDefault();
             }
             catch (Exception ex)
@@ -35,7 +35,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
                 return _context.EmailSchemas.Where(el => el.ServiceId == serviceId).FirstOrDefault();
             }
             catch (Exception ex)
@@ -47,7 +47,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
                 return _context.EmailSchemas.Where(el => el.Id == id).FirstOrDefault();
             }
             catch (Exception ex)
@@ -59,7 +59,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
                 return _context.EmailFooters.Where(el => el.EmailSchemaId == schemaId).FirstOrDefault();
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
                 return _context.EmailLogos.Where(el => el.Id == logoId).FirstOrDefault();
             }
             catch (Exception ex)
@@ -83,7 +83,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
                 var list = _context.EmailRecipients.Where(el => el.RecipientListId == recipientsList).ToList();
                 List<IEmailRecipientDbModel> res = [];
 
@@ -107,7 +107,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
                 return [.. _context.EmailSchemaVariables.Select(el => (IEmailSchemaVariablesDbModel)el).Where(el => el.EmailSchemaId == schemaId)];
             }
             catch (Exception ex)
@@ -120,7 +120,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
                 return _context.EmailRecipientsLists.Where(el => el.ServiceId == ServiceId).FirstOrDefault();
             }
             catch (Exception ex)

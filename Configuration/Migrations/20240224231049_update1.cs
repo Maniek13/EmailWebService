@@ -10,6 +10,9 @@ namespace Configuration.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+
+
+
             migrationBuilder.DropForeignKey(
                 name: "FK_Footers_EmailSchemas_EmailSchemaId",
                 table: "Footers");

@@ -1,8 +1,12 @@
 ﻿using Configuration.Data;
+using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Reflection.Metadata;
 
 namespace Configuration.Controllers.DbControllers
 {
@@ -13,7 +17,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailSchemaVariables.Update((EmailSchemaVariablesDbModel)emailSchemaVariablesDbModel);
                 await _context.SaveChangesAsync();
             }
@@ -29,7 +33,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 await _context.EmailAccountConfiguration.AddAsync((EmailAccountConfigurationDbModel)emailAccountConfiguration);
                 await _context.SaveChangesAsync();
             }
@@ -43,7 +47,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailAccountConfiguration.Update((EmailAccountConfigurationDbModel)emailAccountConfiguration);
                 await _context.SaveChangesAsync();
             }
@@ -56,7 +60,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 var entity = _context.EmailAccountConfiguration.Where(el => el.Id == id).FirstOrDefault();
                 _context.EmailAccountConfiguration.Remove(entity);
                 await _context.SaveChangesAsync();
@@ -71,7 +75,7 @@ namespace Configuration.Controllers.DbControllers
 
         public async Task SetEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema)
         {
-            EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+            using EmailServiceContext _context = new(AppConfig.ConnectionString);
             try
             {
                 await _context.Database.BeginTransactionAsync();
@@ -98,7 +102,6 @@ namespace Configuration.Controllers.DbControllers
                 await _context.EmailFooters.AddAsync(emailSchema.EmailFooter);
                 await _context.SaveChangesAsync();
 
-
                 for (int i = 0; i < emailSchema.EmailSchemaVariables.Count; ++i)
                 {
                     emailSchema.EmailSchemaVariables.ElementAt(i).EmailSchemaId = schema.Id;
@@ -119,14 +122,28 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailSchemas.Update((EmailSchemaDbModel)emailSchema);
                 _context.EmailFooters.Update(emailSchema.EmailFooter);
                 _context.EmailLogos.Update(emailSchema.EmailFooter.Logo);
-                for (int i = 0; i < emailSchema.EmailSchemaVariables.Count; ++i)
+
+                var variables = _context.EmailSchemaVariables.Where(el => el.EmailSchemaId == emailSchema.Id).ToList();
+                var temp = emailSchema.EmailSchemaVariables;
+
+                var toUpdate = _context.EmailSchemaVariables.Where(el => emailSchema.EmailSchemaVariables.Contains(el)).ToList();
+                var toDelete = _context.EmailSchemaVariables.Where(el => !emailSchema.EmailSchemaVariables.Contains(el)).ToList();
+
+
+                for (int i= 0; i < toUpdate.Count; ++i)
                 {
-                    _context.EmailSchemaVariables.Update(emailSchema.EmailSchemaVariables.ElementAt(i));
+                    _context.EmailSchemaVariables.Update(toUpdate[i]);
                 }
+
+                for (int i = 0; i < toDelete.Count; ++i)
+                {
+                    _context.EmailSchemaVariables.Update(toUpdate[i]);
+                }
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -138,7 +155,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 var entity = _context.EmailSchemas.Where(el => el.ServiceId == serviceId).FirstOrDefault();
                 _context.EmailSchemas.Remove(entity);
 
@@ -162,7 +179,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 await _context.EmailRecipients.AddAsync((EmailRecipientDbModel)recipientsDbModel);
                 await _context.SaveChangesAsync();
             }
@@ -175,7 +192,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailRecipients.Update((EmailRecipientDbModel)recipientsDbModel);
                 await _context.SaveChangesAsync();
             }
@@ -188,7 +205,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 var entity = _context.EmailRecipients.Where(el => el.Id == id).FirstOrDefault();
                 _context.EmailRecipients.Remove(entity);
                 await _context.SaveChangesAsync();
@@ -204,7 +221,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 await _context.EmailRecipientsLists.AddAsync((EmailRecipientsListDbModel)recipientsListDbModel);
                 for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                 {
@@ -223,8 +240,22 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailRecipientsLists.Update((EmailRecipientsListDbModel)recipientsListDbModel);
+
+                var toUpdate = _context.EmailRecipients.Where(el => recipientsListDbModel.Recipients.Contains(el)).ToList();
+                var toDelete = _context.EmailRecipients.Where(el => !recipientsListDbModel.Recipients.Contains(el)).ToList();
+
+                for (int i = 0; i < toUpdate.Count; ++i)
+                {
+                    _context.EmailRecipients.Update(toUpdate[i]);
+                }
+
+                for (int i = 0; i < toDelete.Count; ++i)
+                {
+                    _context.EmailRecipients.Update(toUpdate[i]);
+                }
+
                 for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                 {
                     _context.EmailRecipients.Update(recipientsListDbModel.Recipients.ElementAt(i));
@@ -240,13 +271,9 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 var entity = _context.EmailRecipientsLists.Where(el => el.Id == id).FirstOrDefault();
                 _context.EmailRecipientsLists.Remove(entity);
-                for (int i = 0; i < entity.Recipients.Count; ++i)
-                {
-                    _context.EmailRecipients.Remove(entity.Recipients.ElementAt(i));
-                }
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -261,7 +288,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailLogos.Update((EmailLogoDbModel)logo);
                 await _context.SaveChangesAsync();
             }
@@ -277,7 +304,7 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
-                EmailServiceContext _context = new EmailServiceContext(AppConfig.ConnectionString);
+                using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailFooters.Update((EmailFooterDbModel)footer);
                 _context.EmailLogos.Update(footer.Logo);
 
