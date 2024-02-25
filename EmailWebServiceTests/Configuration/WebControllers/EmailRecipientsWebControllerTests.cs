@@ -24,5 +24,10 @@ namespace EmailWebServiceTests.Configuration.WebControllers
         {
             Assert.Fail("Not implement");
         }
+        [Fact]
+        public void AddRecipientToListTests()
+        {
+            Assert.Fail("Not implement");
+        }
     }
 }

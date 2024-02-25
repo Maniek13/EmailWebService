@@ -9,7 +9,7 @@ namespace Configuration.Interfaces.WebControllers
         IResponseModel<List<EmailRecipientModel>> GetRecipients(string serviceName, HttpContext context);
         Task<IResponseModel<bool>> AddRecipient(string serviceName, EmailRecipientModel recipient, HttpContext context);
         Task<IResponseModel<bool>> EditRecipient(string serviceName, EmailRecipientModel recipient, HttpContext context);
-        Task<IResponseModel<bool>> DeleteRecipient(string serviceName, int id, HttpContext context);
+        Task<IResponseModel<bool>> DeleteRecipient(string serviceName, int recipientId, HttpContext context);
         #endregion
     }
 }

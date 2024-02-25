@@ -95,12 +95,12 @@ namespace Configuration.Controllers.WebControllers
             }
         }
 
-        public async Task<IResponseModel<bool>> DeleteRecipient(string serviceName, int id, HttpContext context)
+        public async Task<IResponseModel<bool>> DeleteRecipient(string serviceName, int recipentId, HttpContext context)
         {
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                await _emailDbController.DeleteRecipientAsync(id);
+                await _emailDbController.DeleteRecipientAsync(recipentId);
 
                 return new ResponseModel<bool>()
                 {

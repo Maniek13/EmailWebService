@@ -8,7 +8,7 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
 
         Task SetEmailConfigurationAsync(IEmailAccountConfigurationDbModel emailAccountConfiguration);
         Task EditEmailConfigurationAsync(IEmailAccountConfigurationDbModel emailAccountConfiguration);
-        Task DeleteEmailConfigurationAsync(int id);
+        Task DeleteEmailConfigurationAsync(int servicesId);
 
         #endregion
 
@@ -23,13 +23,13 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
         #region recipient list
         Task SetRecipientsListAsync(IEmailRecipientsListDbModel listRecipients);
         Task EditRecipientsListAsync(IEmailRecipientsListDbModel listRecipients);
-        Task DeleteRecipientsListAsync(int id);
+        Task DeleteRecipientsListAsync(int recipientListId);
 
         #endregion
         #region recipient
         Task SetRecipientAsync(IEmailRecipmentDbModel recipient);
         Task EditRecipientAsync(IEmailRecipmentDbModel recipient);
-        Task DeleteRecipientAsync(int id);
+        Task DeleteRecipientAsync(int recipientId);
         #endregion
 
         #region body variables

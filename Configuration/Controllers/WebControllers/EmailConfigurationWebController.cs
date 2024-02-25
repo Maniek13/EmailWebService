@@ -90,13 +90,13 @@ namespace Configuration.Controllers.WebControllers
             }
         }
 
-        public async Task<IResponseModel<bool>> DeleteEmailAccountConfigurationAsync(string serviceName, int id, HttpContext context)
+        public async Task<IResponseModel<bool>> DeleteEmailAccountConfigurationAsync(string serviceName, HttpContext context)
         {
             try
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
 
-                await _emailDbController.DeleteEmailConfigurationAsync(id);
+                await _emailDbController.DeleteEmailConfigurationAsync(permisions.Id);
                 return new ResponseModel<bool>()
                 {
                     Data = true,

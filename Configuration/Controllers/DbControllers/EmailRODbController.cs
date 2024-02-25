@@ -43,12 +43,12 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public IEmailSchemaDbModel GetEmailBodySchama(int id)
+        public IEmailSchemaDbModel GetEmailBodySchama(int emailSchemaId)
         {
             try
             {
                 using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
-                return _context.EmailSchemas.Where(el => el.Id == id).FirstOrDefault();
+                return _context.EmailSchemas.Where(el => el.Id == emailSchemaId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -92,15 +92,15 @@ namespace Configuration.Controllers.DbControllers
                     ).Where(el => el.listRecipment.RecipientListId == recipientsListId).ToList();
 
 
-                List<IEmailRecipmentDbModel> res = [];
+                List<IEmailRecipmentDbModel> responseRecipients = [];
 
                 for (int i = 0; i < recipientsDb.Count; ++i)
                 {
-                    res.Add(recipientsDb.ElementAt(i).recipient);
+                    responseRecipients.Add(recipientsDb.ElementAt(i).recipient);
                 }
 
 
-                return res;
+                return responseRecipients;
 
             }
             catch (Exception ex)
@@ -109,12 +109,12 @@ namespace Configuration.Controllers.DbControllers
             }
         }
 
-        public IEmailListRecipientDbModel GetListRecipment(int id)
+        public IEmailListRecipientDbModel GetListRecipment(int recipmnetListId)
         {
             try
             {
                 using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
-                return _context.EmailListRecipients.Where(el => el.Id == id).FirstOrDefault();
+                return _context.EmailListRecipients.Where(el => el.Id == recipmnetListId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -135,12 +135,12 @@ namespace Configuration.Controllers.DbControllers
             }
         }
 
-        public IEmailRecipientsListDbModel GetRecipientsList(int ServiceId)
+        public IEmailRecipientsListDbModel GetRecipientsList(int serviceId)
         {
             try
             {
                 using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
-                return _context.EmailRecipientsLists.Where(el => el.ServiceId == ServiceId).FirstOrDefault();
+                return _context.EmailRecipientsLists.Where(el => el.ServiceId == serviceId).FirstOrDefault();
             }
             catch (Exception ex)
             {

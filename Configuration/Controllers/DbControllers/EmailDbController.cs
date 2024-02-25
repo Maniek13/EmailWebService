@@ -52,12 +52,12 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public async Task DeleteEmailConfigurationAsync(int id)
+        public async Task DeleteEmailConfigurationAsync(int serviceId)
         {
             try
             {
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
-                var entity = _context.EmailAccountConfiguration.Where(el => el.Id == id).FirstOrDefault();
+                var entity = _context.EmailAccountConfiguration.Where(el => el.ServiceId == serviceId).FirstOrDefault();
                 _context.EmailAccountConfiguration.Remove(entity);
                 await _context.SaveChangesAsync();
             }
@@ -339,12 +339,12 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public async Task DeleteRecipientsListAsync(int id)
+        public async Task DeleteRecipientsListAsync(int recipientListId)
         {
             try
             {
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
-                var recipmentList = _context.EmailRecipientsLists.Where(el => el.Id == id).FirstOrDefault();
+                var recipmentList = _context.EmailRecipientsLists.Where(el => el.Id == recipientListId).FirstOrDefault();
                 _context.EmailRecipientsLists.Remove(recipmentList);
                 await _context.SaveChangesAsync();
             }

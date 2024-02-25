@@ -118,20 +118,35 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static void AddAlternateFooterImage(MailMessage mail, MemoryStream fs, IEmailSchemaModel emailSchema)
+        public static void AddAlternateFooterImage(MailMessage mail, MemoryStream memoryStream, IEmailSchemaModel emailSchema)
         {
-            byte[] fileByteArray = Convert.FromBase64String(emailSchema.EmailFooter.Logo.FileBase64String);
-            fs = new(fileByteArray);
-            Attachment attachment = new(fs, emailSchema.EmailFooter.Logo.Name + "." + emailSchema.EmailFooter.Logo.Type)
+            try
             {
-                ContentId = "footer"
-            };
-            mail.Attachments.Add(attachment);
+                byte[] fileByteArray = Convert.FromBase64String(emailSchema.EmailFooter.Logo.FileBase64String);
+                memoryStream = new(fileByteArray);
+                Attachment attachment = new(memoryStream, emailSchema.EmailFooter.Logo.Name + "." + emailSchema.EmailFooter.Logo.Type)
+                {
+                    ContentId = "footer"
+                };
+                mail.Attachments.Add(attachment);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString(), ex);
+            }
+
         }
 
         public static void AddFooterToBody(IEmailSchemaModel emailSchema)
         {
-            emailSchema.Body = $"{emailSchema.Body}<br>{emailSchema.EmailFooter.TextHtml}";
+            try
+            {
+                emailSchema.Body = $"{emailSchema.Body}<br>{emailSchema.EmailFooter.TextHtml}";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString(), ex);
+            }
         }
     }
 }

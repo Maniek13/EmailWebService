@@ -221,13 +221,20 @@ namespace EmailWebServiceLibrary.Helpers
 
         public static EmailSchemaVariablesModel ConvertToEmailSchemaVariablesModel(IEmailSchemaVariablesDbModel emailSchemaVariables)
         {
-            return new EmailSchemaVariablesModel()
+            try
             {
-                Id = emailSchemaVariables.Id,
-                EmailSchemaId = emailSchemaVariables.EmailSchemaId,
-                Name = emailSchemaVariables.Name,
-                Value = emailSchemaVariables.Value
-            };
+                return new EmailSchemaVariablesModel()
+                {
+                    Id = emailSchemaVariables.Id,
+                    EmailSchemaId = emailSchemaVariables.EmailSchemaId,
+                    Name = emailSchemaVariables.Name,
+                    Value = emailSchemaVariables.Value
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString(), ex);
+            }
         }
         public static EmailRecipientsListModel ConvertToEmailRecipientsListModel(IEmailRecipientsListDbModel emailRecipientsListDb)
         {
@@ -272,34 +279,57 @@ namespace EmailWebServiceLibrary.Helpers
 
         public static EmailRecipientModel ConvertToEmailRecipientModel(IEmailListRecipientDbModel user)
         {
-            return new EmailRecipientModel()
+            try
             {
-                Id = user.Id,
-                RecipientsListId = user.RecipientListId,
-            };
+                return new EmailRecipientModel()
+                {
+                    Id = user.Id,
+                    RecipientsListId = user.RecipientListId,
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString(), ex);
+            }
         }
 
         public static EmailRecipientModel ConvertToEmailRecipientModel(IEmailRecipmentDbModel user)
         {
-            return new EmailRecipientModel()
+            try
             {
-                Id = user.Id,
-                Name = user.Name,
-                EmailAdress = user.EmailAdress
-            };
+                return new EmailRecipientModel()
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    EmailAdress = user.EmailAdress
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString(), ex);
+            }
+
         }
 
         public static EmailAccountConfigurationModel ConvertToEmailAccountConfigurationModel(IEmailAccountConfigurationDbModel configuration)
         {
-            return new EmailAccountConfigurationModel()
+            try
             {
-                Id = configuration.Id,
-                ServiceId = configuration.ServiceId,
-                SMTP = configuration.SMTP,
-                Port = configuration.Port,
-                Login = configuration.Login,
-                Password = configuration.Password
-            };
+                return new EmailAccountConfigurationModel()
+                {
+                    Id = configuration.Id,
+                    ServiceId = configuration.ServiceId,
+                    SMTP = configuration.SMTP,
+                    Port = configuration.Port,
+                    Login = configuration.Login,
+                    Password = configuration.Password
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString(), ex);
+            }
+
         }
 
         public static EmailFooterModel ConvertToEmailFooterModel(IEmailFooterDbModel emailFooterDb)
