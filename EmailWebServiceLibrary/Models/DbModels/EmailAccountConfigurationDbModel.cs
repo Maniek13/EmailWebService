@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EmailWebServiceLibrary.Models.DbModels
 {
-    public class EmailAccountConfigurationDbModel : IEmailAccountConfigurationDbModel
+    public record EmailAccountConfigurationDbModel : IEmailAccountConfigurationDbModel
     {
         [Key]
         public int Id { get; set; }

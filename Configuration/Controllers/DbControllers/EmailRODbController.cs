@@ -79,17 +79,24 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<IEmailRecipientDbModel> GetRecipients(int recipientsList)
+        public List<IEmailRecipmentDbModel> GetRecipients(int recipientsListId)
         {
             try
             {
                 using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
-                var list = _context.EmailRecipients.Where(el => el.RecipientListId == recipientsList).ToList();
-                List<IEmailRecipientDbModel> res = [];
+                var recipientsDb = _context.EmailRecipients.Join(
+                    _context.EmailListRecipients,
+                    recipients => recipients.Id,
+                    listRecipments => listRecipments.RecipmentId,
+                    (recipient, listRecipment) => new { recipient, listRecipment }
+                    ).Where(el => el.listRecipment.RecipientListId == recipientsListId).ToList();
 
-                for (int i = 0; i < list.Count; ++i)
+
+                List<IEmailRecipmentDbModel> res = [];
+
+                for (int i = 0; i < recipientsDb.Count; ++i)
                 {
-                    res.Add(list[i]);
+                    res.Add(recipientsDb.ElementAt(i).recipient);
                 }
 
 
@@ -102,6 +109,18 @@ namespace Configuration.Controllers.DbControllers
             }
         }
 
+        public IEmailListRecipientDbModel GetListRecipment(int id)
+        {
+            try
+            {
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                return _context.EmailListRecipients.Where(el => el.Id == id).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
 
         public List<IEmailSchemaVariablesDbModel> GetVariablesList(int schemaId)
         {

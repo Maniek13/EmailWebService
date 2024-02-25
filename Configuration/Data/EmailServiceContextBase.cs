@@ -1,5 +1,4 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Data;
-using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models.DbModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -81,16 +80,16 @@ namespace Configuration.Data
              .HasForeignKey(x => x.EmailSchemaId)
              .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<EmailRecipientDbModel>()
+            modelBuilder.Entity<EmailListRecipientDbModel>()
              .HasOne<EmailRecipientsListDbModel>(x => x.RecipientList)
              .WithMany(y => y.Recipients)
              .HasForeignKey(x => x.RecipientListId)
              .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<EmailRecipientDbModel>()
-              .HasOne<UserDbModel>(x => x.User)
+            modelBuilder.Entity<EmailListRecipientDbModel>()
+              .HasOne<EmailRecipmentDbModel>(x => x.Recipment)
               .WithMany(y => y.EmailRecipients)
-              .HasForeignKey(y => y.UsersId)
+              .HasForeignKey(y => y.RecipmentId)
               .OnDelete(DeleteBehavior.Cascade);
 
         }
@@ -98,10 +97,12 @@ namespace Configuration.Data
         public virtual DbSet<ServicesPermisionsDbModel> ServicesPermisions { get; set; }
         public virtual DbSet<EmailAccountConfigurationDbModel> EmailAccountConfiguration { get; set; }
         public virtual DbSet<EmailSchemaDbModel> EmailSchemas { get; set; }
-        public virtual DbSet<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
-        public virtual DbSet<EmailRecipientDbModel> EmailRecipients { get; set; }
-        public virtual DbSet<EmailRecipientsListDbModel> EmailRecipientsLists { get; set; }
         public virtual DbSet<EmailFooterDbModel> EmailFooters { get; set; }
         public virtual DbSet<EmailLogoDbModel> EmailLogos { get; set; }
+        public virtual DbSet<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
+        public virtual DbSet<EmailRecipientsListDbModel> EmailRecipientsLists { get; set; }
+        public virtual DbSet<EmailListRecipientDbModel> EmailListRecipients { get; set; }
+        public virtual DbSet<EmailRecipmentDbModel> EmailRecipients { get; set; }
+
     }
 }

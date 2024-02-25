@@ -26,7 +26,7 @@ namespace Configuration.Controllers.WebControllers
 
                 for (int i = 0; i < recipientsDb.Count; ++i)
                 {
-                    recipients.Add(EmailConversionHelper.ConvertToEmailRecipientsModel(recipientsDb.ElementAt(i)));
+                    recipients.Add(EmailConversionHelper.ConvertToEmailRecipientModel(recipientsDb.ElementAt(i)));
                 }
                 recipintsList.Recipients = recipients;
                 return new ResponseModel<EmailRecipientsListModel>()
@@ -123,5 +123,32 @@ namespace Configuration.Controllers.WebControllers
             }
         }
         #endregion
+
+        public async Task<IResponseModel<bool>> AddRecipientToList(string serviceName, int recipientsListId, int recipientId, HttpContext context)
+        {
+            try
+            {
+                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
+
+                await _emailDbController.AddListRecipientAsync(recipientsListId, recipientId);
+
+
+                return new ResponseModel<bool>()
+                {
+                    Data = true,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{GetType()} : {ex.Message}");
+                context.Response.StatusCode = 400;
+                return new ResponseModel<bool>()
+                {
+                    Data = false,
+                    Message = ex.Message
+                };
+            }
+        }
     }
 }

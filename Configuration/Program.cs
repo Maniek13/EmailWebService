@@ -112,6 +112,10 @@ app.MapDelete("/DeleteRecipientsListAsync", recipientsListWebController.DeleteRe
     .WithOpenApi();
 
 
+app.MapDelete("/AddRecipientToList", recipientsListWebController.AddRecipientToList)
+    .WithDescription("Add recipient to list")
+    .WithOpenApi();
+
 EmailRecipientsWebController recipientsWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapGet("/GetRecipients", recipientsWebController.GetRecipients)
     .WithDescription("Get recipients")

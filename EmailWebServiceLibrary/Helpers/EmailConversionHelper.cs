@@ -15,11 +15,11 @@ namespace EmailWebServiceLibrary.Helpers
         {
             try
             {
-                Collection<EmailRecipientDbModel> recipients = [];
+                Collection<EmailListRecipientDbModel> recipients = [];
 
                 for (int i = 0; i < emailRecipientsList.Recipients.Count; ++i)
                 {
-                    recipients.Add(ConvertToEmailRecipientsDbModel(emailRecipientsList.Recipients[i]));
+                    recipients.Add(ConvertToEmailRecipientsListDbModel(emailRecipientsList.Recipients[i]));
                 }
 
                 return new EmailRecipientsListDbModel()
@@ -36,14 +36,37 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static EmailRecipientDbModel ConvertToEmailRecipientsDbModel(IEmailRecipientModel recipient)
+        public static EmailListRecipientDbModel ConvertToEmailRecipientsListDbModel(IEmailRecipientModel recipient)
         {
             try
             {
-                return new EmailRecipientDbModel()
+                return new EmailListRecipientDbModel()
                 {
                     Id = recipient.Id,
                     RecipientListId = recipient.RecipientsListId,
+                    RecipmentId = recipient.RecipmentId,
+                    Recipment = new()
+                    {
+                        Id = recipient.RecipmentId,
+                        Name = recipient.Name,
+                        EmailAdress = recipient.EmailAdress,
+                    }
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+
+        public static EmailRecipmentDbModel ConvertToEmailRecipientDbModel(IEmailRecipientModel recipient)
+        {
+            try
+            {
+                return new EmailRecipmentDbModel()
+                {
+                    Id = recipient.Id,
                     Name = recipient.Name,
                     EmailAdress = recipient.EmailAdress
                 };
@@ -52,8 +75,10 @@ namespace EmailWebServiceLibrary.Helpers
             {
                 throw new Exception(ex.Message, ex);
             }
-
         }
+
+
+
         public static ServicesPermisionsDbModel ConvertToServicePermisionDbModel(IServicesPermisionsDbModel appPermisionDb)
         {
             try
@@ -206,12 +231,19 @@ namespace EmailWebServiceLibrary.Helpers
         }
         public static EmailRecipientsListModel ConvertToEmailRecipientsListModel(IEmailRecipientsListDbModel emailRecipientsListDb)
         {
-            return new EmailRecipientsListModel()
+            try
             {
-                Id = emailRecipientsListDb.Id,
-                Name = emailRecipientsListDb.Name,
-                ServiceId = emailRecipientsListDb.ServiceId
-            };
+                return new EmailRecipientsListModel()
+                {
+                    Id = emailRecipientsListDb.Id,
+                    Name = emailRecipientsListDb.Name,
+                    ServiceId = emailRecipientsListDb.ServiceId
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString(), ex);
+            }
         }
 
         public static EmailSchemaModel ConvertToEmailSchemaModel(IEmailSchemaDbModel emailSchema)
@@ -238,12 +270,20 @@ namespace EmailWebServiceLibrary.Helpers
 
         }
 
-        public static EmailRecipientModel ConvertToEmailRecipientsModel(IEmailRecipientDbModel user)
+        public static EmailRecipientModel ConvertToEmailRecipientModel(IEmailListRecipientDbModel user)
         {
             return new EmailRecipientModel()
             {
                 Id = user.Id,
                 RecipientsListId = user.RecipientListId,
+            };
+        }
+
+        public static EmailRecipientModel ConvertToEmailRecipientModel(IEmailRecipmentDbModel user)
+        {
+            return new EmailRecipientModel()
+            {
+                Id = user.Id,
                 Name = user.Name,
                 EmailAdress = user.EmailAdress
             };

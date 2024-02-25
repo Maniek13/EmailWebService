@@ -40,7 +40,7 @@ namespace Domain.Controllers.WebControllers
 
                 for (int i = 0; i < recipments.Count; i++)
                 {
-                    users.Add(EmailConversionHelper.ConvertToEmailRecipientsModel(recipments[i]));
+                    users.Add(EmailConversionHelper.ConvertToEmailRecipientModel(recipments[i]));
                 }
                 await EmailHelper.SendEmail(emailSchema, users, configuration, atachments);
 

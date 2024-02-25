@@ -21,19 +21,19 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
         #endregion
 
         #region recipient list
-        Task SetRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel);
-        Task EditRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel);
+        Task SetRecipientsListAsync(IEmailRecipientsListDbModel listRecipients);
+        Task EditRecipientsListAsync(IEmailRecipientsListDbModel listRecipients);
         Task DeleteRecipientsListAsync(int id);
 
         #endregion
         #region recipient
-        Task SetRecipientAsync(IEmailRecipientDbModel recipientsDbModel);
-        Task EditRecipientAsync(IEmailRecipientDbModel recipientsDbModel);
+        Task SetRecipientAsync(IEmailRecipmentDbModel recipient);
+        Task EditRecipientAsync(IEmailRecipmentDbModel recipient);
         Task DeleteRecipientAsync(int id);
         #endregion
 
         #region body variables
-        Task EditBodyVariablesAsync(IEmailSchemaVariablesDbModel emailSchemaVariablesDbModel);
+        Task EditBodyVariablesAsync(IEmailSchemaVariablesDbModel emailSchemaVariables);
         #endregion
         #region logo
         Task EditLogoAsync(IEmailLogoDbModel logo);
@@ -41,6 +41,9 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
 
         #region footer
         Task EditEmailFooterAsync(IEmailFooterDbModel footer);
+        #endregion
+        #region list recipments
+        Task AddListRecipientAsync(int recipientsListId, int recipientId);
         #endregion
 
     }
