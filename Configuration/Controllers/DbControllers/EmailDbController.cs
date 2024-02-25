@@ -127,18 +127,18 @@ namespace Configuration.Controllers.DbControllers
                 _context.EmailFooters.Update(emailSchema.EmailFooter);
                 _context.EmailLogos.Update(emailSchema.EmailFooter.Logo);
 
-                var toUpdate = _context.EmailSchemaVariables.Where(el => emailSchema.EmailSchemaVariables.Contains(el)).ToList();
-                var toDelete = _context.EmailSchemaVariables.Where(el => !emailSchema.EmailSchemaVariables.Contains(el)).ToList();
 
+                var dbList = _context.EmailSchemaVariables.Where(el => el.EmailSchemaId == emailSchema.Id).ToList();
+                var toUpdate =dbList.Where(el => emailSchema.EmailSchemaVariables.Contains(el)).ToList();
+                var toDelete = dbList.Where(el => !emailSchema.EmailSchemaVariables.Contains(el)).ToList();
+                var toAdd = emailSchema.EmailSchemaVariables.Where(el => !dbList.Contains(el)).ToList();
 
-                for (int i= 0; i < toUpdate.Count; ++i)
+                _context.EmailSchemaVariables.UpdateRange(toUpdate);
+                _context.EmailSchemaVariables.RemoveRange(toDelete);
+                for (int i = 0; i < toAdd.Count; ++i)
                 {
-                    _context.EmailSchemaVariables.Update(toUpdate[i]);
-                }
-
-                for (int i = 0; i < toDelete.Count; ++i)
-                {
-                    _context.EmailSchemaVariables.Update(toUpdate[i]);
+                    toAdd[i].EmailSchemaId = emailSchema.Id;
+                    _context.EmailSchemaVariables.Add(toAdd[i]);
                 }
 
                 await _context.SaveChangesAsync();
@@ -222,7 +222,7 @@ namespace Configuration.Controllers.DbControllers
                 await _context.EmailRecipientsLists.AddAsync((EmailRecipientsListDbModel)recipientsListDbModel);
                 for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                 {
-                        _context.EmailRecipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i));
+                    _context.EmailRecipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i));
                 }
                 await _context.SaveChangesAsync();
             }
@@ -236,26 +236,23 @@ namespace Configuration.Controllers.DbControllers
         {
             try
             {
+                if (recipientsListDbModel == null)
+                    throw new Exception("Lista odbiorców nie może być pusta");
+
+                if (recipientsListDbModel.Recipients.Count == 0)
+                    throw new Exception("Lista odbiorców nie może być pusta");
+
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailRecipientsLists.Update((EmailRecipientsListDbModel)recipientsListDbModel);
 
                 var dbList = _context.EmailRecipients.Where(el => el.RecipientListId == recipientsListDbModel.Id).ToList();
-
                 var toUpdate = dbList.Where(el => recipientsListDbModel.Recipients.Contains(el)).ToList();
                 var ToRemove = dbList.Where(el => !recipientsListDbModel.Recipients.Contains(el)).ToList();
                 var toAdd = recipientsListDbModel.Recipients.Where(el=> !dbList.Contains(el)).ToList();
 
 
-                for (int i = 0; i < toUpdate.Count; ++i)
-                {
-                    _context.EmailRecipients.Update(toUpdate[i]);
-                }
-
-                for (int i = 0; i < ToRemove.Count; ++i)
-                {
-                    _context.EmailRecipients.Remove(toUpdate[i]);
-                }
-
+                _context.EmailRecipients.UpdateRange(toUpdate);
+                _context.EmailRecipients.RemoveRange(ToRemove);
                 for (int i = 0; i < toAdd.Count; ++i)
                 {
                     toAdd[i].RecipientListId = recipientsListDbModel.Id;
