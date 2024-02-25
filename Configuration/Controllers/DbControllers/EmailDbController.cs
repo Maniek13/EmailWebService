@@ -127,9 +127,6 @@ namespace Configuration.Controllers.DbControllers
                 _context.EmailFooters.Update(emailSchema.EmailFooter);
                 _context.EmailLogos.Update(emailSchema.EmailFooter.Logo);
 
-                var variables = _context.EmailSchemaVariables.Where(el => el.EmailSchemaId == emailSchema.Id).ToList();
-                var temp = emailSchema.EmailSchemaVariables;
-
                 var toUpdate = _context.EmailSchemaVariables.Where(el => emailSchema.EmailSchemaVariables.Contains(el)).ToList();
                 var toDelete = _context.EmailSchemaVariables.Where(el => !emailSchema.EmailSchemaVariables.Contains(el)).ToList();
 
