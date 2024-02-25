@@ -21,6 +21,27 @@ namespace Configuration.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EmailWebServiceLibrary.Interfaces.Models.DbModels.UserDbModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EmailAdress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserDbModel");
+                });
+
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailAccountConfigurationDbModel", b =>
                 {
                     b.Property<int>("Id")
@@ -118,7 +139,7 @@ namespace Configuration.Migrations
 
                     b.Property<string>("EmailAdress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -127,17 +148,14 @@ namespace Configuration.Migrations
                     b.Property<int>("RecipientListId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int>("UsersId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmailAdress")
-                        .IsUnique();
-
                     b.HasIndex("RecipientListId");
 
-                    b.HasIndex("ServiceId");
+                    b.HasIndex("UsersId");
 
                     b.ToTable("EmailRecipients");
                 });
@@ -296,15 +314,15 @@ namespace Configuration.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.ServicesPermisionsDbModel", "ServicesPermisions")
+                    b.HasOne("EmailWebServiceLibrary.Interfaces.Models.DbModels.UserDbModel", "User")
                         .WithMany("EmailRecipients")
-                        .HasForeignKey("ServiceId")
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("RecipientList");
 
-                    b.Navigation("ServicesPermisions");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailRecipientsListDbModel", b =>
@@ -340,6 +358,11 @@ namespace Configuration.Migrations
                     b.Navigation("EmailSchema");
                 });
 
+            modelBuilder.Entity("EmailWebServiceLibrary.Interfaces.Models.DbModels.UserDbModel", b =>
+                {
+                    b.Navigation("EmailRecipients");
+                });
+
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailLogoDbModel", b =>
                 {
                     b.Navigation("EmailFooter");
@@ -365,8 +388,6 @@ namespace Configuration.Migrations
 
                     b.Navigation("EmailRecipientList")
                         .IsRequired();
-
-                    b.Navigation("EmailRecipients");
 
                     b.Navigation("EmailSchema")
                         .IsRequired();

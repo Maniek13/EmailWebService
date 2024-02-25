@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Configuration.Migrations
 {
     [DbContext(typeof(EmailServiceContextBase))]
-    [Migration("20240224231049_update1")]
-    partial class update1
+    [Migration("20240225151105_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,27 @@ namespace Configuration.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("EmailWebServiceLibrary.Interfaces.Models.DbModels.UserDbModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EmailAdress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserDbModel");
+                });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailAccountConfigurationDbModel", b =>
                 {
@@ -86,6 +107,31 @@ namespace Configuration.Migrations
                     b.ToTable("EmailFooters");
                 });
 
+            modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailLogoDbModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<byte[]>("FileByteArray")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailLogos");
+                });
+
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailRecipientDbModel", b =>
                 {
                     b.Property<int>("Id")
@@ -96,7 +142,7 @@ namespace Configuration.Migrations
 
                     b.Property<string>("EmailAdress")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -105,15 +151,14 @@ namespace Configuration.Migrations
                     b.Property<int>("RecipientListId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServiceId")
+                    b.Property<int>("UsersId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmailAdress")
-                        .IsUnique();
-
                     b.HasIndex("RecipientListId");
+
+                    b.HasIndex("UsersId");
 
                     b.ToTable("EmailRecipients");
                 });
@@ -214,31 +259,6 @@ namespace Configuration.Migrations
                     b.ToTable("EmailSchemaVariables");
                 });
 
-            modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.LogoDbModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<byte[]>("FileByteArray")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmailLogos");
-                });
-
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.ServicesPermisionsDbModel", b =>
                 {
                     b.Property<int>("Id")
@@ -278,7 +298,7 @@ namespace Configuration.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.LogoDbModel", "Logo")
+                    b.HasOne("EmailWebServiceLibrary.Models.DbModels.EmailLogoDbModel", "Logo")
                         .WithMany("EmailFooter")
                         .HasForeignKey("LogoId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -297,7 +317,15 @@ namespace Configuration.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EmailWebServiceLibrary.Interfaces.Models.DbModels.UserDbModel", "User")
+                        .WithMany("EmailRecipients")
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("RecipientList");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailRecipientsListDbModel", b =>
@@ -333,6 +361,16 @@ namespace Configuration.Migrations
                     b.Navigation("EmailSchema");
                 });
 
+            modelBuilder.Entity("EmailWebServiceLibrary.Interfaces.Models.DbModels.UserDbModel", b =>
+                {
+                    b.Navigation("EmailRecipients");
+                });
+
+            modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailLogoDbModel", b =>
+                {
+                    b.Navigation("EmailFooter");
+                });
+
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.EmailRecipientsListDbModel", b =>
                 {
                     b.Navigation("Recipients");
@@ -344,11 +382,6 @@ namespace Configuration.Migrations
                         .IsRequired();
 
                     b.Navigation("EmailSchemaVariables");
-                });
-
-            modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.LogoDbModel", b =>
-                {
-                    b.Navigation("EmailFooter");
                 });
 
             modelBuilder.Entity("EmailWebServiceLibrary.Models.DbModels.ServicesPermisionsDbModel", b =>

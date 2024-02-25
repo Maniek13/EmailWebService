@@ -1,4 +1,5 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Data;
+using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models.DbModels;
 using Microsoft.EntityFrameworkCore;
 
@@ -85,6 +86,13 @@ namespace Configuration.Data
              .WithMany(y => y.Recipients)
              .HasForeignKey(x => x.RecipientListId)
              .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<EmailRecipientDbModel>()
+              .HasOne<UserDbModel>(x => x.User)
+              .WithMany(y => y.EmailRecipients)
+              .HasForeignKey(y => y.UsersId)
+              .OnDelete(DeleteBehavior.Cascade);
+
         }
 
         public virtual DbSet<ServicesPermisionsDbModel> ServicesPermisions { get; set; }

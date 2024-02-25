@@ -10,9 +10,12 @@ namespace EmailWebServiceLibrary.Models.DbModels
         [Required]
         public int RecipientListId { get; set; }
         [Required]
+        public int UsersId { get; set; }
+        [Required]
         public string Name { get; set; }
         [Required]
         public string EmailAdress { get; set; }
         public EmailRecipientsListDbModel RecipientList { get; set; }
+        public UserDbModel User { get; set; }
     }
 }
