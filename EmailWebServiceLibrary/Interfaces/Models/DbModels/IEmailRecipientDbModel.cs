@@ -8,15 +8,12 @@ namespace EmailWebServiceLibrary.Interfaces.Models.DbModels
         [Key]
         int Id { get; set; }
         [Required]
-        int ServiceId { get; set; }
-        [Required]
         int RecipientListId { get; set; }
         [Required]
         string Name { get; set; }
         [Required]
         string EmailAdress { get; set; }
         EmailRecipientsListDbModel? RecipientList { get; set; }
-        ServicesPermisionsDbModel? ServicesPermisions { get; set; }
 
     }
 }

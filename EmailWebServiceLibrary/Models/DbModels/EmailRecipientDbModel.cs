@@ -8,14 +8,11 @@ namespace EmailWebServiceLibrary.Models.DbModels
         [Key]
         public int Id { get; set; }
         [Required]
-        public int ServiceId { get; set; }
-        [Required]
         public int RecipientListId { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
         public string EmailAdress { get; set; }
         public EmailRecipientsListDbModel RecipientList { get; set; }
-        public ServicesPermisionsDbModel ServicesPermisions { get; set; }
     }
 }

@@ -54,11 +54,6 @@ namespace Configuration.Controllers.WebControllers
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 emailRecipients.ServiceId = permision.Id;
 
-                for (int i = 0; i < emailRecipients.Recipients.Count; ++i)
-                {
-                    emailRecipients.Recipients[i].ServiceId = permision.Id;
-                }
-
                 await _emailDbController.SetRecipientsListAsync(EmailConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
 
                 return new ResponseModel<bool>()

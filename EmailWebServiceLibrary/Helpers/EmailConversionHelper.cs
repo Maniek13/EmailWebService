@@ -43,7 +43,6 @@ namespace EmailWebServiceLibrary.Helpers
                 return new EmailRecipientDbModel()
                 {
                     Id = recipient.Id,
-                    ServiceId = recipient.ServiceId,
                     RecipientListId = recipient.RecipientsListId,
                     Name = recipient.Name,
                     EmailAdress = recipient.EmailAdress
@@ -244,7 +243,6 @@ namespace EmailWebServiceLibrary.Helpers
             return new EmailRecipientModel()
             {
                 Id = user.Id,
-                ServiceId = user.ServiceId,
                 RecipientsListId = user.RecipientListId,
                 Name = user.Name,
                 EmailAdress = user.EmailAdress

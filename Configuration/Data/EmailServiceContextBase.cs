@@ -43,7 +43,6 @@ namespace Configuration.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ServicesPermisionsDbModel>().HasIndex(u => u.ServiceName).IsUnique();
-            modelBuilder.Entity<EmailRecipientDbModel>().HasIndex(i => i.EmailAdress).IsUnique();
 
             modelBuilder.Entity<ServicesPermisionsDbModel>()
                .HasOne<EmailAccountConfigurationDbModel>(x => x.EmailAccountConfiguration)
@@ -75,12 +74,6 @@ namespace Configuration.Data
               .WithMany(y => y.EmailFooter)
               .HasForeignKey(y => y.LogoId);
 
-            modelBuilder.Entity<EmailRecipientDbModel>()
-              .HasOne<ServicesPermisionsDbModel>(x => x.ServicesPermisions)
-              .WithMany(y => y.EmailRecipients)
-              .HasForeignKey(y => y.ServiceId)
-              .OnDelete(DeleteBehavior.NoAction);
-
             modelBuilder.Entity<EmailSchemaVariablesDbModel>()
              .HasOne<EmailSchemaDbModel>(x => x.EmailSchema)
              .WithMany(y => y.EmailSchemaVariables)
@@ -90,7 +83,8 @@ namespace Configuration.Data
             modelBuilder.Entity<EmailRecipientDbModel>()
              .HasOne<EmailRecipientsListDbModel>(x => x.RecipientList)
              .WithMany(y => y.Recipients)
-             .HasForeignKey(x => x.RecipientListId);
+             .HasForeignKey(x => x.RecipientListId)
+             .OnDelete(DeleteBehavior.Cascade);
         }
 
         public virtual DbSet<ServicesPermisionsDbModel> ServicesPermisions { get; set; }

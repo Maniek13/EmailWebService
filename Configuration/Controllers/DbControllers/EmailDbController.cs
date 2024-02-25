@@ -19,7 +19,7 @@ namespace Configuration.Controllers.DbControllers
             {
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailSchemaVariables.Update((EmailSchemaVariablesDbModel)emailSchemaVariablesDbModel);
-                await _context.SaveChangesAsync();
+                _ = await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
@@ -203,8 +203,8 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
-                var entity = _context.EmailRecipients.Where(el => el.Id == id).FirstOrDefault();
-                _context.EmailRecipients.Remove(entity);
+                var recipment = _context.EmailRecipients.Where(el => el.Id == id).FirstOrDefault();
+                _context.EmailRecipients.Remove(recipment);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -222,8 +222,7 @@ namespace Configuration.Controllers.DbControllers
                 await _context.EmailRecipientsLists.AddAsync((EmailRecipientsListDbModel)recipientsListDbModel);
                 for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                 {
-                    if (_context.EmailRecipients.Where(el => el.EmailAdress == recipientsListDbModel.Recipients.ElementAt(i).EmailAdress).FirstOrDefault() == null)
-                        _ = _context.EmailRecipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i));
+                        _context.EmailRecipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i));
                 }
                 await _context.SaveChangesAsync();
             }
@@ -240,23 +239,29 @@ namespace Configuration.Controllers.DbControllers
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailRecipientsLists.Update((EmailRecipientsListDbModel)recipientsListDbModel);
 
-                var toUpdate = _context.EmailRecipients.Where(el => recipientsListDbModel.Recipients.Contains(el)).ToList();
-                var toDelete = _context.EmailRecipients.Where(el => !recipientsListDbModel.Recipients.Contains(el)).ToList();
+                var dbList = _context.EmailRecipients.Where(el => el.RecipientListId == recipientsListDbModel.Id).ToList();
+
+                var toUpdate = dbList.Where(el => recipientsListDbModel.Recipients.Contains(el)).ToList();
+                var ToRemove = dbList.Where(el => !recipientsListDbModel.Recipients.Contains(el)).ToList();
+                var toAdd = recipientsListDbModel.Recipients.Where(el=> !dbList.Contains(el)).ToList();
+
 
                 for (int i = 0; i < toUpdate.Count; ++i)
                 {
                     _context.EmailRecipients.Update(toUpdate[i]);
                 }
 
-                for (int i = 0; i < toDelete.Count; ++i)
+                for (int i = 0; i < ToRemove.Count; ++i)
                 {
-                    _context.EmailRecipients.Update(toUpdate[i]);
+                    _context.EmailRecipients.Remove(toUpdate[i]);
                 }
 
-                for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
+                for (int i = 0; i < toAdd.Count; ++i)
                 {
-                    _context.EmailRecipients.Update(recipientsListDbModel.Recipients.ElementAt(i));
+                    toAdd[i].RecipientListId = recipientsListDbModel.Id;
+                    _context.EmailRecipients.Add(toAdd[i]);
                 }
+
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -269,8 +274,8 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
-                var entity = _context.EmailRecipientsLists.Where(el => el.Id == id).FirstOrDefault();
-                _context.EmailRecipientsLists.Remove(entity);
+                var recipmentList = _context.EmailRecipientsLists.Where(el => el.Id == id).FirstOrDefault();
+                _context.EmailRecipientsLists.Remove(recipmentList);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

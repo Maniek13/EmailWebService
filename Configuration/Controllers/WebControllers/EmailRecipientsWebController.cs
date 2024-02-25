@@ -51,7 +51,6 @@ namespace Configuration.Controllers.WebControllers
                 if (recipient.RecipientsListId == 0)
                     throw new Exception("Odbiorca nie posiada nr listy do jakiej go dodac");
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                recipient.ServiceId = permision.Id;
                 await _emailDbController.SetRecipientAsync(EmailConversionHelper.ConvertToEmailRecipientsDbModel(recipient));
 
                 return new ResponseModel<bool>()
