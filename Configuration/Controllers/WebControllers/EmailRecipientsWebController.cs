@@ -52,7 +52,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
 
-                await _emailDbController.SetRecipientAsync(mapper.Map<EmailRecipmentDbModel>(recipient));
+                await _emailDbController.SetRecipientAsync(_mapper.Map<EmailRecipmentDbModel>(recipient));
 
                 return new ResponseModel<bool>()
                 {
@@ -78,7 +78,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 EmailValidationHelper.ValidateEmailRecipientModel(recipient);
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                await _emailDbController.EditRecipientAsync(mapper.Map<EmailRecipmentDbModel>(recipient));
+                await _emailDbController.EditRecipientAsync(_mapper.Map<EmailRecipmentDbModel>(recipient));
 
                 return new ResponseModel<bool>()
                 {

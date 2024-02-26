@@ -21,7 +21,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 EmailValidationHelper.ValidateEmailFooterModel(emailFooter);
-                _ = _emailDbController.EditEmailFooterAsync(mapper.Map<EmailFooterDbModel>(emailFooter));
+                _ = _emailDbController.EditEmailFooterAsync(_mapper.Map<EmailFooterDbModel>(emailFooter));
 
                 return new ResponseModel<bool>()
                 {

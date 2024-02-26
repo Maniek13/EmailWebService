@@ -22,7 +22,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 EmailValidationHelper.ValidateEmailSchemaVariablesModel(variables);
-                await _emailDbController.EditBodyVariablesAsync(mapper.Map<EmailSchemaVariablesDbModel>(variables));
+                await _emailDbController.EditBodyVariablesAsync(_mapper.Map<EmailSchemaVariablesDbModel>(variables));
 
                 return new ResponseModel<bool>()
                 {

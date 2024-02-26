@@ -23,7 +23,7 @@ namespace Configuration.Interfaces.WebControllers
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 EmailValidationHelper.ValidateEmailLogoModel(logo);
-                await _emailDbController.EditLogoAsync(mapper.Map<EmailLogoDbModel>(logo));
+                await _emailDbController.EditLogoAsync(_mapper.Map<EmailLogoDbModel>(logo));
 
                 return new ResponseModel<bool>()
                 {

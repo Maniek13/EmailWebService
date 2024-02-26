@@ -21,7 +21,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permission = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                var recipintsList = mapper.Map<EmailRecipientsListModel>(_emailDbControllerRO.GetRecipientsList(permission.Id));
+                var recipintsList = _mapper.Map<EmailRecipientsListModel>(_emailDbControllerRO.GetRecipientsList(permission.Id));
                 var recipientsDb = _emailDbControllerRO.GetRecipients(recipintsList.Id);
                 List<EmailRecipientModel> recipients = [];
 
@@ -56,7 +56,7 @@ namespace Configuration.Controllers.WebControllers
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 emailRecipients.ServiceId = permision.Id;
                 EmailValidationHelper.ValidateEmailRecipientsListModel(emailRecipients);
-                await _emailDbController.SetRecipientsListAsync(mapper.Map<EmailRecipientsListDbModel>(emailRecipients));
+                await _emailDbController.SetRecipientsListAsync(_mapper.Map<EmailRecipientsListDbModel>(emailRecipients));
 
                 return new ResponseModel<bool>()
                 {
@@ -82,7 +82,7 @@ namespace Configuration.Controllers.WebControllers
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 
                 EmailValidationHelper.ValidateEmailRecipientsListModel(emailRecipients);
-                await _emailDbController.EditRecipientsListAsync(mapper.Map<EmailRecipientsListDbModel>(emailRecipients));
+                await _emailDbController.EditRecipientsListAsync(_mapper.Map<EmailRecipientsListDbModel>(emailRecipients));
 
                 return new ResponseModel<bool>()
                 {

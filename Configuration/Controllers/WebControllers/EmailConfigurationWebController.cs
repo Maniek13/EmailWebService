@@ -22,7 +22,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                var configuration = mapper.Map<EmailAccountConfigurationModel>(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.Id));
+                var configuration = _mapper.Map<EmailAccountConfigurationModel>(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.Id));
                 return new ResponseModel<EmailAccountConfigurationModel>()
                 {
                     Data = configuration,
@@ -48,7 +48,7 @@ namespace Configuration.Controllers.WebControllers
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 EmailValidationHelper.ValidateEmailAccountConfigurationModel(emailAccountConfiguration);
                 emailAccountConfiguration.ServiceId = permisions.Id;
-                await _emailDbController.SetEmailConfigurationAsync(mapper.Map<EmailAccountConfigurationDbModel>(emailAccountConfiguration));
+                await _emailDbController.SetEmailConfigurationAsync(_mapper.Map<EmailAccountConfigurationDbModel>(emailAccountConfiguration));
                 return new ResponseModel<bool>()
                 {
                     Data = true,
@@ -73,7 +73,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 EmailValidationHelper.ValidateEmailAccountConfigurationModel(emailAccountConfiguration);
-                await _emailDbController.EditEmailConfigurationAsync(mapper.Map<EmailAccountConfigurationDbModel>(emailAccountConfiguration));
+                await _emailDbController.EditEmailConfigurationAsync(_mapper.Map<EmailAccountConfigurationDbModel>(emailAccountConfiguration));
                 return new ResponseModel<bool>()
                 {
                     Data = true,
