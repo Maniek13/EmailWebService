@@ -124,13 +124,13 @@ namespace Configuration.Controllers.WebControllers
         }
         #endregion
 
-        public async Task<IResponseModel<bool>> AddRecipientToList(string serviceName, int recipientsListId, int recipientId, HttpContext context)
+        public async Task<IResponseModel<bool>> AddRecipientToLisAsync(string serviceName, int recipientsListId, int recipientId, HttpContext context)
         {
             try
             {
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
 
-                await _emailDbController.AddListRecipientAsync(recipientsListId, recipientId);
+                await _emailDbController.AddRecipientToLisAsync(recipientsListId, recipientId);
 
 
                 return new ResponseModel<bool>()

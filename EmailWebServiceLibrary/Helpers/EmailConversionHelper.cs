@@ -19,7 +19,7 @@ namespace EmailWebServiceLibrary.Helpers
 
                 for (int i = 0; i < emailRecipientsList.Recipients.Count; ++i)
                 {
-                    recipients.Add(ConvertToEmailRecipientsListDbModel(emailRecipientsList.Recipients[i]));
+                    recipients.Add(ConvertToEmailListRecipientsDbModel(emailRecipientsList.Recipients[i]));
                 }
 
                 return new EmailRecipientsListDbModel()
@@ -36,7 +36,7 @@ namespace EmailWebServiceLibrary.Helpers
             }
         }
 
-        public static EmailListRecipientDbModel ConvertToEmailRecipientsListDbModel(IEmailRecipientModel recipient)
+        public static EmailListRecipientDbModel ConvertToEmailListRecipientsDbModel(IEmailRecipientModel recipient)
         {
             try
             {

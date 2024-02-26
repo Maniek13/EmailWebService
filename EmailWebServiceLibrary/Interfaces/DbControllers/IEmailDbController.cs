@@ -43,7 +43,7 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
         Task EditEmailFooterAsync(IEmailFooterDbModel footer);
         #endregion
         #region list recipments
-        Task AddListRecipientAsync(int recipientsListId, int recipientId);
+        Task AddRecipientToLisAsync(int recipientsListId, int recipientId);
         #endregion
 
     }

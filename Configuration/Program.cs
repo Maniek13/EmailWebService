@@ -112,7 +112,7 @@ app.MapDelete("/DeleteRecipientsListAsync", recipientsListWebController.DeleteRe
     .WithOpenApi();
 
 
-app.MapDelete("/AddRecipientToList", recipientsListWebController.AddRecipientToList)
+app.MapDelete("/AddRecipientToList", recipientsListWebController.AddRecipientToLisAsync)
     .WithDescription("Add recipient to list")
     .WithOpenApi();
 

@@ -169,7 +169,7 @@ namespace Configuration.Controllers.DbControllers
         #endregion
 
         #region list recipments
-        public async Task AddListRecipientAsync(int recipientsListId, int recipientId)
+        public async Task AddRecipientToLisAsync(int recipientsListId, int recipientId)
         {
             try
             {
