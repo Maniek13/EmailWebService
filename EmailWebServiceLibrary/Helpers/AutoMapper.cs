@@ -16,25 +16,23 @@ namespace EmailWebServiceLibrary.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<EmailAccountConfigurationModel, EmailAccountConfigurationDbModel>().ReverseMap();
-            CreateMap<EmailSchemaModel, EmailSchemaDbModel>().ReverseMap();
+            CreateMap<ServicesPermisionsModel, ServicesPermisionsDbModel>().ReverseMap();
 
+            CreateMap<EmailAccountConfigurationModel, EmailAccountConfigurationDbModel>().ReverseMap();
+
+            CreateMap<EmailSchemaModel, EmailSchemaDbModel>().ReverseMap();
+            CreateMap<EmailSchemaVariablesModel, EmailSchemaVariablesDbModel>().ReverseMap();
+            CreateMap<EmailFooterModel, EmailFooterDbModel>().ReverseMap();
             CreateMap<EmailLogoModel, EmailLogoDbModel>().ForMember(dest => dest.FileByteArray,
                 opt => opt.MapFrom(src => Convert.FromBase64String(src.FileBase64String)));
             CreateMap<EmailLogoDbModel, EmailLogoModel>().ForMember(dest => dest.FileBase64String,
                 opt => opt.MapFrom(src => Convert.ToBase64String(src.FileByteArray)));
 
-            CreateMap<EmailSchemaVariablesModel, EmailSchemaVariablesDbModel>().ReverseMap();
-            CreateMap<EmailFooterModel, EmailFooterDbModel>().ReverseMap();
-
             CreateMap<EmailListRecipientDbModel, EmailRecipientModel>();
             CreateMap<EmailRecipmentDbModel, EmailRecipientModel>();
+            CreateMap<EmailRecipientModel, EmailListRecipientDbModel>();
+            CreateMap<EmailRecipientsListModel, EmailRecipientsListDbModel>().ReverseMap();
 
-            CreateMap<EmailRecipientModel, EmailListRecipientDbModel>();//
-
-
-            CreateMap<EmailRecipientsListModel, EmailRecipientsListDbModel>().ReverseMap(); //
-            CreateMap<ServicesPermisionsModel, ServicesPermisionsDbModel>().ReverseMap();
         }
     }
 }
