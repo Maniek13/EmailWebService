@@ -1,5 +1,7 @@
+using AutoMapper;
 using Configuration.Controllers.DbControllers;
 using Domain.Controllers.WebControllers;
+using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +20,20 @@ AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connecti
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new AutoMapperProfile());
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddMvc();
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -38,12 +54,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.MapControllers();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
 
-DomainWebController emailServiceController = new(app.Logger, new EmailRODbController());
+DomainWebController emailServiceController = new(mapper, app.Logger, new EmailRODbController());
 
 app.MapPost("/SendEmails", emailServiceController.SendEmailsAsync)
     .WithDescription("Send emails")

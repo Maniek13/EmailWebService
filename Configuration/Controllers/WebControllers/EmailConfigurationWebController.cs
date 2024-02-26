@@ -1,18 +1,20 @@
-﻿using Configuration.Interfaces.WebControllers;
+﻿using AutoMapper;
+using Configuration.Interfaces.WebControllers;
 using EmailWebServiceLibrary.Controllers.WebControllers;
 using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
+using EmailWebServiceLibrary.Models.DbModels;
 
 namespace Configuration.Controllers.WebControllers
 {
-    public class EmailConfigurationWebController(ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : EmailServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailConfigurationWebController
+    public class EmailConfigurationWebController(IMapper mapper, ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : EmailServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailConfigurationWebController
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
-
+        private readonly IMapper _mapper = mapper;
         #region email config
 
         public IResponseModel<EmailAccountConfigurationModel> GetEmailAccountConfiguration(string serviceName, HttpContext context)
@@ -20,7 +22,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                var configuration = EmailConversionHelper.ConvertToEmailAccountConfigurationModel(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.Id));
+                var configuration = mapper.Map<EmailAccountConfigurationModel>(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.Id));
                 return new ResponseModel<EmailAccountConfigurationModel>()
                 {
                     Data = configuration,
@@ -46,7 +48,7 @@ namespace Configuration.Controllers.WebControllers
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 EmailValidationHelper.ValidateEmailAccountConfigurationModel(emailAccountConfiguration);
                 emailAccountConfiguration.ServiceId = permisions.Id;
-                await _emailDbController.SetEmailConfigurationAsync(EmailConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
+                await _emailDbController.SetEmailConfigurationAsync(mapper.Map<EmailAccountConfigurationDbModel>(emailAccountConfiguration));
                 return new ResponseModel<bool>()
                 {
                     Data = true,
@@ -71,7 +73,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 EmailValidationHelper.ValidateEmailAccountConfigurationModel(emailAccountConfiguration);
-                await _emailDbController.EditEmailConfigurationAsync(EmailConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
+                await _emailDbController.EditEmailConfigurationAsync(mapper.Map<EmailAccountConfigurationDbModel>(emailAccountConfiguration));
                 return new ResponseModel<bool>()
                 {
                     Data = true,

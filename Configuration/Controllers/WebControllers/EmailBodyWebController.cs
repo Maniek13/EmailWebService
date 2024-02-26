@@ -6,6 +6,7 @@ using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
+using EmailWebServiceLibrary.Models.Models;
 
 namespace Configuration.Controllers.WebControllers
 {
@@ -25,16 +26,16 @@ namespace Configuration.Controllers.WebControllers
                 var schemaDbModel = _emailDbControllerRO.GetEmailSchemaDbModel(permision.Id) ?? throw new Exception("Brak schematu dla danego serwisu");
 
                 var schema = mapper.Map<EmailSchemaModel>(schemaDbModel);
-               // var schema = EmailConversionHelper.ConvertToEmailSchemaModel(schemaDbModel);
 
                 var footerDb = _emailDbControllerRO.GetEmailFooter(schema.Id);
                 if (footerDb != null )
                 {
-                    schema.EmailFooter = EmailConversionHelper.ConvertToEmailFooterModel(footerDb);
+
+                    schema.EmailFooter = mapper.Map<EmailFooterModel>(footerDb);
 
                     var logo = _emailDbControllerRO.GetEmailFooterLogo(schema.EmailFooter.EmailLogoId);
                     if (logo != null)
-                        schema.EmailFooter.Logo = EmailConversionHelper.ConvertToLogoModel(logo);
+                        schema.EmailFooter.Logo = mapper.Map<EmailLogoModel>(logo);
                 }
 
                 var variablesDb = _emailDbControllerRO.GetVariablesList(schema.Id);
@@ -44,7 +45,7 @@ namespace Configuration.Controllers.WebControllers
 
                     for (int i = 0; i < variablesDb.Count; ++i)
                     {
-                        schema.EmailSchemaVariables.Add(EmailConversionHelper.ConvertToEmailSchemaVariablesModel(variablesDb[i]));
+                        schema.EmailSchemaVariables.Add(mapper.Map<EmailSchemaVariablesModel>(variablesDb[i]));
                     }
                 }
 

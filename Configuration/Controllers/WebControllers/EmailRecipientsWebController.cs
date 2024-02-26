@@ -1,18 +1,20 @@
-﻿using Configuration.Interfaces.WebControllers;
+﻿using AutoMapper;
+using Configuration.Interfaces.WebControllers;
 using EmailWebServiceLibrary.Controllers.WebControllers;
 using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
+using EmailWebServiceLibrary.Models.DbModels;
 
 namespace Configuration.Controllers.WebControllers
 {
-    public class EmailRecipientsWebController(ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : EmailServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailRecipientsWebController
+    public class EmailRecipientsWebController(IMapper mapper, ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : EmailServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailRecipientsWebController
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
-
+        private readonly IMapper _mapper = mapper;
         public IResponseModel<List<EmailRecipientModel>> GetRecipients(string serviceName, HttpContext context)
         {
             try
@@ -23,7 +25,7 @@ namespace Configuration.Controllers.WebControllers
                 List<EmailRecipientModel> recipientsList = [];
                 for (int i = 0; i < recipients.Count; ++i)
                 {
-                    recipientsList.Add(EmailConversionHelper.ConvertToEmailRecipientModel(recipients[i]));
+                    recipientsList.Add(mapper.Map<EmailRecipientModel>(recipients[i]));
                 }
 
                 return new ResponseModel<List<EmailRecipientModel>>()
@@ -50,7 +52,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
 
-                await _emailDbController.SetRecipientAsync(EmailConversionHelper.ConvertToEmailRecipientDbModel(recipient));
+                await _emailDbController.SetRecipientAsync(mapper.Map<EmailRecipmentDbModel>(recipient));
 
                 return new ResponseModel<bool>()
                 {
@@ -76,7 +78,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 EmailValidationHelper.ValidateEmailRecipientModel(recipient);
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                await _emailDbController.EditRecipientAsync(EmailConversionHelper.ConvertToEmailRecipientDbModel(recipient));
+                await _emailDbController.EditRecipientAsync(mapper.Map<EmailRecipmentDbModel>(recipient));
 
                 return new ResponseModel<bool>()
                 {
