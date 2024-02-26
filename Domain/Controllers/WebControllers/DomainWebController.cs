@@ -19,6 +19,8 @@ namespace Domain.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var emailSchema = EmailConversionHelper.ConvertToEmailSchemaModel(_emailDbControllerRO.GetEmailSchemaDbModel(permisions.Id));
+                EmailValidationHelper.ValidateEmailSchemaModel(emailSchema);
+
                 var variablesDb = _emailDbControllerRO.GetVariablesList(emailSchema.Id);
                 var emailFooterDb = _emailDbControllerRO.GetEmailFooter(emailSchema.Id);
                 var footerLogo = _emailDbControllerRO.GetEmailFooterLogo(emailFooterDb.Id);

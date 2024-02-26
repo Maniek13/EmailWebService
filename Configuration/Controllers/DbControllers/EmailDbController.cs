@@ -296,9 +296,6 @@ namespace Configuration.Controllers.DbControllers
                 if (recipientsListDbModel == null)
                     throw new Exception("Lista odbiorców nie może być pusta");
 
-                if (recipientsListDbModel.Recipients.Count == 0)
-                    throw new Exception("Lista odbiorców nie może być pusta");
-
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
                 _context.EmailRecipientsLists.Update((EmailRecipientsListDbModel)recipientsListDbModel);
 

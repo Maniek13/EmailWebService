@@ -19,13 +19,18 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                var schema = _emailDbControllerRO.GetEmailSchemaDbModel(permision.Id) ?? throw new Exception("Brak schematu dla danego serwisu"); ;
-                var res = EmailConversionHelper.ConvertToEmailSchemaModel(schema);
-                res.EmailFooter = EmailConversionHelper.ConvertToEmailFooterModel(_emailDbControllerRO.GetEmailFooter(res.Id));
-                var x = _emailDbControllerRO.GetEmailFooterLogo(res.EmailFooter.Id);
-                res.EmailFooter.Logo = EmailConversionHelper.ConvertToLogoModel(_emailDbControllerRO.GetEmailFooterLogo(res.EmailFooter.EmailLogoId));
-                var variablesDb = _emailDbControllerRO.GetVariablesList(res.Id);
-                res.EmailSchemaVariables = [];
+
+                var schemaDbModel = _emailDbControllerRO.GetEmailSchemaDbModel(permision.Id) ?? throw new Exception("Brak schematu dla danego serwisu");
+
+                var schema = EmailConversionHelper.ConvertToEmailSchemaModel(schemaDbModel);
+                EmailValidationHelper.ValidateEmailSchemaModel(schema);
+
+
+                schema.EmailFooter = EmailConversionHelper.ConvertToEmailFooterModel(_emailDbControllerRO.GetEmailFooter(schema.Id));
+                var x = _emailDbControllerRO.GetEmailFooterLogo(schema.EmailFooter.Id);
+                schema.EmailFooter.Logo = EmailConversionHelper.ConvertToLogoModel(_emailDbControllerRO.GetEmailFooterLogo(schema.EmailFooter.EmailLogoId));
+                var variablesDb = _emailDbControllerRO.GetVariablesList(schema.Id);
+                schema.EmailSchemaVariables = [];
 
                 for (int i = 0; i < variablesDb.Count; ++i)
                 {
@@ -56,6 +61,8 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 emailSchema.ServiceId = permisions.Id;
+
+                EmailValidationHelper.ValidateEmailSchemaModel(emailSchema);
                 await _emailDbController.SetEmailBodySchemaAsync(EmailConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
 
                 return new ResponseModel<bool>()
@@ -81,6 +88,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
+                EmailValidationHelper.ValidateEmailSchemaModel(emailSchema);
                 await _emailDbController.EditEmailBodySchemaAsync(EmailConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
 
                 return new ResponseModel<bool>()
