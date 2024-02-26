@@ -33,7 +33,7 @@ namespace Configuration.Controllers.WebControllers
 
                     schema.EmailFooter = _mapper.Map<EmailFooterModel>(footerDb);
 
-                    var logo = _emailDbControllerRO.GetEmailFooterLogo(schema.EmailFooter.EmailLogoId);
+                    var logo = _emailDbControllerRO.GetEmailFooterLogo(schema.EmailFooter.LogoId);
                     if (logo != null)
                         schema.EmailFooter.Logo = _mapper.Map<EmailLogoModel>(logo);
                 }

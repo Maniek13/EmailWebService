@@ -4,15 +4,15 @@ namespace EmailWebServiceLibrary.Models
 {
     public record EmailSchemaModel : IEmailSchemaModel
     {
-        public int Id { get; init; }
+        public int Id { get; set; }
         public int ServiceId { get; set; }
-        public string From { get; init; }
-        public string DisplayName { get; init; }
-        public string Name { get; init; }
-        public string Subject { get; init; }
+        public string From { get; set; }
+        public string DisplayName { get; set; }
+        public string Name { get; set; }
+        public string Subject { get; set; }
         public string Body { get; set; }
-        public string ReplyTo { get; init; }
-        public string ReplyToDisplayName { get; init; }
+        public string ReplyTo { get; set; }
+        public string ReplyToDisplayName { get; set; }
         public EmailFooterModel EmailFooter { get; set; }
         public List<EmailSchemaVariablesModel> EmailSchemaVariables { get; set; }
     }

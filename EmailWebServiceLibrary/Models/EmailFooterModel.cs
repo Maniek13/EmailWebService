@@ -7,7 +7,7 @@ namespace EmailWebServiceLibrary.Models
     {
         public int Id { get; init; }
         public int EmailSchemaId { get; init; }
-        public int EmailLogoId { get; init; }
+        public int LogoId { get; init; }
         public string TextHtml { get; init; }
         public EmailLogoModel Logo { get; set; }
     }

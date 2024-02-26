@@ -3,6 +3,7 @@ using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
+using EmailWebServiceLibrary.Models.Models;
 
 namespace Configuration.Controllers.DbControllers
 {
@@ -97,25 +98,27 @@ namespace Configuration.Controllers.DbControllers
                     await _context.EmailSchemaVariables.AddAsync(emailSchema.EmailSchemaVariables.ElementAt(i));
                 }
 
-     
+                await _context.SaveChangesAsync();
+
                 if (emailSchema.EmailFooter != null)
                 {
 
                     if (emailSchema.EmailFooter.Logo != null)
                     {
-                        await _context.EmailLogos.AddAsync(emailSchema.EmailFooter.Logo);
+                        if (emailSchema.EmailFooter.Logo.Id != 0)
+                            _context.EmailLogos.Update(emailSchema.EmailFooter.Logo);
+                        else
+                            await _context.EmailLogos.AddAsync(emailSchema.EmailFooter.Logo);
                         await _context.SaveChangesAsync();
                     }
-           
+
                     emailSchema.EmailFooter.EmailSchemaId = schema.Id;
                     emailSchema.EmailFooter.LogoId = emailSchema.EmailFooter.Logo.Id;
                     await _context.EmailFooters.AddAsync(emailSchema.EmailFooter);
-                    await _context.SaveChangesAsync();
                 }
 
                 await _context.SaveChangesAsync();
                 await _context.Database.CommitTransactionAsync();
-
             }
             catch (Exception ex)
             {
@@ -125,12 +128,17 @@ namespace Configuration.Controllers.DbControllers
         }
         public async Task EditEmailBodySchemaAsync(IEmailSchemaDbModel emailSchema)
         {
+            using EmailServiceContext _context = new(AppConfig.ConnectionString);
             try
             {
-                using EmailServiceContext _context = new(AppConfig.ConnectionString);
+                await _context.Database.BeginTransactionAsync();
+
                 _context.EmailSchemas.Update((EmailSchemaDbModel)emailSchema);
+                await _context.SaveChangesAsync();
                 _context.EmailFooters.Update(emailSchema.EmailFooter);
+                await _context.SaveChangesAsync();
                 _context.EmailLogos.Update(emailSchema.EmailFooter.Logo);
+                await _context.SaveChangesAsync();
 
 
                 var dbList = _context.EmailSchemaVariables.Where(el => el.EmailSchemaId == emailSchema.Id).ToList();
@@ -139,17 +147,29 @@ namespace Configuration.Controllers.DbControllers
                 var toAdd = emailSchema.EmailSchemaVariables.Where(el => !dbList.Contains(el)).ToList();
 
                 _context.EmailSchemaVariables.UpdateRange(toUpdate);
+                await _context.SaveChangesAsync();
+
                 _context.EmailSchemaVariables.RemoveRange(toDelete);
+                await _context.SaveChangesAsync();
+
                 for (int i = 0; i < toAdd.Count; ++i)
                 {
                     toAdd[i].EmailSchemaId = emailSchema.Id;
                     _context.EmailSchemaVariables.Add(toAdd[i]);
+                    await _context.SaveChangesAsync();
                 }
 
-                await _context.SaveChangesAsync();
+                for (int i = 0; i < toUpdate.Count; ++i)
+                {
+                    _context.EmailSchemaVariables.Update(toUpdate[i]);
+                    await _context.SaveChangesAsync();
+                }
+
+                await _context.Database.CommitTransactionAsync();
             }
             catch (Exception ex)
             {
+                await _context.Database.RollbackTransactionAsync();
                 throw new Exception(ex.Message, ex);
             }
         }

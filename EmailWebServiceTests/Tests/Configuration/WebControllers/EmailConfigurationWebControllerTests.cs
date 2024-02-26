@@ -2,9 +2,7 @@ using AutoMapper;
 using Configuration.Controllers.DbControllers;
 using Configuration.Controllers.WebControllers;
 using EmailWebServiceLibrary.Helpers;
-using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Models;
-using EmailWebServiceLibrary.Models.DbModels;
 using EmailWebServiceTests.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -57,12 +55,11 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                     Password = "password"
                 };
 
-
                 await _controller.AddEmailAccountConfigurationAsync("test", cfg, _httpContext);
 
                 var resAdd = _controller.GetEmailAccountConfiguration("test", _httpContext);
 
-                if (resAdd.Data != null && resAdd.Data.Id == 0)
+                if (resAdd.Data == null || resAdd.Data.Id == 0)
                     Assert.Fail("nie dodano");
 
                 cfg = new EmailAccountConfigurationModel()
@@ -94,9 +91,6 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
             {
                 Assert.Fail(ex.Message);
             }
-            
-
-            
         }
     }
 }
