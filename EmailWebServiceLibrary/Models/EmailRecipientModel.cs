@@ -6,7 +6,7 @@ namespace EmailWebServiceLibrary.Models
     {
         public int Id { get; init; }
         public int RecipientsListId { get; init; }
-        public int RecipmentId { get; init; }
+        public int RecipientId { get; init; }
         public string Name { get; init; }
         public string EmailAdress { get; init; }
     }

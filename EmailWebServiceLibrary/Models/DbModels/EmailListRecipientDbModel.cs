@@ -10,7 +10,7 @@ namespace EmailWebServiceLibrary.Models.DbModels
         [Required]
         public int RecipientListId { get; set; }
         [Required]
-        public int RecipmentId { get; set; }
+        public int RecipientId { get; set; }
         public EmailRecipientsListDbModel RecipientList { get; set; }
         public EmailRecipmentDbModel Recipment { get; set; }
     }

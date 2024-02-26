@@ -19,27 +19,33 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-
                 var schemaDbModel = _emailDbControllerRO.GetEmailSchemaDbModel(permision.Id) ?? throw new Exception("Brak schematu dla danego serwisu");
-
                 var schema = EmailConversionHelper.ConvertToEmailSchemaModel(schemaDbModel);
-                EmailValidationHelper.ValidateEmailSchemaModel(schema);
 
-
-                schema.EmailFooter = EmailConversionHelper.ConvertToEmailFooterModel(_emailDbControllerRO.GetEmailFooter(schema.Id));
-                var x = _emailDbControllerRO.GetEmailFooterLogo(schema.EmailFooter.Id);
-                schema.EmailFooter.Logo = EmailConversionHelper.ConvertToLogoModel(_emailDbControllerRO.GetEmailFooterLogo(schema.EmailFooter.EmailLogoId));
-                var variablesDb = _emailDbControllerRO.GetVariablesList(schema.Id);
-                schema.EmailSchemaVariables = [];
-
-                for (int i = 0; i < variablesDb.Count; ++i)
+                var footerDb = _emailDbControllerRO.GetEmailFooter(schema.Id);
+                if (footerDb != null )
                 {
-                    res.EmailSchemaVariables.Add(EmailConversionHelper.ConvertToEmailSchemaVariablesModel(variablesDb[i]));
+                    schema.EmailFooter = EmailConversionHelper.ConvertToEmailFooterModel(footerDb);
+
+                    var logo = _emailDbControllerRO.GetEmailFooterLogo(schema.EmailFooter.EmailLogoId);
+                    if (logo != null)
+                        schema.EmailFooter.Logo = EmailConversionHelper.ConvertToLogoModel(logo);
+                }
+
+                var variablesDb = _emailDbControllerRO.GetVariablesList(schema.Id);
+                if (schema.EmailSchemaVariables != null)
+                {
+                    schema.EmailSchemaVariables = [];
+
+                    for (int i = 0; i < variablesDb.Count; ++i)
+                    {
+                        schema.EmailSchemaVariables.Add(EmailConversionHelper.ConvertToEmailSchemaVariablesModel(variablesDb[i]));
+                    }
                 }
 
                 return new ResponseModel<EmailSchemaModel>()
                 {
-                    Data = res,
+                    Data = schema,
                     Message = "ok"
                 };
             }
@@ -61,7 +67,6 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 emailSchema.ServiceId = permisions.Id;
-
                 EmailValidationHelper.ValidateEmailSchemaModel(emailSchema);
                 await _emailDbController.SetEmailBodySchemaAsync(EmailConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
 

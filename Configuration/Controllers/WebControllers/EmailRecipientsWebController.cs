@@ -74,6 +74,7 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
+                EmailValidationHelper.ValidateEmailRecipientModel(recipient);
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 await _emailDbController.EditRecipientAsync(EmailConversionHelper.ConvertToEmailRecipientDbModel(recipient));
 

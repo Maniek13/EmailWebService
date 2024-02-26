@@ -87,7 +87,7 @@ namespace Configuration.Controllers.DbControllers
                 var recipientsDb = _context.EmailRecipients.Join(
                     _context.EmailListRecipients,
                     recipients => recipients.Id,
-                    listRecipments => listRecipments.RecipmentId,
+                    listRecipments => listRecipments.RecipientId,
                     (recipient, listRecipment) => new { recipient, listRecipment }
                     ).Where(el => el.listRecipment.RecipientListId == recipientsListId).ToList();
 

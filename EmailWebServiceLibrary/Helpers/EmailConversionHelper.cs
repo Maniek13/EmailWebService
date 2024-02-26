@@ -44,10 +44,10 @@ namespace EmailWebServiceLibrary.Helpers
                 {
                     Id = recipient.Id,
                     RecipientListId = recipient.RecipientsListId,
-                    RecipmentId = recipient.RecipmentId,
+                    RecipientId = recipient.RecipientId,
                     Recipment = new()
                     {
-                        Id = recipient.RecipmentId,
+                        Id = recipient.RecipientId,
                         Name = recipient.Name,
                         EmailAdress = recipient.EmailAdress,
                     }

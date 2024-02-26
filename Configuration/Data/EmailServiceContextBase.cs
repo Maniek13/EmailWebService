@@ -89,7 +89,7 @@ namespace Configuration.Data
             modelBuilder.Entity<EmailListRecipientDbModel>()
               .HasOne<EmailRecipmentDbModel>(x => x.Recipment)
               .WithMany(y => y.EmailRecipients)
-              .HasForeignKey(y => y.RecipmentId)
+              .HasForeignKey(y => y.RecipientId)
               .OnDelete(DeleteBehavior.Cascade);
 
         }

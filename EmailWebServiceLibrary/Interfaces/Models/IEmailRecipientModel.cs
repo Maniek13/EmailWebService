@@ -4,7 +4,7 @@
     {
         int Id { get; init; }
         int RecipientsListId { get; init; }
-        int RecipmentId { get; init; }
+        int RecipientId { get; init; }
         string Name { get; init; }
         string EmailAdress { get; init; }
 

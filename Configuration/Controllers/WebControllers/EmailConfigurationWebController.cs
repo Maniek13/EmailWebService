@@ -21,7 +21,6 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var configuration = EmailConversionHelper.ConvertToEmailAccountConfigurationModel(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.Id));
-
                 return new ResponseModel<EmailAccountConfigurationModel>()
                 {
                     Data = configuration,
@@ -45,6 +44,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
+                EmailValidationHelper.ValidateEmailAccountConfigurationModel(emailAccountConfiguration);
                 emailAccountConfiguration.ServiceId = permisions.Id;
                 await _emailDbController.SetEmailConfigurationAsync(EmailConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
                 return new ResponseModel<bool>()
@@ -70,7 +70,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-
+                EmailValidationHelper.ValidateEmailAccountConfigurationModel(emailAccountConfiguration);
                 await _emailDbController.EditEmailConfigurationAsync(EmailConversionHelper.ConvertToEmailAccountConfigurationDbModel(emailAccountConfiguration));
                 return new ResponseModel<bool>()
                 {

@@ -53,7 +53,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 emailRecipients.ServiceId = permision.Id;
-
+                EmailValidationHelper.ValidateEmailRecipientsListModel(emailRecipients);
                 await _emailDbController.SetRecipientsListAsync(EmailConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
 
                 return new ResponseModel<bool>()
@@ -78,6 +78,8 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
+                
+                EmailValidationHelper.ValidateEmailRecipientsListModel(emailRecipients);
                 await _emailDbController.EditRecipientsListAsync(EmailConversionHelper.ConvertToEmailRecipientsListDbModel(emailRecipients));
 
                 return new ResponseModel<bool>()
@@ -103,6 +105,7 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
+
                 await _emailDbController.DeleteRecipientsListAsync(recipentListId);
 
                 return new ResponseModel<bool>()
@@ -128,8 +131,12 @@ namespace Configuration.Controllers.WebControllers
         {
             try
             {
-                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
+                if (recipientsListId == 0)
+                    throw new Exception("Prosze podać nr listy do której dołączyć użytkownika do dołaczenia");
+                if (recipientsListId == 0)
+                    throw new Exception("Prosze podać id użytkownika");
 
+                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 await _emailDbController.AddRecipientToLisAsync(recipientsListId, recipientId);
 
 
