@@ -1,7 +1,9 @@
+using AutoMapper;
 using Configuration.Controllers.DbControllers;
 using Configuration.Controllers.WebControllers;
 using Configuration.Data;
 using Configuration.Interfaces.WebControllers;
+using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +22,21 @@ AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOn
 AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+
+
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new AutoMapperProfile());
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+
+builder.Services.AddSingleton(mapper);
+builder.Services.AddMvc();
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSqlServer<EmailServiceContextBase>(AppConfig.ConnectionString);
@@ -40,6 +57,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.MapControllers();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -69,7 +87,7 @@ app.MapDelete("/DeleteEmailConfigurationAsync", emailWebController.DeleteEmailAc
     .WithOpenApi();
 
 
-EmailBodyWebController emailBodyWebController = new(app.Logger, new EmailRODbController(), new EmailDbController());
+EmailBodyWebController emailBodyWebController = new(mapper, app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapGet("/GetEmailBodySchema", emailBodyWebController.GetEmailBodySchema)
     .WithDescription("Get body schama")
     .WithOpenApi();

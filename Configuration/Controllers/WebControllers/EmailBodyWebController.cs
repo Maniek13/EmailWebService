@@ -1,4 +1,5 @@
-﻿using Configuration.Interfaces.WebControllers;
+﻿using AutoMapper;
+using Configuration.Interfaces.WebControllers;
 using EmailWebServiceLibrary.Controllers.WebControllers;
 using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
@@ -7,10 +8,11 @@ using EmailWebServiceLibrary.Models;
 
 namespace Configuration.Controllers.WebControllers
 {
-    public class EmailBodyWebController(ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : EmailServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailBodyWebController
+    public class EmailBodyWebController(IMapper mapper, ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : EmailServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailBodyWebController
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
+        private readonly IMapper _mapper = mapper;
         readonly ILogger _logger = logger;
         #region email body
 
@@ -20,7 +22,9 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var schemaDbModel = _emailDbControllerRO.GetEmailSchemaDbModel(permision.Id) ?? throw new Exception("Brak schematu dla danego serwisu");
-                var schema = EmailConversionHelper.ConvertToEmailSchemaModel(schemaDbModel);
+
+                var schema = mapper.Map<EmailSchemaModel>(schemaDbModel);
+               // var schema = EmailConversionHelper.ConvertToEmailSchemaModel(schemaDbModel);
 
                 var footerDb = _emailDbControllerRO.GetEmailFooter(schema.Id);
                 if (footerDb != null )

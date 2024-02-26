@@ -88,13 +88,16 @@ namespace Configuration.Controllers.DbControllers
                     Subject = emailSchema.Subject
                 };
 
+                await _context.EmailSchemas.AddAsync(schema);
+                await _context.SaveChangesAsync();
+
                 for (int i = 0; i < emailSchema.EmailSchemaVariables.Count; ++i)
                 {
                     emailSchema.EmailSchemaVariables.ElementAt(i).EmailSchemaId = schema.Id;
                     await _context.EmailSchemaVariables.AddAsync(emailSchema.EmailSchemaVariables.ElementAt(i));
                 }
 
-                await _context.EmailSchemas.AddAsync(schema);
+     
                 if (emailSchema.EmailFooter != null)
                 {
 
@@ -174,7 +177,7 @@ namespace Configuration.Controllers.DbControllers
         }
         #endregion
 
-        #region list recipments
+        #region add recipient to list
         public async Task AddRecipientToLisAsync(int recipientsListId, int recipientId)
         {
             try
