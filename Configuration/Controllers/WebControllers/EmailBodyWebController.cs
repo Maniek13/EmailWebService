@@ -25,17 +25,17 @@ namespace Configuration.Controllers.WebControllers
                 var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var schemaDbModel = _emailDbControllerRO.GetEmailSchemaDbModel(permision.Id) ?? throw new Exception("Brak schematu dla danego serwisu");
 
-                var schema = mapper.Map<EmailSchemaModel>(schemaDbModel);
+                var schema = _mapper.Map<EmailSchemaModel>(schemaDbModel);
 
                 var footerDb = _emailDbControllerRO.GetEmailFooter(schema.Id);
                 if (footerDb != null )
                 {
 
-                    schema.EmailFooter = mapper.Map<EmailFooterModel>(footerDb);
+                    schema.EmailFooter = _mapper.Map<EmailFooterModel>(footerDb);
 
                     var logo = _emailDbControllerRO.GetEmailFooterLogo(schema.EmailFooter.EmailLogoId);
                     if (logo != null)
-                        schema.EmailFooter.Logo = mapper.Map<EmailLogoModel>(logo);
+                        schema.EmailFooter.Logo = _mapper.Map<EmailLogoModel>(logo);
                 }
 
                 var variablesDb = _emailDbControllerRO.GetVariablesList(schema.Id);
@@ -45,7 +45,7 @@ namespace Configuration.Controllers.WebControllers
 
                     for (int i = 0; i < variablesDb.Count; ++i)
                     {
-                        schema.EmailSchemaVariables.Add(mapper.Map<EmailSchemaVariablesModel>(variablesDb[i]));
+                        schema.EmailSchemaVariables.Add(_mapper.Map<EmailSchemaVariablesModel>(variablesDb[i]));
                     }
                 }
 
@@ -74,7 +74,7 @@ namespace Configuration.Controllers.WebControllers
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 emailSchema.ServiceId = permisions.Id;
                 EmailValidationHelper.ValidateEmailSchemaModel(emailSchema);
-                await _emailDbController.SetEmailBodySchemaAsync(mapper.Map<EmailSchemaDbModel>(emailSchema));
+                await _emailDbController.SetEmailBodySchemaAsync(_mapper.Map<EmailSchemaDbModel>(emailSchema));
 
                 return new ResponseModel<bool>()
                 {

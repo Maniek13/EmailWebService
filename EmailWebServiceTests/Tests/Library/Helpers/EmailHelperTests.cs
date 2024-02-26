@@ -5,7 +5,7 @@ using EmailWebServiceLibrary.Models.Models;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 
-namespace EmailWebServiceTests.Library.Helpers
+namespace EmailWebServiceTests.Tests.Library.Helpers
 {
     public class EmailHelperTests
     {
@@ -124,7 +124,7 @@ namespace EmailWebServiceTests.Library.Helpers
                 EmailHelper.CreateBody(model);
 
 
-                if (String.Compare(old, model.Body) == 0)
+                if (string.Compare(old, model.Body) == 0)
                     Assert.Fail($"Treść maila nie została przerobiona {old} {model.Body}");
 
             }

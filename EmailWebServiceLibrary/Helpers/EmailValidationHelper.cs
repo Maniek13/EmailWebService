@@ -49,7 +49,7 @@ namespace EmailWebServiceLibrary.Helpers
             {
                 if (string.IsNullOrWhiteSpace(emailAccountConfiguration.SMTP))
                     throw new Exception("Proszę wpisać adres smtp");
-                if (emailAccountConfiguration.Port != 0)
+                if (emailAccountConfiguration.Port == 0)
                     throw new Exception("Proszę podać port");
                 if (string.IsNullOrWhiteSpace(emailAccountConfiguration.Login))
                     throw new Exception("Proszę podać login");

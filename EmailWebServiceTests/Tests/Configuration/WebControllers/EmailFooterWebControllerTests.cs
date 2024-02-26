@@ -1,4 +1,4 @@
-namespace EmailWebServiceTests.Configuration.WebControllers
+namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 {
     public class EmailFooterWebControllerTests
     {

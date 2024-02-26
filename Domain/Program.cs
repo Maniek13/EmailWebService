@@ -21,16 +21,12 @@ AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connecti
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
 var mapperConfig = new MapperConfiguration(mc =>
 {
     mc.AddProfile(new AutoMapperProfile());
 });
 
 IMapper mapper = mapperConfig.CreateMapper();
-builder.Services.AddSingleton(mapper);
-builder.Services.AddMvc();
 
 
 
@@ -54,7 +50,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.MapControllers();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
