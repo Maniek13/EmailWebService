@@ -2,9 +2,9 @@
 {
     public interface IEmailSchemaVariablesModel
     {
-        int Id { get; init; }
-        int EmailSchemaId { get; init; }
-        string Name { get; init; }
-        string Value { get; init; }
+        int Id { get; set; }
+        int EmailSchemaId { get; set; }
+        string Name { get; set; }
+        string Value { get; set; }
     }
 }

@@ -101,13 +101,15 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                     Assert.Fail("nie dodano");
 
                 model.DisplayName = "tes1234";
+                model.EmailSchemaVariables[0].Value = "zmieniona";
+
                 model.Id = resAdd.Data.Id;
 
                 await _controller.EditEmailBodySchemaAsync("test", model, _httpContext);
                 var resUpdate = _controller.GetEmailBodySchema("test", _httpContext);
 
 
-                if (resUpdate.Data.DisplayName == model.DisplayName)
+                if (resUpdate.Data.DisplayName == model.DisplayName && model.EmailSchemaVariables[0].Value == "zmieniona")
                     return;
                 else
                     Assert.Fail("nie zaaktualizowano");
