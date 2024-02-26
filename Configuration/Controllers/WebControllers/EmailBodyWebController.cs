@@ -5,6 +5,7 @@ using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
+using EmailWebServiceLibrary.Models.DbModels;
 
 namespace Configuration.Controllers.WebControllers
 {
@@ -72,7 +73,7 @@ namespace Configuration.Controllers.WebControllers
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 emailSchema.ServiceId = permisions.Id;
                 EmailValidationHelper.ValidateEmailSchemaModel(emailSchema);
-                await _emailDbController.SetEmailBodySchemaAsync(EmailConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
+                await _emailDbController.SetEmailBodySchemaAsync(mapper.Map<EmailSchemaDbModel>(emailSchema));
 
                 return new ResponseModel<bool>()
                 {
@@ -98,7 +99,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 EmailValidationHelper.ValidateEmailSchemaModel(emailSchema);
-                await _emailDbController.EditEmailBodySchemaAsync(EmailConversionHelper.ConvertToEmailSchemaDbModel(emailSchema));
+                await _emailDbController.EditEmailBodySchemaAsync((mapper.Map<EmailSchemaDbModel>(emailSchema)));
 
                 return new ResponseModel<bool>()
                 {
