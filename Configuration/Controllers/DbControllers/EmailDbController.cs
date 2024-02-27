@@ -92,15 +92,17 @@ namespace Configuration.Controllers.DbControllers
                 await _context.EmailSchemas.AddAsync(schema);
                 await _context.SaveChangesAsync();
 
-                for (int i = 0; i < emailSchema.EmailSchemaVariables.Count; ++i)
+                if (emailSchema.EmailSchemaVariables != null)
                 {
-                    emailSchema.EmailSchemaVariables.ElementAt(i).EmailSchemaId = schema.Id;
-                    await _context.EmailSchemaVariables.AddAsync(emailSchema.EmailSchemaVariables.ElementAt(i));
+
+                    for (int i = 0; i < emailSchema.EmailSchemaVariables.Count; ++i)
+                    {
+                        emailSchema.EmailSchemaVariables.ElementAt(i).EmailSchemaId = schema.Id;
+                        await _context.EmailSchemaVariables.AddAsync(emailSchema.EmailSchemaVariables.ElementAt(i));
+                    }
+
+                    await _context.SaveChangesAsync();
                 }
-
-                await _context.SaveChangesAsync();
-
-
 
 
                 if (emailSchema.EmailFooter != null)
@@ -156,18 +158,19 @@ namespace Configuration.Controllers.DbControllers
                 _context.EmailSchemaVariables.RemoveRange(toDelete);
                 await _context.SaveChangesAsync();
 
-                for (int i = 0; i < toAdd.Count; ++i)
-                {
-                    toAdd[i].EmailSchemaId = emailSchema.Id;
-                    _context.EmailSchemaVariables.Add(toAdd[i]);
-                    await _context.SaveChangesAsync();
-                }
-
-                for (int i = 0; i < toUpdate.Count; ++i)
-                {
-                    _context.EmailSchemaVariables.Update(toUpdate[i]);
-                    await _context.SaveChangesAsync();
-                }
+                if(toAdd != null)
+                    for (int i = 0; i < toAdd.Count; ++i)
+                    {
+                        toAdd[i].EmailSchemaId = emailSchema.Id;
+                        _context.EmailSchemaVariables.Add(toAdd[i]);
+                        await _context.SaveChangesAsync();
+                    }
+                if(toUpdate != null)
+                    for (int i = 0; i < toUpdate.Count; ++i)
+                    {
+                        _context.EmailSchemaVariables.Update(toUpdate[i]);
+                        await _context.SaveChangesAsync();
+                    }
 
                 await _context.Database.CommitTransactionAsync();
             }
@@ -335,7 +338,7 @@ namespace Configuration.Controllers.DbControllers
             {
                 _context.Database.BeginTransaction();
                 if (recipientsListDbModel == null)
-                    throw new Exception("Lista odbiorców nie może być pusta");
+                    throw new Exception("Nie przekazano listy");
 
 
                 EmailRecipientsListDbModel emailRecipment = new()
@@ -349,20 +352,20 @@ namespace Configuration.Controllers.DbControllers
                 await _context.SaveChangesAsync();
 
 
-                for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
-                {
-                    int id = recipientsListDbModel.Recipients.ElementAt(i).Recipient.Id;
+                if(recipientsListDbModel.Recipients != null)
+                    for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
+                    {
+                        int id = recipientsListDbModel.Recipients.ElementAt(i).Recipient.Id;
 
-                    var recipient = _context.EmailRecipients.Where(el => el.Id == id).AsNoTracking().FirstOrDefault();
+                        var recipient = _context.EmailRecipients.Where(el => el.Id == id).AsNoTracking().FirstOrDefault();
 
-                    if (recipient != null)
-                        _context.EmailRecipients.Update(recipientsListDbModel.Recipients.ElementAt(i).Recipient);
-                    else
-                        await _context.EmailRecipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i).Recipient);
+                        if (recipient != null)
+                            _context.EmailRecipients.Update(recipientsListDbModel.Recipients.ElementAt(i).Recipient);
+                        else
+                            await _context.EmailRecipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i).Recipient);
 
-                    await _context.SaveChangesAsync();
-                    
-                }
+                        await _context.SaveChangesAsync(); 
+                    }
 
 
                 var dbList = _context.EmailListRecipients.Where(el => el.RecipientListId == recipientsListDbModel.Id).ToList();
@@ -385,19 +388,21 @@ namespace Configuration.Controllers.DbControllers
                 }
 
 
-                for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
+                if(recipientsListDbModel.Recipients != null)
                 {
-                    var listRecipient = dbList.Where(el => el.Id == recipientsListDbModel.Recipients.ElementAt(i).Id).FirstOrDefault();
-                    if (listRecipient == null)
-                        _context.EmailListRecipients.Add(new EmailListRecipientDbModel()
-                        {
-                            RecipientId = recipientsListDbModel.Recipients.ElementAt(i).Recipient.Id,
-                            RecipientListId = recipientsListDbModel.Id
-                        });
+                    for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
+                    {
+                        var listRecipient = dbList.Where(el => el.Id == recipientsListDbModel.Recipients.ElementAt(i).Id).FirstOrDefault();
+                        if (listRecipient == null)
+                            _context.EmailListRecipients.Add(new EmailListRecipientDbModel()
+                            {
+                                RecipientId = recipientsListDbModel.Recipients.ElementAt(i).Recipient.Id,
+                                RecipientListId = recipientsListDbModel.Id
+                            });
 
-                    await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();
+                    }
                 }
-
 
                 await _context.SaveChangesAsync();
                 _context.Database.CommitTransaction();

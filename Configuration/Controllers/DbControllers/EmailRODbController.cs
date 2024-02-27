@@ -85,7 +85,12 @@ namespace Configuration.Controllers.DbControllers
             try
             {
                 using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
-                return _context.EmailListRecipients.Where(el => el.RecipientListId == listId && el.RecipientId == recipmentId).FirstOrDefault().Id;
+                var recipment = _context.EmailListRecipients.Where(el => el.RecipientListId == listId && el.RecipientId == recipmentId).FirstOrDefault();
+
+                if(recipment != null) 
+                    return recipment.Id;
+                else
+                    return 0;
             }
             catch (Exception ex)
             {
@@ -114,12 +119,12 @@ namespace Configuration.Controllers.DbControllers
 
                 List<IEmailRecipientDbModel> responseRecipients = [];
 
-                for (int i = 0; i < recipientsDb.Count; ++i)
-                {
-                    responseRecipients.Add(recipientsDb.ElementAt(i).recipient);
-                }
 
-
+                if(recipientsDb != null )
+                    for (int i = 0; i < recipientsDb.Count; ++i)
+                    {
+                        responseRecipients.Add(recipientsDb.ElementAt(i).recipient);
+                    }
                 return responseRecipients;
 
             }

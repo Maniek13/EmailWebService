@@ -26,7 +26,8 @@ namespace Configuration.Controllers.WebControllers
                 var recipientsDb = _emailDbControllerRO.GetRecipients(permission.Id);
                 List<EmailListRecipientModel> recipients = [];
 
-
+                if (recipientsDb == null)
+                    throw new Exception("Nie ustawiono listy odbiorców");
                 for (int i = 0; i < recipientsDb.Count; ++i)
                 {
                     var recipient = _mapper.Map<EmailRecipientModel>(recipientsDb.ElementAt(i));
