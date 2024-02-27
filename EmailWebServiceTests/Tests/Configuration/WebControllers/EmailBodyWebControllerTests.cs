@@ -53,7 +53,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                     Name = "Name",
                     DisplayName = "DisplayName",
                     Subject = "Subject",
-                    Body = @"<p style=""color:blue;"">Niebieskie niebo</p><p>#TestParametr#</p>",
+                    Body = @"<p style=""color:blue;"">Niebieskie niebo</p><p>#TestParametr##TestParametr2#</p>",
                     ReplyTo = "mariusz.a.szczerba@gmail.com",
                     ReplyToDisplayName = "ReplyToDisplayName"
                 };
@@ -115,7 +115,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                     new EmailSchemaVariablesModel()
                     {
                         Id = 0,
-                        Name = "TestParametr",
+                        Name = "TestParametr2",
                         Value = "wartoœæ parametru"
                     }
                 ];
