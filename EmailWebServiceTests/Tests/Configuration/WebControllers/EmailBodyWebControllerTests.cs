@@ -81,6 +81,12 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                         Id = 0,
                         Name = "TestParametr",
                         Value = "wartoœæ parametru"
+                    },
+                    new EmailSchemaVariablesModel()
+                    {
+                        Id = 0,
+                        Name = "TestParametr",
+                        Value = "wartoœæ parametru"
                     }
                 ];
 
@@ -134,6 +140,10 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
             catch (Exception ex)
             {
                 Assert.Fail(ex.Message);
+            }
+            finally
+            {
+                await _controller.DeleteEmailBodySchemaAsync("test", _httpContext);
             }
         }
     }

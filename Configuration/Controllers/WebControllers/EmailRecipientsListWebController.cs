@@ -23,7 +23,7 @@ namespace Configuration.Controllers.WebControllers
             {
                 var permission = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var recipintsList = _mapper.Map<EmailRecipientsListModel>(_emailDbControllerRO.GetRecipientsList(permission.Id));
-                var recipientsDb = _emailDbControllerRO.GetRecipients(recipintsList.Id);
+                var recipientsDb = _emailDbControllerRO.GetRecipients(permission.Id);
                 List<EmailListRecipientModel> recipients = [];
 
 
