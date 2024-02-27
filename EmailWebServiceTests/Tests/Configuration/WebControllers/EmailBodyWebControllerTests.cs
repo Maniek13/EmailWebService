@@ -72,14 +72,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                 };
                 model.EmailFooter = footer;
 
-                var usserList = new List<IEmailRecipientModel>()
-                {
-                    new EmailRecipientModel()
-                    {
-                        Name = "Recipient",
-                        EmailAdress = "mani3k1989@gmail.com"
-                    }
-                };
+            
 
                 List<EmailSchemaVariablesModel> var =
                 [
