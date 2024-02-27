@@ -2,11 +2,9 @@
 {
     public interface IEmailRecipientModel
     {
-        int Id { get; init; }
-        int RecipientsListId { get; init; }
-        int RecipientId { get; init; }
-        string Name { get; init; }
-        string EmailAdress { get; init; }
+        int Id { get; set; }
+        string Name { get; set; }
+        string EmailAdress { get; set; }
 
     }
 }

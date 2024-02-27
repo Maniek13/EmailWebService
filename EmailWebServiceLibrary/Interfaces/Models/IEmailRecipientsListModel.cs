@@ -1,12 +1,13 @@
-﻿using EmailWebServiceLibrary.Models;
+﻿using EmailWebServiceLibrary.Interfaces.Models.Models;
+using EmailWebServiceLibrary.Models;
 
 namespace EmailWebServiceLibrary.Interfaces.Models
 {
     public interface IEmailRecipientsListModel
     {
-        int Id { get; init; }
-        string Name { get; init; }
+        int Id { get; set; }
+        string Name { get; set; }
         int ServiceId { get; set; }
-        List<EmailRecipientModel> Recipients { get; set; }
+        ICollection<EmailListRecipientModel> Recipients { get; set; }
     }
 }

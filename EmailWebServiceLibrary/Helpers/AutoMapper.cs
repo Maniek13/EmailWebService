@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EmailWebServiceLibrary.Interfaces.Models.Models;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
 using EmailWebServiceLibrary.Models.Models;
@@ -10,9 +11,7 @@ namespace EmailWebServiceLibrary.Helpers
         public AutoMapperProfile()
         {
             CreateMap<ServicesPermisionsModel, ServicesPermisionsDbModel>().ReverseMap();
-
             CreateMap<EmailAccountConfigurationModel, EmailAccountConfigurationDbModel>().ReverseMap();
-
             CreateMap<EmailSchemaModel, EmailSchemaDbModel>().ReverseMap();
             CreateMap<EmailSchemaVariablesModel, EmailSchemaVariablesDbModel>().ReverseMap();
             CreateMap<EmailFooterModel, EmailFooterDbModel>().ReverseMap();
@@ -21,11 +20,9 @@ namespace EmailWebServiceLibrary.Helpers
             CreateMap<EmailLogoDbModel, EmailLogoModel>().ForMember(dest => dest.FileBase64String,
                 opt => opt.MapFrom(src => Convert.ToBase64String(src.FileByteArray)));
 
-            CreateMap<EmailListRecipientDbModel, EmailRecipientModel>();
-            CreateMap<EmailRecipmentDbModel, EmailRecipientModel>();
-            CreateMap<EmailRecipientModel, EmailListRecipientDbModel>();
             CreateMap<EmailRecipientsListModel, EmailRecipientsListDbModel>().ReverseMap();
-
+            CreateMap<EmailListRecipientModel, EmailListRecipientDbModel>().ReverseMap();
+            CreateMap<EmailRecipientModel, EmailRecipientDbModel>().ReverseMap();
         }
     }
 }

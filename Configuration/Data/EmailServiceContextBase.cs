@@ -87,7 +87,7 @@ namespace Configuration.Data
              .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<EmailListRecipientDbModel>()
-              .HasOne<EmailRecipmentDbModel>(x => x.Recipment)
+              .HasOne<EmailRecipientDbModel>(x => x.Recipient)
               .WithMany(y => y.EmailRecipients)
               .HasForeignKey(y => y.RecipientId)
               .OnDelete(DeleteBehavior.Cascade);
@@ -102,7 +102,7 @@ namespace Configuration.Data
         public virtual DbSet<EmailSchemaVariablesDbModel> EmailSchemaVariables { get; set; }
         public virtual DbSet<EmailRecipientsListDbModel> EmailRecipientsLists { get; set; }
         public virtual DbSet<EmailListRecipientDbModel> EmailListRecipients { get; set; }
-        public virtual DbSet<EmailRecipmentDbModel> EmailRecipients { get; set; }
+        public virtual DbSet<EmailRecipientDbModel> EmailRecipients { get; set; }
 
     }
 }

@@ -4,6 +4,7 @@ using EmailWebServiceLibrary.Controllers.WebControllers;
 using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models;
+using EmailWebServiceLibrary.Interfaces.Models.Models;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
 
@@ -23,12 +24,26 @@ namespace Configuration.Controllers.WebControllers
                 var permission = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var recipintsList = _mapper.Map<EmailRecipientsListModel>(_emailDbControllerRO.GetRecipientsList(permission.Id));
                 var recipientsDb = _emailDbControllerRO.GetRecipients(recipintsList.Id);
-                List<EmailRecipientModel> recipients = [];
+                List<EmailListRecipientModel> recipients = [];
 
 
                 for (int i = 0; i < recipientsDb.Count; ++i)
                 {
-                    recipients.Add(mapper.Map<EmailRecipientModel>(recipientsDb.ElementAt(i)));
+                    var recipient = _mapper.Map<EmailRecipientModel>(recipientsDb.ElementAt(i));
+
+
+                    recipients.Add(new EmailListRecipientModel()
+                    {
+                        Id = _emailDbControllerRO.GetListREcipmentId(recipient.Id, recipintsList.Id),
+                        RecipientId = recipient.Id,
+                        RecipientListId = recipintsList.Id,
+                        Recipient = new EmailRecipientModel()
+                        {
+                            Id = recipient.Id,
+                            Name = recipient.Name,
+                            EmailAdress = recipient.EmailAdress,
+                        }
+                    });
                 }
                 recipintsList.Recipients = recipients;
                 return new ResponseModel<EmailRecipientsListModel>()
@@ -80,8 +95,9 @@ namespace Configuration.Controllers.WebControllers
             try
             {
                 _ = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
-                
+
                 EmailValidationHelper.ValidateEmailRecipientsListModel(emailRecipients);
+
                 await _emailDbController.EditRecipientsListAsync(_mapper.Map<EmailRecipientsListDbModel>(emailRecipients));
 
                 return new ResponseModel<bool>()

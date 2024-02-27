@@ -3,7 +3,7 @@ using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.DbModels;
-using EmailWebServiceLibrary.Models.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Configuration.Controllers.DbControllers
 {
@@ -99,6 +99,9 @@ namespace Configuration.Controllers.DbControllers
                 }
 
                 await _context.SaveChangesAsync();
+
+
+
 
                 if (emailSchema.EmailFooter != null)
                 {
@@ -218,12 +221,12 @@ namespace Configuration.Controllers.DbControllers
         #endregion
 
         #region recipient
-        public async Task SetRecipientAsync(IEmailRecipmentDbModel recipientsDbModel)
+        public async Task SetRecipientAsync(IEmailRecipientDbModel recipientsDbModel)
         {
             try
             {
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
-                await _context.EmailRecipients.AddAsync((EmailRecipmentDbModel)recipientsDbModel);
+                await _context.EmailRecipients.AddAsync((EmailRecipientDbModel)recipientsDbModel);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -231,12 +234,12 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public async Task EditRecipientAsync(IEmailRecipmentDbModel recipientsDbModel)
+        public async Task EditRecipientAsync(IEmailRecipientDbModel recipientsDbModel)
         {
             try
             {
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
-                _context.EmailRecipients.Update((EmailRecipmentDbModel)recipientsDbModel);
+                _context.EmailRecipients.Update((EmailRecipientDbModel)recipientsDbModel);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
@@ -277,7 +280,7 @@ namespace Configuration.Controllers.DbControllers
                 await _context.EmailRecipientsLists.AddAsync(emailRecipientsListDbModel);
                 await _context.SaveChangesAsync();
 
-                if(recipientsListDbModel.Recipients != null)
+                if (recipientsListDbModel.Recipients != null)
                 {
                     for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                     {
@@ -289,24 +292,25 @@ namespace Configuration.Controllers.DbControllers
                         var listRecipient = recipientsListDbModel.Recipients.ElementAt(i);
                         var recipient = _context.EmailRecipients.Where(el => el.Id == listRecipient.RecipientId).FirstOrDefault();
 
-                        EmailRecipmentDbModel recipmentDbModel = new()
+                        EmailRecipientDbModel recipmentDbModel = new()
                         {
-                            Name = listRecipient.Recipment.Name,
-                            EmailAdress = listRecipient.Recipment.EmailAdress,
+                            Name = listRecipient.Recipient.Name,
+                            EmailAdress = listRecipient.Recipient.EmailAdress,
                         };
 
                         if (recipient == null)
                         {
                             await _context.EmailRecipients.AddAsync(recipmentDbModel);
                             await _context.SaveChangesAsync();
+                            listRecipientToSave.RecipientId = recipmentDbModel.Id;
                         }
                         else
                         {
                             _context.EmailRecipients.Update(recipient);
                             await _context.SaveChangesAsync();
+                            listRecipientToSave.RecipientId = recipient.Id;
                         }
 
-                        listRecipientToSave.RecipientId = recipient.Id != 0 ? recipient.Id : recipmentDbModel.Id;
                         await _context.EmailListRecipients.AddAsync(listRecipientToSave);
                         await _context.SaveChangesAsync();
                     }
@@ -324,48 +328,81 @@ namespace Configuration.Controllers.DbControllers
 
         public async Task EditRecipientsListAsync(IEmailRecipientsListDbModel recipientsListDbModel)
         {
+            using EmailServiceContext _context = new(AppConfig.ConnectionString);
             try
             {
+                _context.Database.BeginTransaction();
                 if (recipientsListDbModel == null)
                     throw new Exception("Lista odbiorców nie może być pusta");
 
-                using EmailServiceContext _context = new(AppConfig.ConnectionString);
-                _context.EmailRecipientsLists.Update((EmailRecipientsListDbModel)recipientsListDbModel);
 
-                var dbList = _context.EmailListRecipients.Where(el => el.RecipientListId == recipientsListDbModel.Id).ToList();
-                var toUpdate = recipientsListDbModel.Recipients.Where(dbList.Contains).ToList();
-                var ToRemove = dbList.Where(el => !recipientsListDbModel.Recipients.Contains(el)).ToList();
-                var toAdd = recipientsListDbModel.Recipients.Where(el => !dbList.Contains(el)).ToList();
-
-
-                _context.EmailListRecipients.UpdateRange(toUpdate);
-                _context.EmailListRecipients.RemoveRange(ToRemove);
-                for (int i = 0; i < toAdd.Count; ++i)
+                EmailRecipientsListDbModel emailRecipment = new()
                 {
-                    toAdd[i].RecipientListId = recipientsListDbModel.Id;
-                    _context.EmailListRecipients.Add(toAdd[i]);
-                }
+                    Id = recipientsListDbModel.Id,
+                    Name = recipientsListDbModel.Name,
+                    ServiceId = recipientsListDbModel.ServiceId
+                };
 
-                var recipientsDb = _context.EmailRecipients.Join(
-                    _context.EmailListRecipients,
-                    recipients => recipients.Id,
-                    listRecipments => listRecipments.RecipientId,
-                    (recipients, listRecipments) => new { recipients, listRecipments }
-                    ).Where(el => el.listRecipments.RecipientListId == recipientsListDbModel.Id).ToList();
+                _context.EmailRecipientsLists.Update(emailRecipment);
+                await _context.SaveChangesAsync();
+
 
                 for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                 {
-                    var recipient = recipientsDb.Where(el => el.listRecipments.Id == recipientsListDbModel.Recipients.ElementAt(i).RecipientListId).FirstOrDefault().recipients;
+                    int id = recipientsListDbModel.Recipients.ElementAt(i).Recipient.Id;
+
+                    var recipient = _context.EmailRecipients.Where(el => el.Id == id).AsNoTracking().FirstOrDefault();
+
                     if (recipient != null)
-                        _context.EmailRecipients.Update(recipient);
+                        _context.EmailRecipients.Update(recipientsListDbModel.Recipients.ElementAt(i).Recipient);
                     else
-                        _context.EmailRecipients.Add(recipientsListDbModel.Recipients.ElementAt(i).Recipment);
+                        await _context.EmailRecipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i).Recipient);
+
+                    await _context.SaveChangesAsync();
+                    
                 }
 
+
+                var dbList = _context.EmailListRecipients.Where(el => el.RecipientListId == recipientsListDbModel.Id).ToList();
+
+                for (int i = 0; i < dbList.Count; ++i)
+                {
+                    EmailListRecipientDbModel listRecipient = null;
+                    if (dbList[i].Recipient != null)
+                    {
+                        listRecipient = recipientsListDbModel.Recipients.Where(el => el.Recipient.Id == dbList[i].Recipient.Id).FirstOrDefault();
+                    }
+                    
+
+                    if (listRecipient != null)
+                        _context.EmailListRecipients.Update(dbList[i]);
+                    else
+                        _context.EmailListRecipients.Remove(dbList[i]);
+
+                    await _context.SaveChangesAsync();
+                }
+
+
+                for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
+                {
+                    var listRecipient = dbList.Where(el => el.Id == recipientsListDbModel.Recipients.ElementAt(i).Id).FirstOrDefault();
+                    if (listRecipient == null)
+                        _context.EmailListRecipients.Add(new EmailListRecipientDbModel()
+                        {
+                            RecipientId = recipientsListDbModel.Recipients.ElementAt(i).Recipient.Id,
+                            RecipientListId = recipientsListDbModel.Id
+                        });
+
+                    await _context.SaveChangesAsync();
+                }
+
+
                 await _context.SaveChangesAsync();
+                _context.Database.CommitTransaction();
             }
             catch (Exception ex)
             {
+                _context.Database.RollbackTransaction();
                 throw new Exception(ex.Message, ex);
             }
         }

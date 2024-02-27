@@ -4,7 +4,6 @@ using Configuration.Controllers.WebControllers;
 using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
-using EmailWebServiceLibrary.Models.DbModels;
 using EmailWebServiceLibrary.Models.Models;
 using EmailWebServiceTests.Helpers;
 using Microsoft.AspNetCore.Http;

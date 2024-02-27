@@ -28,7 +28,7 @@ namespace Configuration.Controllers.WebControllers
                 var schema = _mapper.Map<EmailSchemaModel>(schemaDbModel);
 
                 var footerDb = _emailDbControllerRO.GetEmailFooter(schema.Id);
-                if (footerDb != null )
+                if (footerDb != null)
                 {
 
                     schema.EmailFooter = _mapper.Map<EmailFooterModel>(footerDb);

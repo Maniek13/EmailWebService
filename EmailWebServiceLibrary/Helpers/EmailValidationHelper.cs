@@ -1,10 +1,4 @@
 ﻿using EmailWebServiceLibrary.Interfaces.Models;
-using EmailWebServiceLibrary.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmailWebServiceLibrary.Helpers
 {
@@ -20,7 +14,7 @@ namespace EmailWebServiceLibrary.Helpers
                     throw new Exception("Proszę wpisać wartość zmiennej");
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }

@@ -79,7 +79,20 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<IEmailRecipmentDbModel> GetRecipients(int recipientsListId)
+
+        public int GetListREcipmentId(int recipmentId, int listId)
+        {
+            try
+            {
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+                return _context.EmailListRecipients.Where(el => el.RecipientListId == listId && el.RecipientId == recipmentId).FirstOrDefault().Id;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+        public List<IEmailRecipientDbModel> GetRecipients(int recipientsListId)
         {
             try
             {
@@ -92,7 +105,7 @@ namespace Configuration.Controllers.DbControllers
                     ).Where(el => el.listRecipment.RecipientListId == recipientsListId).ToList();
 
 
-                List<IEmailRecipmentDbModel> responseRecipients = [];
+                List<IEmailRecipientDbModel> responseRecipients = [];
 
                 for (int i = 0; i < recipientsDb.Count; ++i)
                 {
@@ -108,19 +121,19 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-
-        public IEmailListRecipientDbModel GetListRecipment(int recipmnetListId)
+        public List<IEmailListRecipientDbModel> GetListRecipments(int recipmnetListId)
         {
             try
             {
                 using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
-                return _context.EmailListRecipients.Where(el => el.Id == recipmnetListId).FirstOrDefault();
+                return _context.EmailListRecipients.Select(el => (IEmailListRecipientDbModel)el).Where(el => el.RecipientListId == recipmnetListId).ToList();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message, ex);
             }
         }
+
 
         public List<IEmailSchemaVariablesDbModel> GetVariablesList(int schemaId)
         {

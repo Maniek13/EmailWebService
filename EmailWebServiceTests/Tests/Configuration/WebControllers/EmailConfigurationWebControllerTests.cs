@@ -34,7 +34,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                 .SetMinimumLevel(LogLevel.Trace)
                 .AddConsole());
 
-            _mapper =  mapperConfig.CreateMapper();
+            _mapper = mapperConfig.CreateMapper();
             _logger = loggerFactory.CreateLogger<Program>();
 
             _controller = new EmailConfigurationWebController(_mapper, _logger, _emailRODbController, _emailDbController);
@@ -87,7 +87,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
                 Assert.ThrowsAsync<Exception>(async () => _controller.GetEmailAccountConfiguration("test", _httpContext));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Assert.Fail(ex.Message);
             }

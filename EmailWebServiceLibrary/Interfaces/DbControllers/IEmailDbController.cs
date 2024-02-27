@@ -27,8 +27,8 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
 
         #endregion
         #region recipient
-        Task SetRecipientAsync(IEmailRecipmentDbModel recipient);
-        Task EditRecipientAsync(IEmailRecipmentDbModel recipient);
+        Task SetRecipientAsync(IEmailRecipientDbModel recipient);
+        Task EditRecipientAsync(IEmailRecipientDbModel recipient);
         Task DeleteRecipientAsync(int recipientId);
         #endregion
 
