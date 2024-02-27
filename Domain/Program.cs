@@ -50,6 +50,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = AppConfig.DefaultCulture,
+    SupportedCultures = AppConfig.GetCultureInfos(),
+    SupportedUICultures = AppConfig.GetCultureInfos()
+});
+
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

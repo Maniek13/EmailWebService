@@ -6,8 +6,10 @@ using Configuration.Interfaces.WebControllers;
 using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using System.Net;
 using System.Text;
 
@@ -50,6 +52,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = AppConfig.DefaultCulture,
+    SupportedCultures = AppConfig.GetCultureInfos(),
+    SupportedUICultures = AppConfig.GetCultureInfos()
+});
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
