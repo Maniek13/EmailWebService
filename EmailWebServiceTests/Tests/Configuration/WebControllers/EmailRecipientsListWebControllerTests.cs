@@ -40,6 +40,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
             _controller = new EmailRecipientsListWebController(_mapper, _logger, _emailRODbController, _emailDbController);
         }
+
         [Fact]
         public async Task RecipiientListCoontrollerTest()
         {
