@@ -10,13 +10,15 @@ namespace EmailWebServiceLibrary.Models
         public static string ConnectionStringRO { get; set; }
         public static string SigningKey { get; set; }
         public static RequestCulture DefaultCulture { get; set; } = new RequestCulture("pl");
-        public static CultureInfo[] GetCultureInfos()
+        public static CultureInfo[] PromotedCultures {  get; set; }
+        public static CultureInfo[] GetCultureInfoArray(string[] culturesArray)
         {
-            return new[]
+            List<CultureInfo> culturesInfoList= new();
+            for (int i = 0; i < culturesArray.Length; i++)
             {
-                 new CultureInfo("en-US"),
-                 new CultureInfo("pl"),
-            };
+                culturesInfoList.Add(new CultureInfo(culturesArray[0]));
+            }
+            return culturesInfoList.ToArray();
         }
 
         

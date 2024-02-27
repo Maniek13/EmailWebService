@@ -4,6 +4,7 @@ using Domain.Controllers.WebControllers;
 using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text;
@@ -17,6 +18,8 @@ var config = configuration.Build();
 AppConfig.SigningKey = config.GetSection("AppConfig").GetSection("SigningKey").Value;
 AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
 AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
+AppConfig.DefaultCulture = new RequestCulture(config.GetSection("AppConfig").GetSection("DefaulLocalization").Value);
+AppConfig.PromotedCultures = AppConfig.GetCultureInfoArray(config.GetSection("AppConfig").GetSection("Localizations").Get<string[]>());
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,8 +30,6 @@ var mapperConfig = new MapperConfiguration(mc =>
 });
 
 IMapper mapper = mapperConfig.CreateMapper();
-
-
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -53,8 +54,8 @@ if (app.Environment.IsDevelopment())
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
     DefaultRequestCulture = AppConfig.DefaultCulture,
-    SupportedCultures = AppConfig.GetCultureInfos(),
-    SupportedUICultures = AppConfig.GetCultureInfos()
+    SupportedCultures = AppConfig.PromotedCultures,
+    SupportedUICultures = AppConfig.PromotedCultures
 });
 
 app.UseStaticFiles();

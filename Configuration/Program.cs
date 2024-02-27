@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
 using System.Text;
@@ -22,6 +23,11 @@ var config = configuration.Build();
 AppConfig.SigningKey = config.GetSection("AppConfig").GetSection("SigningKey").Value;
 AppConfig.ConnectionStringRO = config.GetSection("AppConfig").GetSection("ReadOnlyConnection").Value;
 AppConfig.ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
+AppConfig.DefaultCulture = new RequestCulture(config.GetSection("AppConfig").GetSection("DefaulLocalization").Value);
+AppConfig.PromotedCultures = AppConfig.GetCultureInfoArray(config.GetSection("AppConfig").GetSection("Localizations").Get<string[]>());
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 var mapperConfig = new MapperConfiguration(mc =>
@@ -29,7 +35,6 @@ var mapperConfig = new MapperConfiguration(mc =>
     mc.AddProfile(new AutoMapperProfile());
 });
 IMapper mapper = mapperConfig.CreateMapper();
-
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -56,8 +61,8 @@ if (app.Environment.IsDevelopment())
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
     DefaultRequestCulture = AppConfig.DefaultCulture,
-    SupportedCultures = AppConfig.GetCultureInfos(),
-    SupportedUICultures = AppConfig.GetCultureInfos()
+    SupportedCultures = AppConfig.PromotedCultures,
+    SupportedUICultures = AppConfig.PromotedCultures
 });
 app.UseStaticFiles();
 app.UseHttpsRedirection();

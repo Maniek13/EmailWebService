@@ -1,4 +1,6 @@
-﻿namespace EmailWebServiceLibrary.Interfaces.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EmailWebServiceLibrary.Interfaces.Models
 {
     public interface IServicesPermisionsModel
     {
