@@ -42,7 +42,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
             _controller = new EmailLogoWebController(_mapper, _logger, _emailRODbController, _emailDbController);
         }
         [Fact]
-        public async Task EditFooterTests()
+        public async Task EditLogoTests()
         {
             EmailBodyWebController ctr = new EmailBodyWebController(_mapper, _logger, _emailRODbController, _emailDbController);
             try

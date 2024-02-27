@@ -34,7 +34,7 @@ namespace Configuration.Controllers.WebControllers
 
                     recipients.Add(new EmailListRecipientModel()
                     {
-                        Id = _emailDbControllerRO.GetListREcipmentId(recipient.Id, recipintsList.Id),
+                        Id = _emailDbControllerRO.GetListRecipmentId(recipient.Id, recipintsList.Id),
                         RecipientId = recipient.Id,
                         RecipientListId = recipintsList.Id,
                         Recipient = new EmailRecipientModel()

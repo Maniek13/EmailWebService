@@ -248,13 +248,14 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public async Task DeleteRecipientAsync(int id)
+        public async Task DeleteRecipientAsync(int recipientId)
         {
             try
             {
                 using EmailServiceContext _context = new(AppConfig.ConnectionString);
-                var recipment = _context.EmailListRecipients.Where(el => el.Id == id).FirstOrDefault();
-                _context.EmailListRecipients.Remove(recipment);
+
+                var recipient = _context.EmailRecipients.Where(el => el.Id == recipientId).FirstOrDefault();
+                _context.EmailRecipients.Remove(recipient);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)

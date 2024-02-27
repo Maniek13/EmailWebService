@@ -80,7 +80,7 @@ namespace Configuration.Controllers.DbControllers
             }
         }
 
-        public int GetListREcipmentId(int recipmentId, int listId)
+        public int GetListRecipmentId(int recipmentId, int listId)
         {
             try
             {
@@ -92,17 +92,24 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-        public List<IEmailRecipientDbModel> GetRecipients(int recipientsListId)
+        public List<IEmailRecipientDbModel> GetRecipients(int serviceId)
         {
             try
             {
                 using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+
                 var recipientsDb = _context.EmailRecipients.Join(
                     _context.EmailListRecipients,
                     recipients => recipients.Id,
                     listRecipments => listRecipments.RecipientId,
                     (recipient, listRecipment) => new { recipient, listRecipment }
-                    ).Where(el => el.listRecipment.RecipientListId == recipientsListId).ToList();
+                    ).Join(
+                    _context.EmailRecipientsLists,
+                    el => el.listRecipment.RecipientListId,
+                    list => list.Id,
+                    (el, list) => new { el.recipient , list.ServiceId}
+                    )
+                    .Where(el => el.ServiceId == serviceId).ToList();
 
 
                 List<IEmailRecipientDbModel> responseRecipients = [];
