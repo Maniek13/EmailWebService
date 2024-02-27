@@ -9,3 +9,6 @@ Konfiguracja:
 - można mieć kilka list odbiorców, ale serwis narazie wysyła tylko wiadomosći do wielu z pierwszej ustawionej listy
 
 
+![Schemat bazy](https://github.com/Maniek13/EmailWebService/assets/47826375/40589c47-82fe-4561-8ae5-07d01102a1ef)
+
+
