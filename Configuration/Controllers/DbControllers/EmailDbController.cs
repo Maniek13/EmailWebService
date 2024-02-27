@@ -145,10 +145,11 @@ namespace Configuration.Controllers.DbControllers
 
 
                 var dbList = _context.EmailSchemaVariables.Where(el => el.EmailSchemaId == emailSchema.Id).ToList();
-                var toUpdate = dbList.Where(el => emailSchema.EmailSchemaVariables.Contains(el)).ToList();
-                var toDelete = dbList.Where(el => !emailSchema.EmailSchemaVariables.Contains(el)).ToList();
-                var toAdd = emailSchema.EmailSchemaVariables.Where(el => !dbList.Contains(el)).ToList();
+                var toUpdate = dbList.Where(el => emailSchema.EmailSchemaVariables.Any(c => c.Id == el.Id)).ToList();
+                var toDelete = dbList.Where(el => !emailSchema.EmailSchemaVariables.Any(c => c.Id == el.Id)).ToList();
+                var toAdd = emailSchema.EmailSchemaVariables.Where(el => dbList.Any(c => c.Id == el.Id)).ToList();
 
+     
                 _context.EmailSchemaVariables.UpdateRange(toUpdate);
                 await _context.SaveChangesAsync();
 

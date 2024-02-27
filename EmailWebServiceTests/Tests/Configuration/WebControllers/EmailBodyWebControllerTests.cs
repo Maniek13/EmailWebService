@@ -100,7 +100,27 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                     Assert.Fail("nie dodano");
 
                 model.DisplayName = "tes1234";
-                model.EmailSchemaVariables[0].Value = "zmieniona";
+
+
+
+                var =
+                [
+                    new EmailSchemaVariablesModel()
+                    {
+                        Id = resAdd.Data.EmailSchemaVariables[0].Id,
+                        Name = "TestParametr",
+                        Value = "wartoœæ zmieniona",
+                        EmailSchemaId = resAdd.Data.EmailSchemaVariables[0].EmailSchemaId,
+                    },
+                    new EmailSchemaVariablesModel()
+                    {
+                        Id = 0,
+                        Name = "TestParametr",
+                        Value = "wartoœæ parametru"
+                    }
+                ];
+
+                model.EmailSchemaVariables = var;
 
                 model.Id = resAdd.Data.Id;
 
@@ -108,7 +128,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                 var resUpdate = _controller.GetEmailBodySchema("test", _httpContext);
 
 
-                if (resUpdate.Data.DisplayName == model.DisplayName && model.EmailSchemaVariables[0].Value == "zmieniona")
+                if (resUpdate.Data.DisplayName == model.DisplayName && model.EmailSchemaVariables[0].Value == "wartoœæ zmieniona" && model.EmailSchemaVariables.Count == 2)
                     return;
                 else
                     Assert.Fail("nie zaaktualizowano");
