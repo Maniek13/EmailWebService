@@ -15,5 +15,6 @@ namespace EmailWebServiceLibrary.Interfaces.DbControllers
         IEmailLogoDbModel GetEmailFooterLogo(int footerId);
         List<IEmailListRecipientDbModel> GetListRecipments(int listId);
         int GetListRecipmentId(int recipmentId, int listId);
+        List<IEmailRecipientDbModel> GetRecipients();
     }
 }

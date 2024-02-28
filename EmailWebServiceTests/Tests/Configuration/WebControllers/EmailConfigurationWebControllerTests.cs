@@ -48,7 +48,6 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
             {
                 var cfg = new EmailAccountConfigurationModel()
                 {
-                    ServiceId = 1,
                     SMTP = "smtp",
                     Port = 1234,
                     Login = "login",
@@ -62,10 +61,10 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                 if (resAdd.Data == null || resAdd.Data.Id == 0)
                     Assert.Fail("nie dodano");
 
-                cfg = new EmailAccountConfigurationModel()
+                var newCfg = new EmailAccountConfigurationModel()
                 {
                     Id = resAdd.Data.Id,
-                    ServiceId = 1,
+                    ServiceId = resAdd.Data.ServiceId,
                     SMTP = "smtp1",
                     Port = 1231,
                     Login = "login1",
@@ -73,13 +72,14 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                 };
 
 
-                await _controller.EditEmailAccountConfigurationAsync("test", cfg, _httpContext);
+                await _controller.EditEmailAccountConfigurationAsync("test", newCfg, _httpContext);
                 var resUpdate = _controller.GetEmailAccountConfiguration("test", _httpContext);
 
 
-                if (resUpdate.Data.SMTP == cfg.SMTP && resUpdate.Data.Port == cfg.Port && resUpdate.Data.Password == cfg.Password && resUpdate.Data.Login == cfg.Login)
-                    return;
-                else
+                if (resUpdate.Data.SMTP != newCfg.SMTP ||
+                    resUpdate.Data.Port != newCfg.Port ||
+                    resUpdate.Data.Password != newCfg.Password ||
+                    resUpdate.Data.Login != newCfg.Login)
                     Assert.Fail("nie zaaktualizowano");
 
 

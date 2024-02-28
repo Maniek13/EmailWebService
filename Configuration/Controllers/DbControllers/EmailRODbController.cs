@@ -2,6 +2,7 @@
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Configuration.Controllers.DbControllers
 {
@@ -80,6 +81,7 @@ namespace Configuration.Controllers.DbControllers
             }
         }
 
+
         public int GetListRecipmentId(int recipmentId, int listId)
         {
             try
@@ -97,6 +99,33 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
+        public List<IEmailRecipientDbModel> GetRecipients()
+        {
+            try
+            {
+                using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
+
+                var recipientsDb = _context.EmailRecipients.ToList();
+
+                List<IEmailRecipientDbModel> responseRecipients = [];
+
+
+                if (recipientsDb != null)
+                    for (int i = 0; i < recipientsDb.Count; ++i)
+                    {
+                        responseRecipients.Add(recipientsDb.ElementAt(i));
+                    }
+                return responseRecipients;
+
+
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
         public List<IEmailRecipientDbModel> GetRecipients(int serviceId)
         {
             try
@@ -145,7 +174,6 @@ namespace Configuration.Controllers.DbControllers
                 throw new Exception(ex.Message, ex);
             }
         }
-
 
         public List<IEmailSchemaVariablesDbModel> GetVariablesList(int schemaId)
         {

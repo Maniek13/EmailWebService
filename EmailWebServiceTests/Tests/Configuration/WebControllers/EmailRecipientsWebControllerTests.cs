@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using EmailWebServiceLibrary.Helpers;
+using EmailWebServiceLibrary.Interfaces.Models.Models;
 
 namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 {
@@ -44,6 +45,8 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
         [Fact]
         public async Task EmailRecipientsTests()
         {
+            EmailRecipientsListWebController ctr = new EmailRecipientsListWebController(_mapper, _logger, _emailRODbController, _emailDbController);
+
             try
             {
                 EmailRecipientModel model = new EmailRecipientModel()
@@ -51,19 +54,34 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                     Name = "test",
                     EmailAdress = "test"
                 };
-
-                await _controller.AddRecipient("test", model, _httpContext);
-
                 EmailRecipientModel model2 = new EmailRecipientModel()
                 {
                     Name = "test1",
                     EmailAdress = "test1"
                 };
-
+                await _controller.AddRecipient("test", model, _httpContext);
                 await _controller.AddRecipient("test", model2, _httpContext);
+
+
+
+                var recList = new EmailRecipientsListModel()
+                {
+                    Name = "test",
+                };
+                await ctr.AddRecipientsListAsync("test", recList, _httpContext);
+                var list = ctr.GetRecipientsList("test", _httpContext);
+
+
+
+                await ctr.AddRecipientsListAsync("test", recList, _httpContext);
+                var rec = _controller.GetAllRecipients("test", _httpContext);
+                for (int i = 0; i< rec.Data.Count; i++)
+                {
+                    await ctr.AddRecipientToLisAsync("test", list.Data.Id, rec.Data[i].Id, _httpContext);
+                }
+
+
                 var recipients = _controller.GetRecipients("test", _httpContext);
-
-
                 int idTests = recipients.Data[0].Id;
                 if (recipients.Data.Count != 2)
                     Assert.Fail("Nie dodano");
@@ -80,6 +98,8 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
 
 
+
+
                 if (recipients.Data.Count != 2 || recipients.Data[0].Name != "test3" || recipients.Data[0].EmailAdress != "test3")
                     Assert.Fail("Nie zmieniono");
 
@@ -87,7 +107,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
                 recipients = _controller.GetRecipients("test", _httpContext);
 
-                if (recipients.Data != null || recipients.Data.Count != 1 || recipients.Data[0].Id == idTests)
+                if (recipients.Data == null || recipients.Data.Count != 1 || recipients.Data[0].Id == idTests)
                     Assert.Fail("Nie usuniêto");
 
             }

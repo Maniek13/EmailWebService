@@ -123,5 +123,39 @@ namespace Configuration.Controllers.WebControllers
             }
         }
 
+        public IResponseModel<List<EmailRecipientModel>> GetAllRecipients(string serviceName, HttpContext context)
+        {
+            try
+            {
+                var permision = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
+                var recipients = _emailDbControllerRO.GetRecipients();
+
+
+                List<EmailRecipientModel> list = new();
+
+                for(int i = 0; i < recipients.Count; ++i)
+                {
+                    list.Add(_mapper.Map<EmailRecipientModel>(recipients[i]));
+                }
+
+
+                return new ResponseModel<List<EmailRecipientModel>>()
+                {
+                    Data = list,
+                    Message = "ok"
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{GetType()} : {ex.Message}");
+                context.Response.StatusCode = 400;
+                return new ResponseModel<List<EmailRecipientModel>>()
+                {
+                    Data = null,
+                    Message = ex.Message
+                };
+            }
+        }
+
     }
 }
