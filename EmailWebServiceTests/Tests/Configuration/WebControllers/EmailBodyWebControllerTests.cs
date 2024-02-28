@@ -7,8 +7,10 @@ using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.Models;
 using EmailWebServiceTests.Helpers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
+using System.Runtime.ConstrainedExecution;
 
 namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 {
@@ -135,7 +137,10 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
                 await _controller.DeleteEmailBodySchemaAsync("test", _httpContext);
 
-                Assert.ThrowsAsync<Exception>(async () => _controller.GetEmailBodySchema("test", _httpContext));
+
+                var deleted = _controller.GetEmailBodySchema("test", _httpContext);
+                if (deleted.Data != null)
+                    Assert.Fail("nie usuniêto");
             }
             catch (Exception ex)
             {

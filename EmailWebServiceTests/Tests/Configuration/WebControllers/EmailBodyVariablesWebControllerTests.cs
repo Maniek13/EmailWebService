@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Configuration.Data;
 using Newtonsoft.Json.Linq;
+using System.Runtime.ConstrainedExecution;
 
 namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 {
@@ -47,6 +48,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
         [Fact]
         public async Task EditBodySchemaVariablesAsync()
         {
+            EmailBodyWebController ctr = new EmailBodyWebController(_mapper, _logger, _emailRODbController, _emailDbController);
             try
             {
                 var model = new EmailSchemaModel()
@@ -87,7 +89,6 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
                 model.EmailSchemaVariables = var;
 
-                EmailBodyWebController ctr = new EmailBodyWebController(_mapper, _logger, _emailRODbController, _emailDbController);
                 await ctr.AddEmailBodySchemaAsync("test", model, _httpContext);
 
                 var resAdd = ctr.GetEmailBodySchema("test", _httpContext);
@@ -114,11 +115,17 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
                 await ctr.DeleteEmailBodySchemaAsync("test", _httpContext);
 
-                Assert.ThrowsAsync<Exception>(async () => ctr.GetEmailBodySchema("test", _httpContext));
+                var deleted = ctr.GetEmailBodySchema("test", _httpContext);
+                if (deleted.Data != null)
+                    Assert.Fail("nie usuniêto");
             }
             catch (Exception ex)
             {
                 Assert.Fail(ex.ToString());
+            }
+            finally
+            {
+                var deleted = ctr.GetEmailBodySchema("test", _httpContext);
             }
         }
 

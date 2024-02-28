@@ -44,6 +44,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
         [Fact]
         public async Task RecipiientListCoontrollerTest()
         {
+            int recipientListId = 0;
             try
             {
                 var cfg = new EmailRecipientsListModel()
@@ -79,7 +80,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
 
 
-                int recipientListId = resAdd.Data.Id;
+                recipientListId = resAdd.Data.Id;
 
                 if (resAdd.Data == null && resAdd.Data.Recipients.Count != 2)
                     Assert.Fail("nie dodano");
@@ -133,11 +134,18 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
                 await _controller.DeleteRecipientsListAsync("test", recipientListId, _httpContext);
 
-                Assert.ThrowsAsync<Exception>(async () => _controller.GetRecipientsList("test", _httpContext));
+
+                var deleted = _controller.GetRecipientsList("test", _httpContext);
+                if (deleted.Data != null)
+                    Assert.Fail("nie usuniêto");
             }
             catch (Exception ex)
             {
                 Assert.Fail(ex.Message);
+            }
+            finally
+            {
+                await _controller.DeleteRecipientsListAsync("test", recipientListId, _httpContext);
             }
 
         }

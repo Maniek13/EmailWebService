@@ -106,7 +106,6 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
             finally
             {
                 await ctr.DeleteEmailBodySchemaAsync("test", _httpContext);
-                Assert.ThrowsAsync<Exception>(async () => ctr.GetEmailBodySchema("test", _httpContext));
             }
         }
     }

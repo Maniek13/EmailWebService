@@ -28,7 +28,6 @@ AppConfig.PromotedCultures = AppConfig.GetCultureInfoArray(config.GetSection("Ap
 
 
 
-
 var builder = WebApplication.CreateBuilder(args);
 var mapperConfig = new MapperConfiguration(mc =>
 {

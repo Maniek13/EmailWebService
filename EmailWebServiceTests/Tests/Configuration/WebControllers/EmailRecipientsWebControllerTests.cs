@@ -87,7 +87,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
                 recipients = _controller.GetRecipients("test", _httpContext);
 
-                if (recipients.Data.Count != 1 && recipients.Data[0].Id == idTests)
+                if (recipients.Data != null || recipients.Data.Count != 1 || recipients.Data[0].Id == idTests)
                     Assert.Fail("Nie usuniêto");
 
             }

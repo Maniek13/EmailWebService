@@ -85,11 +85,17 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
                 await _controller.DeleteEmailAccountConfigurationAsync("test", _httpContext);
 
-                Assert.ThrowsAsync<Exception>(async () => _controller.GetEmailAccountConfiguration("test", _httpContext));
+                var deleted = _controller.GetEmailAccountConfiguration("test", _httpContext);
+                if (deleted.Data != null)
+                    Assert.Fail("nie usuniêto");
             }
             catch (Exception ex)
             {
                 Assert.Fail(ex.Message);
+            }
+            finally
+            {
+                await _controller.DeleteEmailAccountConfigurationAsync("test", _httpContext);
             }
         }
     }
