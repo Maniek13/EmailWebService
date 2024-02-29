@@ -25,18 +25,18 @@ namespace Configuration.Migrations
                     table.PrimaryKey("PK_EmailLogos", x => x.Id);
                 });
 
-            //migrationBuilder.CreateTable(
-            //    name: "ServicesPermisions",
-            //    columns: table => new
-            //    {
-            //        Id = table.Column<int>(type: "int", nullable: false)
-            //            .Annotation("SqlServer:Identity", "1, 1"),
-            //        ServiceName = table.Column<string>(type: "nvarchar(450)", nullable: false)
-            //    },
-            //    constraints: table =>
-            //    {
-            //        table.PrimaryKey("PK_ServicesPermisions", x => x.Id);
-            //    });
+            migrationBuilder.CreateTable(
+                name: "ServicesPermisions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ServiceName = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServicesPermisions", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "UserDbModel",
@@ -241,11 +241,11 @@ namespace Configuration.Migrations
                 table: "EmailSchemaVariables",
                 column: "EmailSchemaId");
 
-            //migrationBuilder.CreateIndex(
-            //    name: "IX_ServicesPermisions_ServiceName",
-            //    table: "ServicesPermisions",
-            //    column: "ServiceName",
-            //    unique: true);
+            migrationBuilder.CreateIndex(
+                name: "IX_ServicesPermisions_ServiceName",
+                table: "ServicesPermisions",
+                column: "ServiceName",
+                unique: true);
         }
 
         /// <inheritdoc />

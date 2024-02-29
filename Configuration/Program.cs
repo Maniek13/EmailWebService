@@ -53,6 +53,12 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<EmailServiceContextBase>();
+        db.Database.Migrate();
+    }
+
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -69,11 +75,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<EmailServiceContextBase>();
-    db.Database.Migrate();
-}
+
 
 EmailConfigurationWebController emailWebController = new(mapper, app.Logger, new EmailRODbController(), new EmailDbController());
 app.MapGet("/GetEmailAccountConfiguration", emailWebController.GetEmailAccountConfiguration)
