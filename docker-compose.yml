@@ -35,7 +35,7 @@ services:
     volumes:
     - ~/.aspnet/https:/https:ro
     links:
-    - sqlserver 
+    - sqlserver
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
