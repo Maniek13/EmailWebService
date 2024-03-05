@@ -1,7 +1,4 @@
-﻿using EmailWebServiceLibrary.Interfaces.Models.DbModels;
-using EmailWebServiceLibrary.Models;
-using EmailWebServiceLibrary.Models.DbModels;
-using System.ComponentModel.DataAnnotations;
+﻿using EmailWebServiceLibrary.Models;
 
 namespace EmailWebServiceLibrary.Interfaces.Models.Models
 {

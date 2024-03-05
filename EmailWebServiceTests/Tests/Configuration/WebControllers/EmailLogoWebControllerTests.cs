@@ -1,14 +1,14 @@
 using AutoMapper;
 using Configuration.Controllers.DbControllers;
 using Configuration.Controllers.WebControllers;
-using EmailWebServiceLibrary.Models.Models;
+using Configuration.Interfaces.WebControllers;
+using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Models;
+using EmailWebServiceLibrary.Models.Models;
 using EmailWebServiceTests.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using EmailWebServiceLibrary.Helpers;
-using Configuration.Interfaces.WebControllers;
 
 namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 {

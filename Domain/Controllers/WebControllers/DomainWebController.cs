@@ -37,7 +37,6 @@ namespace Domain.Controllers.WebControllers
                 emailSchema.EmailFooter = _mapper.Map<EmailFooterModel>(emailFooterDb);
                 emailSchema.EmailFooter.Logo = _mapper.Map<EmailLogoModel>(footerLogo);
 
-
                 var configuration = _mapper.Map<EmailAccountConfigurationModel>(_emailDbControllerRO.GetEmailAccountConfiguration(permisions.Id));
                 var recipments = _emailDbControllerRO.GetRecipients(permisions.Id);
 
@@ -48,7 +47,6 @@ namespace Domain.Controllers.WebControllers
                     users.Add(_mapper.Map<EmailRecipientModel>(recipments[i]));
                 }
                 await EmailHelper.SendEmail(emailSchema, users, configuration, atachments);
-
 
                 return new ResponseModel<bool>()
                 {

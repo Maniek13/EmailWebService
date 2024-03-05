@@ -2,7 +2,6 @@
 using EmailWebServiceLibrary.Interfaces.DbControllers;
 using EmailWebServiceLibrary.Interfaces.Models.DbModels;
 using EmailWebServiceLibrary.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Configuration.Controllers.DbControllers
 {
@@ -89,7 +88,7 @@ namespace Configuration.Controllers.DbControllers
                 using EmailServiceContextRO _context = new(AppConfig.ConnectionStringRO);
                 var recipment = _context.EmailListRecipients.Where(el => el.RecipientListId == listId && el.RecipientId == recipmentId).FirstOrDefault();
 
-                if(recipment != null) 
+                if (recipment != null)
                     return recipment.Id;
                 else
                     return 0;
@@ -141,7 +140,7 @@ namespace Configuration.Controllers.DbControllers
                     _context.EmailRecipientsLists,
                     el => el.listRecipment.RecipientListId,
                     list => list.Id,
-                    (el, list) => new { el.recipient , list.ServiceId}
+                    (el, list) => new { el.recipient, list.ServiceId }
                     )
                     .Where(el => el.ServiceId == serviceId).ToList();
 
@@ -149,7 +148,7 @@ namespace Configuration.Controllers.DbControllers
                 List<IEmailRecipientDbModel> responseRecipients = [];
 
 
-                if(recipientsDb != null )
+                if (recipientsDb != null)
                     for (int i = 0; i < recipientsDb.Count; ++i)
                     {
                         responseRecipients.Add(recipientsDb.ElementAt(i).recipient);

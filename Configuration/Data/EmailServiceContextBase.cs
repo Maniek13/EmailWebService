@@ -22,7 +22,6 @@ namespace Configuration.Data
             ConnectionString = config.GetSection("AppConfig").GetSection("Connection").Value;
         }
 
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             try
@@ -93,7 +92,6 @@ namespace Configuration.Data
               .OnDelete(DeleteBehavior.Cascade);
 
         }
-
         public virtual DbSet<ServicesPermisionsDbModel> ServicesPermisions { get; set; }
         public virtual DbSet<EmailAccountConfigurationDbModel> EmailAccountConfiguration { get; set; }
         public virtual DbSet<EmailSchemaDbModel> EmailSchemas { get; set; }
@@ -103,6 +101,5 @@ namespace Configuration.Data
         public virtual DbSet<EmailRecipientsListDbModel> EmailRecipientsLists { get; set; }
         public virtual DbSet<EmailListRecipientDbModel> EmailListRecipients { get; set; }
         public virtual DbSet<EmailRecipientDbModel> EmailRecipients { get; set; }
-
     }
 }

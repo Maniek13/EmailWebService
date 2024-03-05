@@ -14,9 +14,7 @@ namespace Configuration.Controllers.WebControllers
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
-        private readonly IMapper _mapper = mapper;
-        #region email config
-
+        private readonly IMapper _mapper = mapper
         public IResponseModel<EmailAccountConfigurationModel> GetEmailAccountConfiguration(string serviceName, HttpContext context)
         {
             try
@@ -40,7 +38,6 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-
         public async Task<IResponseModel<bool>> AddEmailAccountConfigurationAsync(string serviceName, EmailAccountConfigurationModel emailAccountConfiguration, HttpContext context)
         {
             try
@@ -66,7 +63,6 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-
         public async Task<IResponseModel<bool>> EditEmailAccountConfigurationAsync(string serviceName, EmailAccountConfigurationModel emailAccountConfiguration, HttpContext context)
         {
             try
@@ -91,7 +87,6 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-
         public async Task<IResponseModel<bool>> DeleteEmailAccountConfigurationAsync(string serviceName, HttpContext context)
         {
             try
@@ -117,6 +112,5 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-        #endregion
     }
 }

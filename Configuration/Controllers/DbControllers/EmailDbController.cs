@@ -158,14 +158,14 @@ namespace Configuration.Controllers.DbControllers
                 _context.EmailSchemaVariables.RemoveRange(toDelete);
                 await _context.SaveChangesAsync();
 
-                if(toAdd != null)
+                if (toAdd != null)
                     for (int i = 0; i < toAdd.Count; ++i)
                     {
                         toAdd[i].EmailSchemaId = emailSchema.Id;
                         _context.EmailSchemaVariables.Add(toAdd[i]);
                         await _context.SaveChangesAsync();
                     }
-                if(toUpdate != null)
+                if (toUpdate != null)
                     for (int i = 0; i < toUpdate.Count; ++i)
                     {
                         _context.EmailSchemaVariables.Update(toUpdate[i]);
@@ -352,7 +352,7 @@ namespace Configuration.Controllers.DbControllers
                 await _context.SaveChangesAsync();
 
 
-                if(recipientsListDbModel.Recipients != null)
+                if (recipientsListDbModel.Recipients != null)
                     for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                     {
                         int id = recipientsListDbModel.Recipients.ElementAt(i).Recipient.Id;
@@ -364,7 +364,7 @@ namespace Configuration.Controllers.DbControllers
                         else
                             await _context.EmailRecipients.AddAsync(recipientsListDbModel.Recipients.ElementAt(i).Recipient);
 
-                        await _context.SaveChangesAsync(); 
+                        await _context.SaveChangesAsync();
                     }
 
 
@@ -377,7 +377,7 @@ namespace Configuration.Controllers.DbControllers
                     {
                         listRecipient = recipientsListDbModel.Recipients.Where(el => el.Recipient.Id == dbList[i].Recipient.Id).FirstOrDefault();
                     }
-                    
+
 
                     if (listRecipient != null)
                         _context.EmailListRecipients.Update(dbList[i]);
@@ -388,7 +388,7 @@ namespace Configuration.Controllers.DbControllers
                 }
 
 
-                if(recipientsListDbModel.Recipients != null)
+                if (recipientsListDbModel.Recipients != null)
                 {
                     for (int i = 0; i < recipientsListDbModel.Recipients.Count; ++i)
                     {

@@ -2,15 +2,12 @@ using AutoMapper;
 using Configuration.Controllers.DbControllers;
 using Configuration.Controllers.WebControllers;
 using EmailWebServiceLibrary.Helpers;
-using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.Models;
 using EmailWebServiceTests.Helpers;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System.Runtime.ConstrainedExecution;
 
 namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 {
@@ -74,7 +71,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
                 };
                 model.EmailFooter = footer;
 
-            
+
 
                 List<EmailSchemaVariablesModel> var =
                 [

@@ -46,7 +46,6 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-
         public async Task<IResponseModel<bool>> AddRecipient(string serviceName, EmailRecipientModel recipient, HttpContext context)
         {
             try
@@ -71,7 +70,6 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-
         public async Task<IResponseModel<bool>> EditRecipient(string serviceName, EmailRecipientModel recipient, HttpContext context)
         {
             try
@@ -97,7 +95,6 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-
         public async Task<IResponseModel<bool>> DeleteRecipient(string serviceName, int recipentId, HttpContext context)
         {
             try
@@ -122,7 +119,6 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-
         public IResponseModel<List<EmailRecipientModel>> GetAllRecipients(string serviceName, HttpContext context)
         {
             try
@@ -133,7 +129,7 @@ namespace Configuration.Controllers.WebControllers
 
                 List<EmailRecipientModel> list = new();
 
-                for(int i = 0; i < recipients.Count; ++i)
+                for (int i = 0; i < recipients.Count; ++i)
                 {
                     list.Add(_mapper.Map<EmailRecipientModel>(recipients[i]));
                 }
@@ -156,6 +152,5 @@ namespace Configuration.Controllers.WebControllers
                 };
             }
         }
-
     }
 }

@@ -9,8 +9,6 @@ using EmailWebServiceLibrary.Models.Models;
 
 namespace Configuration.Interfaces.WebControllers
 {
-
-
     public class EmailLogoWebController(IMapper mapper, ILogger logger, IEmailRODbController emailDbControllerRO, IEmailDbController emailDbController) : EmailServiceWebControllerBase(logger, emailDbControllerRO, emailDbController), IEmailLogoWebController
     {
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;

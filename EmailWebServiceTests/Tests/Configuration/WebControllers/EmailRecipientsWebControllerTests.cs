@@ -1,15 +1,12 @@
 using AutoMapper;
 using Configuration.Controllers.DbControllers;
 using Configuration.Controllers.WebControllers;
-using Configuration.Interfaces.WebControllers;
-using EmailWebServiceLibrary.Models.Models;
+using EmailWebServiceLibrary.Helpers;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceTests.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using EmailWebServiceLibrary.Helpers;
-using EmailWebServiceLibrary.Interfaces.Models.Models;
 
 namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 {
@@ -75,7 +72,7 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
                 await ctr.AddRecipientsListAsync("test", recList, _httpContext);
                 var rec = _controller.GetAllRecipients("test", _httpContext);
-                for (int i = 0; i< rec.Data.Count; i++)
+                for (int i = 0; i < rec.Data.Count; i++)
                 {
                     await ctr.AddRecipientToLisAsync("test", list.Data.Id, rec.Data[i].Id, _httpContext);
                 }
@@ -119,11 +116,11 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
             {
                 var recipients = _controller.GetRecipients("test", _httpContext);
 
-                for(int i = 0; i< recipients.Data.Count; i++)
+                for (int i = 0; i < recipients.Data.Count; i++)
                 {
-                    await _controller.DeleteRecipient("test", recipients.Data[i].Id,_httpContext);
+                    await _controller.DeleteRecipient("test", recipients.Data[i].Id, _httpContext);
                 }
-                
+
             }
         }
     }

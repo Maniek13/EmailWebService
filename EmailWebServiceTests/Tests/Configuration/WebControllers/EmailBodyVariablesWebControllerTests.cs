@@ -2,17 +2,12 @@ using AutoMapper;
 using Configuration.Controllers.DbControllers;
 using Configuration.Controllers.WebControllers;
 using EmailWebServiceLibrary.Helpers;
-using EmailWebServiceLibrary.Interfaces.Models;
-using EmailWebServiceLibrary.Models.Models;
 using EmailWebServiceLibrary.Models;
+using EmailWebServiceLibrary.Models.Models;
 using EmailWebServiceTests.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using Microsoft.EntityFrameworkCore;
-using Configuration.Data;
-using Newtonsoft.Json.Linq;
-using System.Runtime.ConstrainedExecution;
 
 namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 {
@@ -93,9 +88,9 @@ namespace EmailWebServiceTests.Tests.Configuration.WebControllers
 
                 var resAdd = ctr.GetEmailBodySchema("test", _httpContext);
 
-         
 
-                await _controller.EditBodySchemaVariablesAsync("test", 
+
+                await _controller.EditBodySchemaVariablesAsync("test",
                     new EmailSchemaVariablesModel()
                     {
                         Id = resAdd.Data.EmailSchemaVariables[0].Id,
