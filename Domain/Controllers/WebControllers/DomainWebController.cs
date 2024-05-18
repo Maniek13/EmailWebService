@@ -7,19 +7,30 @@ using EmailWebServiceLibrary.Interfaces.Models;
 using EmailWebServiceLibrary.Models;
 using EmailWebServiceLibrary.Models.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Json;
+using System.Text.Json;
 
 namespace Domain.Controllers.WebControllers
 {
-    public class DomainWebController(IMapper mapper, ILogger logger, IEmailRODbController emailDbControllerRO) : EmailServiceWebControllerBase(logger, emailDbControllerRO), IDomainWebController
+    public class DomainWebController(IMapper mapper, ILogger logger, IEmailRODbController emailDbControllerRO) : EmailServiceWebControllerBase(logger, emailDbControllerRO)//, IDomainWebController
     {
         readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly ILogger _logger = logger;
         readonly IMapper _mapper = mapper;
 
-        public async Task<IResponseModel<bool>> SendEmailsAsync(string serviceName, [FromForm] IFormFileCollection atachments, HttpContext context)
+        
+        public async Task<IResponseModel<bool>> SendEmailsAsync(string serviceName, [FromForm] IFormFileCollection atachments, [FromForm] string? listOfVariables, HttpContext context)
         {
             try
             {
+
+                List<EmailSchemaVariablesModel> variables = new();
+
+                if (listOfVariables != null)
+                    variables = JsonSerializer.Deserialize<List<EmailSchemaVariablesModel>>(listOfVariables);
+
+                
+
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var emailSchema = _mapper.Map<EmailSchemaModel>(_emailDbControllerRO.GetEmailSchemaDbModel(permisions.Id));
                 EmailValidationHelper.ValidateEmailSchemaModel(emailSchema);
@@ -28,11 +39,15 @@ namespace Domain.Controllers.WebControllers
                 var emailFooterDb = _emailDbControllerRO.GetEmailFooter(emailSchema.Id);
                 var footerLogo = _emailDbControllerRO.GetEmailFooterLogo(emailFooterDb.Id);
 
-                List<EmailSchemaVariablesModel> variables = [];
-                for (int i = 0; i < variablesDb.Count; i++)
+                if(variables == null || variables.Count >= 0)
                 {
-                    variables.Add(_mapper.Map<EmailSchemaVariablesModel>(variablesDb[i]));
+                    variables = [];
+                    for (int i = 0; i < variablesDb.Count; i++)
+                    {
+                        variables.Add(_mapper.Map<EmailSchemaVariablesModel>(variablesDb[i]));
+                    }
                 }
+               
                 emailSchema.EmailSchemaVariables = variables;
                 emailSchema.EmailFooter = _mapper.Map<EmailFooterModel>(emailFooterDb);
                 emailSchema.EmailFooter.Logo = _mapper.Map<EmailLogoModel>(footerLogo);

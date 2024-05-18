@@ -48,13 +48,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseRequestLocalization(opt =>
-{
-    opt.SetDefaultCulture(AppConfig.DefaultCulture);
-    opt.AddSupportedCultures(AppConfig.PromotedCultures);
-    opt.FallBackToParentUICultures = true;
-    opt.RequestCultureProviders.Clear();
-});
+//app.UseRequestLocalization(opt =>
+//{
+//    opt.SetDefaultCulture(AppConfig.DefaultCulture);
+//    opt.AddSupportedCultures(AppConfig.PromotedCultures);
+//    opt.FallBackToParentUICultures = true;
+//    opt.RequestCultureProviders.Clear();
+//});
 
 DomainWebController emailServiceController = new(mapper, app.Logger, new EmailRODbController());
 

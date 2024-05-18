@@ -14,7 +14,7 @@ namespace Configuration.Controllers.WebControllers
         private readonly IEmailRODbController _emailDbControllerRO = emailDbControllerRO;
         readonly IEmailDbController _emailDbController = emailDbController;
         readonly ILogger _logger = logger;
-        private readonly IMapper _mapper = mapper
+        private readonly IMapper _mapper = mapper;
         public IResponseModel<EmailAccountConfigurationModel> GetEmailAccountConfiguration(string serviceName, HttpContext context)
         {
             try
