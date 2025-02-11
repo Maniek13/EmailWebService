@@ -17,7 +17,9 @@ Domena:
 - wysyłanie wiadomości email do wszystkich z listy ustawionej w konfiguracji
 - schemat wiadomości:
     Jeżeli w schemacie występują zmiennne prosze je ustawić pomiędzy znakiem: #. 
-    Przykład: "<p style="color:blue;">Niebieski</p><p>#parametr#</p>",
+    Przykład:
+  ![image](https://github.com/user-attachments/assets/d5bb2dc5-6fd3-4db5-a76a-5849863e63f6)
+
 - stopka:
     Jeżeli chce się zamieścić podpis w html z logo proszę je umieścić w ciele jako img z ustawionym cid na footer. Jak ponieżej:
     
