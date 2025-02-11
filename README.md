@@ -1,4 +1,4 @@
-Rozsyłanie emaili na listę użytkowników połączonych z serwiserm. Treść maila moze zawierać aktomatycznie wypełniane pola, jak i podpis, stopkę i logo. Wartości zmiennych można podać w form-data, przy braku podania pobierane są z bazy danych.
+Rozsyłanie emaili na listę użytkowników połączonych z serwiserm. Treść maila moze zawierać automatycznie wypełniane pola, jak i podpis, stopkę, oraz logo. Wartości zmiennych można podać w form-data, przy braku podania wartości pobierane są z bazy danych.
 
 
 Konfiguracja:
