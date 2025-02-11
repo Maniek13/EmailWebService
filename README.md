@@ -25,7 +25,7 @@ Domena:
 ![image](https://github.com/user-attachments/assets/d66c38bc-21f1-4500-8558-d437ee0e25a2)
 
     
-
+Należy zmienić connection string do połączenia z bazą danych
 
 
 
