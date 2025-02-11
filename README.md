@@ -22,8 +22,8 @@ Domena:
 
 - stopka:
     Jeżeli chce się zamieścić podpis w html z logo proszę je umieścić w ciele jako img z ustawionym cid na footer. Jak ponieżej:
-    
-    "...<img src="cid:footer">..."
+![image](https://github.com/user-attachments/assets/d66c38bc-21f1-4500-8558-d437ee0e25a2)
+
     
 
 
