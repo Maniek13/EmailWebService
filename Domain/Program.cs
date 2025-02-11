@@ -8,7 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text;
 
-ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
 
 var configuration = new ConfigurationBuilder()
      .AddJsonFile($"appsettings.json");
