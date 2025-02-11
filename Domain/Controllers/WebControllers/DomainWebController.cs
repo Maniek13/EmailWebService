@@ -18,18 +18,22 @@ namespace Domain.Controllers.WebControllers
         readonly ILogger _logger = logger;
         readonly IMapper _mapper = mapper;
 
-        
-        public async Task<IResponseModel<bool>> SendEmailsAsync(string serviceName, [FromForm] IFormFileCollection atachments, [FromForm] string? listOfVariables, HttpContext context)
+        public async Task<IResponseModel<bool>> SendEmailsAsync(string serviceName,  [FromForm]string? listOfVariables, HttpContext context)
         {
             try
             {
 
-                List<EmailSchemaVariablesModel> variables = new();
+                 IFormFileCollection? atachments = null;
 
-                if (listOfVariables != null)
-                    variables = JsonSerializer.Deserialize<List<EmailSchemaVariablesModel>>(listOfVariables);
-
+                 if (context.Request.Form != null && context.Request.Form.Files != null && context.Request.Form.Files.Count > 0)
+                     atachments = context.Request.Form.Files;
                 
+                
+                 List<EmailSchemaVariablesModel> variables = new();
+                
+                 if (listOfVariables != null)
+                     variables = JsonConvert.DeserializeObject<List<EmailSchemaVariablesModel>>(listOfVariables);
+
 
                 var permisions = _emailDbControllerRO.GetServicePermision(serviceName) ?? throw new Exception("Serwis nie posiada pozwolenia");
                 var emailSchema = _mapper.Map<EmailSchemaModel>(_emailDbControllerRO.GetEmailSchemaDbModel(permisions.Id));
@@ -39,13 +43,13 @@ namespace Domain.Controllers.WebControllers
                 var emailFooterDb = _emailDbControllerRO.GetEmailFooter(emailSchema.Id);
                 var footerLogo = _emailDbControllerRO.GetEmailFooterLogo(emailFooterDb.Id);
 
-                if(variables == null || variables.Count >= 0)
+                if(variables == null || variables.Count == 0)
                 {
-                    variables = [];
-                    for (int i = 0; i < variablesDb.Count; i++)
-                    {
-                        variables.Add(_mapper.Map<EmailSchemaVariablesModel>(variablesDb[i]));
-                    }
+                  variables = [];
+                  for (int i = 0; i < variablesDb.Count; i++)
+                  {
+                      variables.Add(_mapper.Map<EmailSchemaVariablesModel>(variablesDb[i]));
+                  }
                 }
                
                 emailSchema.EmailSchemaVariables = variables;
