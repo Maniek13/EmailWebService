@@ -8,6 +8,11 @@ Konfiguracja:
 
 ![Schemat bazy](https://github.com/Maniek13/EmailWebService/assets/47826375/40589c47-82fe-4561-8ae5-07d01102a1ef)
 
+
+Zamiana parametrów na inne niż w bazie. 
+- należy przesłać tekst json jako form file: "[{"id":0,"emailSchemaId":0,"name":"TestParametr","value":"string"},{"id":0,"emailSchemaId":0,"name":"TestParametr2","value":"string2"}]"
+
+  
 Domena:
 - wysyłanie wiadomości email do wszystkich z listy ustawionej w konfiguracji
 - schemat wiadomości:
