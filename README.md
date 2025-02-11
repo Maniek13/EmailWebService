@@ -1,5 +1,5 @@
 Konfiguracja:
-
+- należy ustawić service, z którym są powiązane inne dane
 - edycja schematu po zmiania zmiennych wiąże się z usunięciem/bądź aktualizacją poprzednich
 - edycja listy po zmiania osób wiąże się z usunięciem/bądź aktualizacją poprzednich
 - edytując alementy zawierające inne, można je edytować razem. Wiązę się to z możliwością usunięcia ludzi z listy, podczas załączenia pustej listy.
